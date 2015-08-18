@@ -6,7 +6,7 @@ var urlParams = '?key=' + apiKey + '&format=json';
 
 var api = {
 
-  // Determines distance between user and stop
+  // Determines distance between two points (ie user and bus stop)
   getDistance(lat1, lon1, lat2, lon2, unit) {
     var radlat1 = Math.PI * lat1/180
     var radlat2 = Math.PI * lat2/180
@@ -23,7 +23,7 @@ var api = {
     return dist
   },
 
-   // Grabs the user's location
+   // Grabs the user's location, fucked up now because I don't understand asyncronous development
   getUserLocation() {
     var location = geolocation.geolocate(); // this is async so needs a callback
     return location
@@ -33,7 +33,7 @@ var api = {
   getNearestStop(route, direction, callback){
     var closestDist = 0.00000000;
     var closestId = 0;
-    var url = baseUrl + '/getstops' + urlParams + '&route=' + route.rt + '&dir=' + direction;
+    var url = baseUrl + '/getstops' + urlParams + '&rt=' + route.rt + '&dir=' + direction;
     return fetch(url)
       .then(function(response) { return response.json(); })
        .then(function(data) { 
@@ -45,33 +45,39 @@ var api = {
              var stopId = data['bustime-response'].stop.stpid;
              var stopName = data['bustime-response'].stop.stpnm;
              var dist1 = getDistance(userLat, userLon, stopLat, stopLon, 'K');
-             if dist1 < closestDist || closestDist == 0.00000000) {
+             if (dist1 < closestDist || closestDist == 0.00000000) {
                closestId = stopId;
                closestDist = dist1;
              console.log('the nearest stop is ' + stopName);
              }
            }
+         }
        });
        callback(closestId);
   },
 
   // Get the directions for a route, North / South or East / West
   getDirections(route){
-    var url = baseUrl + '/getdirections' + urlParams + "&route=" + route.rt;
+    var url = baseUrl + '/getdirections' + urlParams + "&rt=" + route.rt;
     return fetch(url)
       .then(function(response) { return response.json(); })
   },
-  getDestination(){
-    var url = ``;
-    return fetch(url)
-      .then((response) => response.json());
 
-  },
+
+  //  Get the minutes remaining until the next buses arrive at the stop
+  //  Make sure to send the route object and the stop object? 
+  //  (as opposed to the values themselves?)
+
+  //  Remember this also returns the destination of the vehicle (new in v2)
+
   getPredictions(thisRoute, nearestStop){
-    var url = ``;
+    var url = baseUrl + '/getPredictions' + urlParams + '&rt=' + route.rt + '&stpid=' + nearestStop.stpid;
     return fetch(url)
       .then((response) => response.json());
   },
+
+  // Get all the bus routes
+
   getAllRoutes() {
     var url = baseUrl + '/getroutes' + urlParams;
     return fetch(url)
