@@ -1,0 +1,34 @@
+*Issues*
+* I am in callback hell. I should probably using 'promises'
+* I don't think I am using React best practices. Specifically, I don't know wtf 'props' are and am prob relying too heavily on state. 
+
+
+
+
+*Component list:*
+
+* ContentView: contains everything on our main view (predictions, directions etc)
+* Menu: contains our route list
+* Directions: Receives user input and displays directions of the bus
+* Predictions: Displays upcoming arrival times
+* Stop: Displays nearest stop to user depending on active Direction
+* Destination: Displays end destination of bus based on active Direction
+* RouteList: Displays all active routes in a list view
+* Route: Displays a single bus route
+* SearchBar: Receives user input and searches the RouteList
+* RecentRoutes? Displays recently selected routes at the top of RouteList
+
+*Hierarchy:*
+
+* Menu
+  - SearchBar
+  - RecentRoutes
+  - RouteList
+    - Route
+* ContentView
+  - Directions
+    - Direction
+  - Prediction
+  - Stop
+  - Destination
+ 

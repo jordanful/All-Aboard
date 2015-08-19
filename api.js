@@ -7,6 +7,7 @@ var urlParams = '?key=' + apiKey + '&format=json';
 var api = {
 
    // Grabs the user's location, fucked up now because I don't understand asyncronous development
+   // should I be using promises instead?
   getUserLocation() {
     var location = geolocation.geolocate(); // this is async so needs a callback
     return location
@@ -21,7 +22,7 @@ var api = {
       .then(function(response) { return response.json(); })
        .then(function(data) { 
         // for each value in data object, do this stuff
-         for (var stop in data) {
+         for (var stop in data) {        //never used for-in loops before lol
            if (data.hasOwnProperty(stop)) {
              var stopLat = data['bustime-response'].stop.lat;
              var stopLon = data['bustime-response'].stop.lon;

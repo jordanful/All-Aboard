@@ -1,33 +1,3 @@
-/**
-All Aboard React
-
-Component list:
-
-ContentView: contains everything on our main view (predictions, directions etc)
-Menu: contains our route list
-Directions: Receives user input and displays directions of the bus
-Predictions: Displays upcoming arrival times
-Stop: Displays nearest stop to user depending on active Direction
-Destination: Displays end destination of bus based on active Direction
-RouteList: Displays all active routes in a list view
-Route: Displays a single bus route
-SearchBar: Receives user input and searches the RouteList
-RecentRoutes? Displays recently selected routes at the top of RouteList
-
-Hierarchy:
-
-Menu
-  - SearchBar
-  - RecentRoutes
-  - RouteList
-    - Route
-ContentView
-  - Directions
-    - Direction
-  - Prediction
-  - Stop
-  - Destination
- */
 
 'use strict';
 
