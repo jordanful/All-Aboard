@@ -2,8 +2,8 @@
 * I am in callback hell. I should probably using 'promises'
 * I don't think I am using React best practices. Specifically, I don't know wtf 'props' are and am prob relying too heavily on state. 
 
-
-
+Documentation:
+http://cl.ly/0w0340392L1B
 
 *Component list:*
 
