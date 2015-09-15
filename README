@@ -13,10 +13,10 @@ http://cl.ly/0w0340392L1B
 * Predictions: Displays upcoming arrival times
 * Stop: Displays nearest stop to user depending on active Direction
 * Destination: Displays end destination of bus based on active Direction
-* RouteList: Displays all active routes in a list view
-* Route: Displays a single bus route
+* Menu: Displays all active routes in a list view
+* Route: an object that contain route name and number (and color which we do not use)
 * SearchBar: Receives user input and searches the RouteList
-* RecentRoutes? Displays recently selected routes at the top of RouteList
+* RecentRoutes? Displays recently selected routes at the top of RouteList (To build)
 
 *Hierarchy:*
 

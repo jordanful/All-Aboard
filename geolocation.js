@@ -1,23 +1,25 @@
 var geolocation = {
-  geolocate(){
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude; 
+
+  geolocate(callback){
+    var options = { 
+      enableHighAccuracy: true,
+      timeout: 5000
+    }
+    function success(pos, location) {
+      var latitude = pos.coords.latitude;
+      var longitude = pos.coords.longitude; 
       location = [latitude, longitude];
-      // console.log(location);
-      return location;
-    }, function(error) {
-         console.log(error);
-         if (error.code === error.PERMISSION_DENIED) {
-             // TODO tooltip refused
-             console.log('error')
-         } else {
-             // TODO other error
-             console.log('other error')
-           }
-     }
-    )
+      console.log(location);
+      return callback(location);
+    }
+    function error(err) {
+      console.warn('geolocation error: code ' + err.code + ' - ' + err.message)
+      return err.message
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error, options);
   },
+
   // Determines distance between two points (ie user and bus stop)
   getDistance(lat1, lon1, lat2, lon2, unit) {
     var radlat1 = Math.PI * lat1/180

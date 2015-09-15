@@ -59,10 +59,15 @@ var Menu = React.createClass({
   },
   setRoute: function(route) {
     this.setState({selectedRoute:(route)}, function() {
-      console.log(this.state.selectedRoute);
-      // api.getneareststop // how do I handle default direction?
-      //  then a callback on getneareststop to api.getprediction
-      this.closeMenu();
+      api.getDirections(route, function(direction) {
+        console.log('the default direction for ' + route.rtnm + ' is ' + direction);
+        api.getNearestStop(route, direction, function(nearestStop) {
+          console.log('the nearest stop for ' + route.rtnm + ' is ' + nearestStop);
+        });
+        this.closeMenu();
+
+      });
+      
     });  
   },
   render: function() {
@@ -123,14 +128,19 @@ var SearchBar = React.createClass({
 });
 
 var Directions = React.createClass({
+  getInitialState: function() {
+   return {
+     activeDirection: '',
+   };
+  },
   render: function() {
     return (
       <View style={styles.directions}>
         <View style={styles.direction}>
-          <Text style={styles.directionTextActive}>West</Text>
+          <Text style={styles.directionTextActive}>West</Text> 
         </View>
         <View style={styles.direction}>
-          <Text style={styles.directionText}>East</Text>
+          <Text style={styles.directionText}>East</Text> 
         </View>
       </View>
     );
