@@ -8,22 +8,22 @@ var api = {
 
   // Get list of stops, iterate through them, and return the nearest stop
   getNearestStop(route, direction, callback){
+    var closestId = 0;
     geolocation.geolocate(function(location) { // Get user location
+      console.log('Getting nearest stop...')
+      var closestDist = 0.00000000;
+      var nearestStop = {}
       var userLat = location[0];
       var userLon = location[1];
-      var closestDist = 0.00000000;
-      var closestId = 0;
       var url = baseUrl + '/getstops' + urlParams + '&rt=' + route.rt + '&dir=' + direction;
-      console.log(url);
       return fetch(url)
         .then(function(response) {return response.json(); })
          .then(function(data) { 
+          console.log('Iterating through stops...')
           var data = data['bustime-response']
-          var stopsCount = Object.keys(data.stops).length // how many stops on this line
+          var stopsCount = Object.keys(data.stops).length
             for (var i = 0; i < stopsCount; i++) {  
-                console.log(i)
                 var stopLat = data.stops[i].lat;
-                console.log('the stop lat is ' + stopLat)
                 var stopLon = data.stops[i].lon;
                 var stopId = data.stops[i].stpid;
                 var stopName = data.stops[i].stpnm;
@@ -31,16 +31,19 @@ var api = {
                 if (dist1 < closestDist || closestDist == 0.00000000) {
                   closestId = stopId;
                   closestDist = dist1;
-                console.log('the nearest stop is ' + stopName);
-                }   
+                  nearestStop = data.stops[i]
+                  // console.log('the nearest stop found so far is ' + stopName + ', ' + closestId);
+                } 
             }
+            return callback(nearestStop) 
          });
-         return callback(closestId);
     });
+
   },
 
   // Get the directions for a route, North / South or East / West
   getDirections(route, callback){
+    console.log('Getting directions...')
     var url = baseUrl + '/getdirections' + urlParams + "&rt=" + route.rt;
     return fetch(url)
       .then(function(response) { return response.json(); })
@@ -68,15 +71,20 @@ var api = {
 
 
   //  Get the minutes remaining until the next buses arrive at the stop
-  //  Make sure to send the route object and the stop object? 
-  //  (as opposed to the values themselves?)
+  //  Make sure to send the route object and the stop object
+ 
 
   //  Remember this also returns the destination of the vehicle (new in v2 I think)
 
-  getPredictions(thisRoute, nearestStop){
-    var url = baseUrl + '/getPredictions' + urlParams + '&rt=' + route.rt + '&stpid=' + nearestStop.stpid;
+  getPredictions(route, nearestStop, callback){
+    console.log('Getting predictions...')
+    var url = baseUrl + '/getpredictions' + urlParams + '&rt=' + route.rt + '&stpid=' + nearestStop.stpid + '&top=3';
     return fetch(url)
-      .then((response) => response.json());
+      .then(function(response) { return response.json(); })
+      .then(function(data) {
+        return callback(data['bustime-response'])
+      })
+      
   },
 
   // Get all the bus routes

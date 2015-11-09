@@ -1,4 +1,3 @@
-
 'use strict';
 
 var React = require('react-native');
@@ -38,6 +37,7 @@ var Menu = React.createClass({
   getInitialState: function() { 
     return {
       selectedRoute: null,
+      prediction: null,
       userLocation: '',
       routeDataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       filterText: ''
@@ -59,18 +59,22 @@ var Menu = React.createClass({
   },
   setRoute: function(route) {
     this.setState({selectedRoute:(route)}, function() {
+      this.closeMenu();
       api.getDirections(route, function(direction) {
-        console.log('the default direction for ' + route.rtnm + ' is ' + direction);
         api.getNearestStop(route, direction, function(nearestStop) {
-          console.log('the nearest stop for ' + route.rtnm + ' is ' + nearestStop);
+          console.log('the nearest stop for ' + route.rtnm + ' is ' + nearestStop.stpnm + ', ' + nearestStop.stpid);
+          api.getPredictions(route, nearestStop, function(prediction) {
+            console.log('The bus will arrive in ' + prediction.prd[0].prdctdn + ' minutes and is headed toward ' + prediction.prd[0].des + '.')
+            this.setState({prediction:(prediction)})
+          });
         });
-        this.closeMenu();
-
+        
       });
       
     });  
   },
   render: function() {
+    var activeRoute = this.selectedRoute;
     return (
       <View style={styles.menuContainer}>
         <SearchBar/>
@@ -80,7 +84,7 @@ var Menu = React.createClass({
             <TouchableHighlight 
               onPress={()=>{
                 this.setRoute(route);
-              }
+               }
               } 
               underlayColor={'#0D1F42'}
             >
@@ -147,20 +151,25 @@ var Directions = React.createClass({
   }
 });
 
-var ContentViewHeaderIcon = React.createClass({
-  render: function() {
-    return (
-    <TouchableOpacity onPress={Menu.openMenu}>
-      <Image style={styles.contentViewHeaderIcon} source={require('image!contentViewHeaderIcon')} />
-    </TouchableOpacity>
-    );
-  }
-});
+// var ContentViewHeaderIcon = React.createClass({
+//   render: function() {
+//     return (
+//     <TouchableOpacity
+//               onPress={
+//                 // Menu.menuActions.open()
+//                 console.log('menu should be opening but it is not opening')
+//               }
+//             >
+//       <Image style={styles.contentViewHeaderIcon} source={require('image!contentViewHeaderIcon')} />
+//     </TouchableOpacity>
+//     );
+//   }
+// });
 var ContentViewHeader = React.createClass({
   render: function() {
     return (
       <View style={styles.contentViewHeader}>
-        <ContentViewHeaderIcon/>
+        <Button/>
         <View style={styles.contentViewHeaderRouteNumberAndNameContainer}>
           <View style={styles.contentViewHeaderRouteNumberContainer}>
             <Text style={styles.contentViewHeaderRouteNumber}>
@@ -176,6 +185,31 @@ var ContentViewHeader = React.createClass({
     );
   }
 });
+
+class Button extends SideMenu  {
+  handlePress(e) {
+    this.context.menuActions.toggle();
+    if (this.props.onPress) {
+      this.props.onPress(e);
+    }
+  }
+  render() {
+    return (
+      <TouchableOpacity
+        onPress={this.handlePress.bind(this)}>
+        <Image style={styles.contentViewHeaderIcon} source={require('image!contentViewHeaderIcon')} />
+      </TouchableOpacity>
+    );
+  }  
+}
+/**
+ * This part is very important. Without it you wouldn't be able to access `menuActions`
+ * @type {Object}
+ */
+
+Button.contextTypes = {
+  menuActions: React.PropTypes.object.isRequired
+};
 var Minutes = React.createClass({
   render: function() {
     return (
@@ -215,10 +249,10 @@ var ContentView = React.createClass({
   render: function() {
     return (
       <View style={styles.contentView}>
-        <ContentViewHeader/>
-        <ScrollView style={styles.container}>
+        <ContentViewHeader activeRoute={this.props.activeRoute}/>
+        <ScrollView style={styles.container} activeRoute={this.props.activeRoute}>
           <Directions/>
-          <Minutes/>
+          <Minutes activeRoute={this.props.activeRoute}/>
           <Stop/>
           <Destination/>
           <NextPrediction/>
@@ -231,8 +265,8 @@ var AllAboardReact = React.createClass({
   render: function() {
     var menu = <Menu />;
     return (
-      <SideMenu menu={menu} animation='spring' touchToClose={true} openMenuOffset='300'>
-        <ContentView />
+      <SideMenu activeRoute={null} menu={menu} animation='spring' touchToClose={true} openMenuOffset='300'>
+        <ContentView activeRoute={this.props.activeRoute} /> 
       </SideMenu>
     );
 

@@ -1,6 +1,7 @@
 var geolocation = {
 
   geolocate(callback){
+    console.log('Geolocating user...')
     var options = { 
       enableHighAccuracy: true,
       timeout: 5000
@@ -9,12 +10,12 @@ var geolocation = {
       var latitude = pos.coords.latitude;
       var longitude = pos.coords.longitude; 
       location = [latitude, longitude];
-      console.log(location);
+      // console.log(location);
       return callback(location);
     }
     function error(err) {
       console.warn('geolocation error: code ' + err.code + ' - ' + err.message)
-      return err.message
+      return callback(err)
     }
 
     navigator.geolocation.getCurrentPosition(success, error, options);
@@ -37,35 +38,6 @@ var geolocation = {
     return dist
   }
 }
-
-// 'use strict';
-// var React = require('react-native')
-// var {
-
-// } = React;
-
-// var Geolocate = React.createClass({
-//   watchID: (null: ?number),
-//   getInitialState: function() {
-//   	return {
-//   		initialPosition: 'unknown',
-//   		lastPosition: 'unknown'
-//   	}
-//   },
-//   componentDidMount: function() {
-//   	navigator.geolocation.getCurrentPosition(
-//       (initialPosition) => this.setState({initialPosition}),
-//       (error) => alert(error.message),
-//       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-//   	);
-//   	this.watchID = navigator.geolocation.watchPosition((lastPosition) => {
-//       this.setState({lastPosition});
-//   	});
-//   },
-//   componentWillUnmount: function() {
-//   	navigator.geolocation.clearWatch(this.watchID);
-//   }
-// });
 
 
 module.exports = geolocation;
