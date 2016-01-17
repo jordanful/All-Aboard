@@ -429,7 +429,7 @@ var AllAboardReact = React.createClass({
   },
   directions: {
     flexDirection: 'row',
-    marginTop: 0
+    marginTop: 20,
   },
   direction: {
     flex: 0.5,
