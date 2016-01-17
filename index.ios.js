@@ -172,7 +172,7 @@ var ContentViewHeader = React.createClass({
   render: function() {
     return (
       <View style={styles.contentViewHeader}>
-        <Button/>
+        <Button onPress={this.props.onLeftButtonPress} />
         <View style={styles.contentViewHeaderRouteNumberAndNameContainer}>
           <View style={styles.contentViewHeaderRouteNumberContainer}>
             <Text style={styles.contentViewHeaderRouteNumber}>
@@ -189,31 +189,15 @@ var ContentViewHeader = React.createClass({
   }
 });
 
-class Button extends SideMenu  {
-  handlePress(e) {
-    this.context.menuActions.toggle();
-    if (this.props.onPress) {
-      this.props.onPress(e);
-    }
-  }
+class Button extends React.Component  {
   render() {
     return (
-      <TouchableOpacity
-        onPress={this.handlePress.bind(this)}>
+      <TouchableOpacity onPress={this.props.onPress}>
         <Image style={styles.contentViewHeaderIcon} source={require('./assets/images/contentViewHeaderIcon.png')} />
       </TouchableOpacity>
     );
   }  
 }
-
-/**
- * This part is very important. Without it you wouldn't be able to access `menuActions`
- * @type {Object}
- */
-
-Button.contextTypes = {
-  menuActions: React.PropTypes.object.isRequired
-};
 
 
 var Minutes = React.createClass({
@@ -255,7 +239,7 @@ var ContentView = React.createClass({
   render: function() {
     return (
       <View style={styles.contentView}>
-        <ContentViewHeader activeRoute={this.props.activeRoute}/>
+        <ContentViewHeader activeRoute={this.props.activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
         <ScrollView style={styles.container} activeRoute={this.props.activeRoute}>
           <Directions/>
           <Minutes activeRoute={this.props.activeRoute}/>
@@ -270,13 +254,37 @@ var ContentView = React.createClass({
 
 var AllAboardReact = React.createClass({
   render: function() {
-    var menu = <Menu />;
     return (
-      <SideMenu activeRoute={null} menu={menu} animation='spring' touchToClose={true} openMenuOffset={300}>
-        <ContentView activeRoute={this.props.activeRoute} /> 
+      <SideMenu
+        activeRoute={null}
+        menu={
+          <Menu />
+        }
+        animation='spring'
+        touchToClose={true}
+        openMenuOffset={300}
+        isOpen={this.state.isMenuOpen}
+        >
+        <ContentView
+          activeRoute={this.props.activeRoute}
+          onLeftButtonPress={this.toggleMenu}
+          />
       </SideMenu>
     );
-  }
+  },
+
+  getInitialState: function() {
+    return {
+      isMenuOpen: false,
+    };
+  },
+
+  toggleMenu: function() {
+    this.setState({
+      isMenuOpen: true,
+    });
+  },
+
 });
 
  var Dimensions = require('Dimensions');
