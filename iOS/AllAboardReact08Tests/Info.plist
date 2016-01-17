@@ -20,11 +20,5 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>ProximaNovaThin.otf</string>
-		<string>ProximaNovaLight.otf</string>
-		<string>ProximaNovaSemibold.otf</string>
-	</array>
 </dict>
 </plist>

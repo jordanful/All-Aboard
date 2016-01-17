@@ -1,0 +1,3 @@
+rootProject.name = 'AllAboardReact08'
+
+include ':app'

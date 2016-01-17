@@ -4,6 +4,7 @@ var React = require('react-native');
 var SideMenu = require('react-native-side-menu');
 var api = require('/../api');
 
+
 var {
   AppRegistry,
   AppStateIOS,
@@ -107,6 +108,7 @@ var Menu = React.createClass({
 });
 
 
+
 var SearchBar = React.createClass({
   getInitialState: function() {
     return {
@@ -165,6 +167,7 @@ var Directions = React.createClass({
 //     );
 //   }
 // });
+
 var ContentViewHeader = React.createClass({
   render: function() {
     return (
@@ -197,11 +200,12 @@ class Button extends SideMenu  {
     return (
       <TouchableOpacity
         onPress={this.handlePress.bind(this)}>
-        <Image style={styles.contentViewHeaderIcon} source={require('image!contentViewHeaderIcon')} />
+        <Image style={styles.contentViewHeaderIcon} source={require('./assets/images/contentViewHeaderIcon.png')} />
       </TouchableOpacity>
     );
   }  
 }
+
 /**
  * This part is very important. Without it you wouldn't be able to access `menuActions`
  * @type {Object}
@@ -210,6 +214,8 @@ class Button extends SideMenu  {
 Button.contextTypes = {
   menuActions: React.PropTypes.object.isRequired
 };
+
+
 var Minutes = React.createClass({
   render: function() {
     return (
@@ -261,15 +267,15 @@ var ContentView = React.createClass({
       );
   }
 });
+
 var AllAboardReact = React.createClass({
   render: function() {
     var menu = <Menu />;
     return (
-      <SideMenu activeRoute={null} menu={menu} animation='spring' touchToClose={true} openMenuOffset='300'>
+      <SideMenu activeRoute={null} menu={menu} animation='spring' touchToClose={true} openMenuOffset={300}>
         <ContentView activeRoute={this.props.activeRoute} /> 
       </SideMenu>
     );
-
   }
 });
 
