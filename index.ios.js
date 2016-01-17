@@ -55,12 +55,9 @@ var Menu = React.createClass({
   openMenu: function() {
     this.props.menuActions.open();
   },
-  closeMenu: function() {
-    this.props.menuActions.close();
-  },
+
   setRoute: function(route) {
     this.setState({selectedRoute:(route)}, function() {
-      this.closeMenu();
       api.getDirections(route, function(direction) {
         api.getNearestStop(route, direction, function(nearestStop) {
           console.log('the nearest stop for ' + route.rtnm + ' is ' + nearestStop.stpnm + ', ' + nearestStop.stpid);
@@ -82,13 +79,7 @@ var Menu = React.createClass({
         <ListView
           dataSource={this.state.routeDataSource} 
           renderRow={(route) => 
-            <TouchableHighlight 
-              onPress={()=>{
-                this.setRoute(route);
-               }
-              } 
-              underlayColor={'#0D1F42'}
-            >
+            <TouchableHighlight onPress={() => this.props.onSelect(route)} underlayColor={'#0D1F42'}>
               <View style={styles.row}>
                 <View style={styles.menuRouteNumberContainer}>
                   <Text style={styles.menuRouteNumber}>
@@ -153,34 +144,21 @@ var Directions = React.createClass({
   }
 });
 
-// var ContentViewHeaderIcon = React.createClass({
-//   render: function() {
-//     return (
-//     <TouchableOpacity
-//               onPress={
-//                 // Menu.menuActions.open()
-//                 console.log('menu should be opening but it is not opening')
-//               }
-//             >
-//       <Image style={styles.contentViewHeaderIcon} source={require('image!contentViewHeaderIcon')} />
-//     </TouchableOpacity>
-//     );
-//   }
-// });
-
 var ContentViewHeader = React.createClass({
   render: function() {
+    var activeRoute = this.props.activeRoute || { rtnm: "Chicago", rt: "66", rtclr: "#ff00ff" };
+
     return (
       <View style={styles.contentViewHeader}>
         <Button onPress={this.props.onLeftButtonPress} />
         <View style={styles.contentViewHeaderRouteNumberAndNameContainer}>
           <View style={styles.contentViewHeaderRouteNumberContainer}>
             <Text style={styles.contentViewHeaderRouteNumber}>
-              66
+              {activeRoute.rt}
             </Text>
           </View>
           <Text style={styles.contentViewHeaderRouteName}>
-            Chicago
+            {activeRoute.rtnm}
           </Text>
         </View>
          <View style={styles.contentViewHeaderDummyRightSpace}></View>
@@ -258,7 +236,7 @@ var AllAboardReact = React.createClass({
       <SideMenu
         activeRoute={null}
         menu={
-          <Menu />
+          <Menu onSelect={this.handleMenuSelection} />
         }
         animation='spring'
         touchToClose={true}
@@ -266,8 +244,8 @@ var AllAboardReact = React.createClass({
         isOpen={this.state.isMenuOpen}
         >
         <ContentView
-          activeRoute={this.props.activeRoute}
-          onLeftButtonPress={this.toggleMenu}
+          activeRoute={this.state.selectedRoute}
+          onLeftButtonPress={this.openMenu}
           />
       </SideMenu>
     );
@@ -279,9 +257,16 @@ var AllAboardReact = React.createClass({
     };
   },
 
-  toggleMenu: function() {
+  openMenu: function() {
     this.setState({
       isMenuOpen: true,
+    });
+  },
+
+  handleMenuSelection: function(route) {
+    this.setState({
+      selectedRoute: route,
+      isMenuOpen: false,
     });
   },
 
