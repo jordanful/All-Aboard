@@ -27,14 +27,17 @@ var Menu = React.createClass({
     this.getAllRoutes(),
     AppStateIOS.addEventListener('change', this.handleAppStateChange);
   },
+
   componentWillUnmount: function() {
     AppStateIOS.removeEventListener('change', this.handleAppStateChange);
   },
+
   handleAppStateChange: function(state) {
     if (!this.state.loaded) {
       this.getAllRoutes()
     }
   },
+
   getInitialState: function() { 
     return {
       selectedRoute: null,
@@ -44,58 +47,47 @@ var Menu = React.createClass({
       filterText: ''
     }
   },
+
   getAllRoutes: function() {
     api.getAllRoutes()
-      .then((responseData) =>
-        this.setState({
-          routeDataSource: this.state.routeDataSource.cloneWithRows(responseData['bustime-response']['routes'])        
-        })
-      )
-  },
-  openMenu: function() {
-    this.props.menuActions.open();
+      .then((responseData) => responseData['bustime-response']['routes'])
+      .then((routes) => this.setState({
+        routeDataSource: this.state.routeDataSource.cloneWithRows(routes)
+      }));
   },
 
-  setRoute: function(route) {
-    this.setState({selectedRoute:(route)}, function() {
-      api.getDirections(route, function(direction) {
-        api.getNearestStop(route, direction, function(nearestStop) {
-          console.log('the nearest stop for ' + route.rtnm + ' is ' + nearestStop.stpnm + ', ' + nearestStop.stpid);
-          api.getPredictions(route, nearestStop, function(prediction) {
-            console.log('The bus will arrive in ' + prediction.prd[0].prdctdn + ' minutes and is headed toward ' + prediction.prd[0].des + '.')
-            this.setState({prediction:(prediction)})
-          });
-        });
-        
-      });
-      
-    });  
-  },
   render: function() {
-    var activeRoute = this.selectedRoute;
     return (
       <View style={styles.menuContainer}>
         <SearchBar/>
         <ListView
           dataSource={this.state.routeDataSource} 
-          renderRow={(route) => 
-            <TouchableHighlight onPress={() => this.props.onSelect(route)} underlayColor={'#0D1F42'}>
-              <View style={styles.row}>
-                <View style={styles.menuRouteNumberContainer}>
-                  <Text style={styles.menuRouteNumber}>
-                    {route.rt}
-                  </Text>
-                </View>
-                <Text style={styles.menuRouteName}>
-                  {route.rtnm}
-                </Text>
-              </View>
-            </TouchableHighlight>
-            }
+          renderRow={this.renderRoute}
         />
       </View>
     );
+  },
+
+  renderRoute: function(route) {
+    return (
+      <TouchableHighlight
+        onPress={() => this.props.onSelect(route)}
+        underlayColor='#0D1F42'
+        >
+        <View style={styles.row}>
+          <View style={styles.menuRouteNumberContainer}>
+            <Text style={styles.menuRouteNumber}>
+              {route.rt}
+            </Text>
+          </View>
+          <Text style={styles.menuRouteName}>
+            {route.rtnm}
+          </Text>
+        </View>
+      </TouchableHighlight>
+    );
   }
+
 });
 
 
@@ -125,22 +117,31 @@ var SearchBar = React.createClass({
 });
 
 var Directions = React.createClass({
-  getInitialState: function() {
-   return {
-     activeDirection: '',
-   };
-  },
   render: function() {
+    var directions = this.props.directions || [];
+
     return (
       <View style={styles.directions}>
-        <View style={styles.direction}>
-          <Text style={styles.directionTextActive}>West</Text> 
-        </View>
-        <View style={styles.direction}>
-          <Text style={styles.directionText}>East</Text> 
-        </View>
+        { directions.map((direction, i) =>
+          <TouchableOpacity key={i} style={styles.direction} onPress={() => this.props.onChooseDirection(direction)}>
+            <Text style={direction.dir == this.props.selectedDirection.dir ? styles.directionTextActive : styles.directionText}>
+              {this._prettyName(direction.dir)}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     );
+  },
+
+  _prettyName: function(fullDirectionName) {
+    var DIRECTION_NAME_MAP = {
+      "Northbound" : "North",
+      "Southbound" : "South",
+      "Eastbound"  : "East",
+      "Westbound"  : "West",
+    };
+
+    return DIRECTION_NAME_MAP[fullDirectionName];
   }
 });
 
@@ -161,7 +162,7 @@ var ContentViewHeader = React.createClass({
             {activeRoute.rtnm}
           </Text>
         </View>
-         <View style={styles.contentViewHeaderDummyRightSpace}></View>
+        <View style={styles.contentViewHeaderDummyRightSpace}></View>
       </View>
     );
   }
@@ -215,12 +216,16 @@ var NextPrediction = React.createClass({
 
 var ContentView = React.createClass({
   render: function() {
+    var activeRoute = this.props.activeRoute;
+    var directions = this.props.directions;
+    var selectedDirection = this.props.selectedDirection;
+
     return (
       <View style={styles.contentView}>
-        <ContentViewHeader activeRoute={this.props.activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
-        <ScrollView style={styles.container} activeRoute={this.props.activeRoute}>
-          <Directions/>
-          <Minutes activeRoute={this.props.activeRoute}/>
+        <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
+        <ScrollView style={styles.container} activeRoute={activeRoute}>
+          <Directions directions={directions} selectedDirection={selectedDirection} onChooseDirection={this.props.onChooseDirection} />
+          <Minutes activeRoute={activeRoute}/>
           <Stop/>
           <Destination/>
           <NextPrediction/>
@@ -232,20 +237,25 @@ var ContentView = React.createClass({
 
 var AllAboardReact = React.createClass({
   render: function() {
+    var menu = (
+      <Menu activeRoute={this.state.selectedRoute} onSelect={this.handleRouteSelection} />
+    );
+
     return (
       <SideMenu
-        activeRoute={null}
-        menu={
-          <Menu onSelect={this.handleMenuSelection} />
-        }
         animation='spring'
         touchToClose={true}
         openMenuOffset={300}
         isOpen={this.state.isMenuOpen}
+        menu={menu}
         >
         <ContentView
-          activeRoute={this.state.selectedRoute}
           onLeftButtonPress={this.openMenu}
+          onChooseDirection={this.updateDirection}
+
+          activeRoute={this.state.selectedRoute}
+          directions={this.state.directions}
+          selectedDirection={this.state.selectedDirection}
           />
       </SideMenu>
     );
@@ -263,12 +273,40 @@ var AllAboardReact = React.createClass({
     });
   },
 
-  handleMenuSelection: function(route) {
+  handleRouteSelection: function(route) {
     this.setState({
       selectedRoute: route,
       isMenuOpen: false,
     });
+
+    api.getDirections(route).then((directions) => {
+      this.setState({
+        directions: directions,
+        selectedDirection: directions[0],
+      });
+    });
   },
+
+  updateDirection: function(direction) {
+    this.setState({
+      selectedDirection: direction,
+    });
+  },
+
+  // setRoute: function(route) {
+  //   this.setState({selectedRoute:(route)}, function() {
+  //     api.getDirections(route, function(direction) {
+  //       api.getNearestStop(route, direction, function(nearestStop) {
+  //         console.log('the nearest stop for ' + route.rtnm + ' is ' + nearestStop.stpnm + ', ' + nearestStop.stpid);
+  //         api.getPredictions(route, nearestStop, function(prediction) {
+  //           console.log('The bus will arrive in ' + prediction.prd[0].prdctdn + ' minutes and is headed toward ' + prediction.prd[0].des + '.')
+  //           this.setState({prediction:(prediction)})
+  //         });
+  //       });
+  //     });
+  //   });
+  // },
+
 
 });
 

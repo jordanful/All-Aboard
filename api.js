@@ -46,27 +46,8 @@ var api = {
     console.log('Getting directions...')
     var url = baseUrl + '/getdirections' + urlParams + "&rt=" + route.rt;
     return fetch(url)
-      .then(function(response) { return response.json(); })
-      .then(function(data) { 
-
-        var defaultDir = data['bustime-response']['directions'][0]['dir']
-        var date = new Date();
-        var currentHour = date.getHours();
-          
-        if (defaultDir == "Eastbound" && currentHour < 12)  { // might need to catch East&Bound too
-          callback('Eastbound')  
-        } 
-        else if (defaultDir == "Eastbound" && currentHour > 11) {
-          callback('Westbound')
-        }
-        else if (defaultDir == "Northbound" && currentHour < 12) {       
-          callback('Southbound') 
-        }
-        else if (defaultDir == "Northbound" && currentHour > 11) {       
-          callback('Northbound') 
-        }
-      });
-
+      .then((response) => response.json())
+      .then((response) => response['bustime-response']['directions']);
   },
 
 
