@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "react-native": "^0.18.0-rc",
-    "react-native-side-menu": "^0.18.0",
+    "react-native-side-menu": "https://github.com/drtangible/react-native-side-menu.git#master",
     "react-refresh-control": "^2.0.5"
   }
 }
