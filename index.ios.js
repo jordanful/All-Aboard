@@ -147,13 +147,13 @@ var Directions = React.createClass({
 
 var ContentViewHeader = React.createClass({
   render: function() {
-    var activeRoute = this.props.activeRoute || { rtnm: "Chicago", rt: "66", rtclr: "#ff00ff" };
+    var activeRoute = this.props.activeRoute || { rtnm: "Choose Route", rt: "" };
 
     return (
       <View style={styles.contentViewHeader}>
         <Button onPress={this.props.onLeftButtonPress} />
         <View style={styles.contentViewHeaderRouteNumberAndNameContainer}>
-          <View style={styles.contentViewHeaderRouteNumberContainer}>
+          <View style={activeRoute.rt && styles.contentViewHeaderRouteNumberContainer}>
             <Text style={styles.contentViewHeaderRouteNumber}>
               {activeRoute.rt}
             </Text>
@@ -181,9 +181,12 @@ class Button extends React.Component  {
 
 var Minutes = React.createClass({
   render: function() {
+    var prediction = this.props.predictions && this.props.predictions[0];
+    if (!prediction) { return null };
+
     return (
       <View>
-        <Text style={styles.minutes}>12</Text>
+        <Text style={styles.minutes}>{prediction.prdctdn}</Text>
         <Text style={styles.minutesLabel}>minutes</Text>
       </View>
       );
@@ -192,24 +195,33 @@ var Minutes = React.createClass({
 
 var Stop = React.createClass({
   render: function() {
+    var stop = this.props.stop;
+    if (!stop) { return null; }
+
     return (
-      <Text style={styles.stop}>Michigan & E. Wacker</Text>
+      <Text style={styles.stop}>{stop.stpnm}</Text>
     );
   }
 });
 
 var Destination = React.createClass({
   render: function() {
+    var prediction = this.props.predictions && this.props.predictions[0];
+    if (!prediction) { return null; }
+
     return(
-      <Text style={styles.destination}>To Wacker/Columbus</Text>
+      <Text style={styles.destination}>To {prediction.des}</Text>
     );
   }
 });
 
 var NextPrediction = React.createClass({
   render: function() {
+    var prediction = this.props.prediction;
+    if (!prediction) { return null };
+
     return(
-      <Text style={styles.nextPrediction}>21 minutes</Text>
+      <Text style={styles.nextPrediction}>{prediction.prdctdn} minutes</Text>
     );
   }
 });
@@ -217,18 +229,17 @@ var NextPrediction = React.createClass({
 var ContentView = React.createClass({
   render: function() {
     var activeRoute = this.props.activeRoute;
-    var directions = this.props.directions;
-    var selectedDirection = this.props.selectedDirection;
 
     return (
       <View style={styles.contentView}>
         <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
         <ScrollView style={styles.container} activeRoute={activeRoute}>
-          <Directions directions={directions} selectedDirection={selectedDirection} onChooseDirection={this.props.onChooseDirection} />
-          <Minutes activeRoute={activeRoute}/>
-          <Stop/>
-          <Destination/>
-          <NextPrediction/>
+          <Directions directions={this.props.directions} selectedDirection={this.props.selectedDirection} onChooseDirection={this.props.onChooseDirection} />
+          <Minutes predictions={this.props.predictions} />
+          <Stop stop={this.props.selectedStop} />
+          <Destination predictions={this.props.predictions} />
+          <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
+          <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
         </ScrollView>
       </View>
       );
@@ -256,6 +267,8 @@ var AllAboardReact = React.createClass({
           activeRoute={this.state.selectedRoute}
           directions={this.state.directions}
           selectedDirection={this.state.selectedDirection}
+          selectedStop={this.state.selectedStop}
+          predictions={this.state.predictions}
           />
       </SideMenu>
     );
@@ -263,7 +276,7 @@ var AllAboardReact = React.createClass({
 
   getInitialState: function() {
     return {
-      isMenuOpen: false,
+      isMenuOpen: true,
     };
   },
 
@@ -284,6 +297,8 @@ var AllAboardReact = React.createClass({
         directions: directions,
         selectedDirection: directions[0],
       });
+
+      this.getNearestStop();
     });
   },
 
@@ -291,22 +306,27 @@ var AllAboardReact = React.createClass({
     this.setState({
       selectedDirection: direction,
     });
+
+    this.getNearestStop();
   },
 
-  // setRoute: function(route) {
-  //   this.setState({selectedRoute:(route)}, function() {
-  //     api.getDirections(route, function(direction) {
-  //       api.getNearestStop(route, direction, function(nearestStop) {
-  //         console.log('the nearest stop for ' + route.rtnm + ' is ' + nearestStop.stpnm + ', ' + nearestStop.stpid);
-  //         api.getPredictions(route, nearestStop, function(prediction) {
-  //           console.log('The bus will arrive in ' + prediction.prd[0].prdctdn + ' minutes and is headed toward ' + prediction.prd[0].des + '.')
-  //           this.setState({prediction:(prediction)})
-  //         });
-  //       });
-  //     });
-  //   });
-  // },
+  getNearestStop: function() {
+    api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
+      this.setState({
+        selectedStop: selectedStop,
+      });
 
+      this.getPredictions();
+    });
+  },
+
+  getPredictions: function() {
+    api.getPredictions(this.state.selectedRoute, this.state.selectedStop).then((predictions) => {
+      this.setState({
+        predictions: predictions,
+      });
+    });
+  },
 
 });
 
