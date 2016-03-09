@@ -1,5 +1,5 @@
 'use strict';
-
+import PTRView from 'react-native-pull-to-refresh';
 var React = require('react-native');
 var SideMenu = require('react-native-side-menu');
 var api = require('/../api');
@@ -18,7 +18,7 @@ var {
   ActivityIndicatorIOS,
   TouchableHighlight,
   TouchableOpacity,
-  TextInput
+  TextInput,
 } = React;
 
 
@@ -231,21 +231,30 @@ var NextPrediction = React.createClass({
 });
 
 var ContentView = React.createClass({
+  _refresh: function() {
+  return new Promise((resolve) => {
+    setTimeout(()=>{resolve()}, 2000)
+  });
+  },
   render: function() {
     var activeRoute = this.props.activeRoute;
 
     return (
+
       <View style={styles.contentView}>
         <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
-        <ScrollView style={styles.container} activeRoute={activeRoute}>
-          <Directions directions={this.props.directions} selectedDirection={this.props.selectedDirection} onChooseDirection={this.props.onChooseDirection} />
-          <Minutes predictions={this.props.predictions} />
-          <Stop stop={this.props.selectedStop} />
-          <Destination predictions={this.props.predictions} />
-          <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
-          <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
-        </ScrollView>
+          <PTRView onRefresh={this._refresh} >
+            <ScrollView style={styles.container} activeRoute={activeRoute}>
+              <Directions directions={this.props.directions} selectedDirection={this.props.selectedDirection} onChooseDirection={this.props.onChooseDirection} />
+              <Minutes predictions={this.props.predictions} />
+              <Stop stop={this.props.selectedStop} />
+              <Destination predictions={this.props.predictions} />
+              <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
+              <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
+            </ScrollView>
+          </PTRView>
       </View>
+
       );
   }
 });
