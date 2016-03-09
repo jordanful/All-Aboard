@@ -38,7 +38,7 @@ var Menu = React.createClass({
     }
   },
 
-  getInitialState: function() { 
+  getInitialState: function() {
     return {
       selectedRoute: null,
       prediction: null,
@@ -61,7 +61,7 @@ var Menu = React.createClass({
       <View style={styles.menuContainer}>
         <SearchBar/>
         <ListView
-          dataSource={this.state.routeDataSource} 
+          dataSource={this.state.routeDataSource}
           renderRow={this.renderRoute}
         />
       </View>
@@ -100,10 +100,10 @@ var SearchBar = React.createClass({
   },
   render: function() {
     return (
-      <TextInput 
+      <TextInput
         ref='searchInput'
-        style={styles.menuSearch} 
-        autoCapitalize= 'words' 
+        style={styles.menuSearch}
+        autoCapitalize= 'words'
         autoCorrect= {false}
         clearButtonMode= 'while-editing'
         placeholder='Search for a route'
@@ -139,6 +139,10 @@ var Directions = React.createClass({
       "Southbound" : "South",
       "Eastbound"  : "East",
       "Westbound"  : "West",
+      "North Bound" : "North",
+      "South Bound" : "South",
+      "East Bound"  : "East",
+      "West Bound"  : "West",
     };
 
     return DIRECTION_NAME_MAP[fullDirectionName];
@@ -175,7 +179,7 @@ class Button extends React.Component  {
         <Image style={styles.contentViewHeaderIcon} source={require('./assets/images/contentViewHeaderIcon.png')} />
       </TouchableOpacity>
     );
-  }  
+  }
 }
 
 
@@ -263,7 +267,6 @@ var AllAboardReact = React.createClass({
         <ContentView
           onLeftButtonPress={this.openMenu}
           onChooseDirection={this.updateDirection}
-
           activeRoute={this.state.selectedRoute}
           directions={this.state.directions}
           selectedDirection={this.state.selectedDirection}
@@ -403,7 +406,7 @@ var AllAboardReact = React.createClass({
     marginRight: 18,
     marginTop: 10,
     width: 25,
-    height: 19  
+    height: 19
   },
   contentViewHeaderRouteNumberAndNameContainer: {
     justifyContent: 'center',
@@ -454,7 +457,7 @@ var AllAboardReact = React.createClass({
     fontSize: 22,
     alignSelf: 'center',
     fontFamily: 'ProximaNovaLight'
-  }, 
+  },
   stop: {
     color: 'white',
     marginTop: 45,
@@ -482,17 +485,15 @@ var AllAboardReact = React.createClass({
   directionText: {
     alignSelf: 'center',
     fontSize: 30,
-    color: 'white',
+    color: '#6884BA',
     fontFamily: 'ProximaNovaLight'
   },
   directionTextActive: {
     alignSelf: 'center',
     fontSize: 30,
-    color: '#6884BA',
+    color: 'white',
     fontFamily: 'ProximaNovaLight'
   }
 });
 
 AppRegistry.registerComponent('AllAboardReact', () => AllAboardReact);
-
-

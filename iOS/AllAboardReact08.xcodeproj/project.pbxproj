@@ -114,12 +114,10 @@
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* AllAboardReact08Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = AllAboardReact08Tests.xctest; path = "/Users/danielgilbert/workspace/All-Aboard-React/iOS/build/Debug-iphoneos/AllAboardReact08Tests.xctest"; sourceTree = "<absolute>"; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* AllAboardReact08Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AllAboardReact08Tests.m; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* AllAboardReact08.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = AllAboardReact08.app; path = "/Users/danielgilbert/workspace/All-Aboard-React/iOS/build/Debug-iphoneos/AllAboardReact08.app"; sourceTree = "<absolute>"; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = AllAboardReact08/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = AllAboardReact08/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -132,6 +130,8 @@
 		263D44B31C4C152500F9CACD /* ProximaNovaThin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ProximaNovaThin.otf; path = ../ProximaNovaThin.otf; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		FDB8A7791C8FC2EF004B22A5 /* AllAboardReact08.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllAboardReact08.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDB8A77A1C8FC2EF004B22A5 /* AllAboardReact08Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AllAboardReact08Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +299,8 @@
 				13B07FAE1A68108700A75B9A /* AllAboardReact08 */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* AllAboardReact08Tests */,
+				FDB8A7791C8FC2EF004B22A5 /* AllAboardReact08.app */,
+				FDB8A77A1C8FC2EF004B22A5 /* AllAboardReact08Tests.xctest */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -322,7 +324,7 @@
 			);
 			name = AllAboardReact08Tests;
 			productName = AllAboardReact08Tests;
-			productReference = 00E356EE1AD99517003FC87E /* AllAboardReact08Tests.xctest */;
+			productReference = FDB8A77A1C8FC2EF004B22A5 /* AllAboardReact08Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		13B07F861A680F5B00A75B9A /* AllAboardReact08 */ = {
@@ -340,7 +342,7 @@
 			);
 			name = AllAboardReact08;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* AllAboardReact08.app */;
+			productReference = FDB8A7791C8FC2EF004B22A5 /* AllAboardReact08.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
