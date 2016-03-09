@@ -233,7 +233,7 @@ var NextPrediction = React.createClass({
 var ContentView = React.createClass({
   getInitialState: function() {
     return {
-        isRefreshing: false
+        isRefreshing: false,
       }
   },
 
@@ -253,8 +253,6 @@ var ContentView = React.createClass({
                 onRefresh={this._onRefresh}
                 tintColor="#FFF"
                 title="Refreshing..."
-                colors={['#FFF', '#FFF', '#FFF']}
-                progressBackgroundColor="#FFF"
               />
             }
           >
@@ -272,18 +270,11 @@ var ContentView = React.createClass({
   _onRefresh() {
     this.setState({isRefreshing: true});
     setTimeout(() => {
-      // prepend 10 items
-      const rowData = Array.from(new Array(10))
-      .map((val, i) => ({
-        text: 'Loaded row ' + (+this.state.loaded + i),
-        clicks: 0,
-      }))
-      .concat(this.state.rowData);
-
-      this.setState({
-        loaded: this.state.loaded + 10,
-        isRefreshing: false,
-        rowData: rowData,
+      api.getPredictions(this.props.activeRoute, this.props.selectedStop).then((predictions) => {
+        this.setState({
+          predictions: predictions,
+          isRefreshing: true
+        });
       });
     }, 5000);
   }

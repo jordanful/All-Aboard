@@ -21,7 +21,7 @@ var api = {
         .then((data) => {
           var data = data['bustime-response'];
           var stopsCount = Object.keys(data.stops).length
-            for (var i = 0; i < stopsCount; i++) {  
+            for (var i = 0; i < stopsCount; i++) {
                 var stopLat = data.stops[i].lat;
                 var stopLon = data.stops[i].lon;
                 var stopId = data.stops[i].stpid;
@@ -31,7 +31,7 @@ var api = {
                   closestId = stopId;
                   closestDist = dist1;
                   nearestStop = data.stops[i]
-                } 
+                }
             }
             return callback(nearestStop);
          });
@@ -54,7 +54,10 @@ var api = {
     var url = baseUrl + '/getpredictions' + urlParams + '&rt=' + route.rt + '&stpid=' + nearestStop.stpid + '&top=3';
     return fetch(url)
       .then((response) => response.json())
-      .then((response) => response['bustime-response']['prd']);
+      .then((response) => response['bustime-response']['prd'])
+      .catch((error) => {
+        console.warn(error.msg);
+      });
   },
 
   // Get all the bus routes
