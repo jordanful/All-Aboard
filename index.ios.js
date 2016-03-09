@@ -1,5 +1,4 @@
 'use strict';
-import PTRView from 'react-native-pull-to-refresh';
 var React = require('react-native');
 var SideMenu = require('react-native-side-menu');
 var api = require('/../api');
@@ -19,6 +18,7 @@ var {
   TouchableHighlight,
   TouchableOpacity,
   TextInput,
+  RefreshControl
 } = React;
 
 
@@ -231,11 +231,12 @@ var NextPrediction = React.createClass({
 });
 
 var ContentView = React.createClass({
-  _refresh: function() {
-  return new Promise((resolve) => {
-    setTimeout(()=>{resolve()}, 2000)
-  });
+  getInitialState: function() {
+    return {
+        isRefreshing: false
+      }
   },
+
   render: function() {
     var activeRoute = this.props.activeRoute;
 
@@ -243,19 +244,48 @@ var ContentView = React.createClass({
 
       <View style={styles.contentView}>
         <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
-          <PTRView onRefresh={this._refresh} >
-            <ScrollView style={styles.container} activeRoute={activeRoute}>
-              <Directions directions={this.props.directions} selectedDirection={this.props.selectedDirection} onChooseDirection={this.props.onChooseDirection} />
-              <Minutes predictions={this.props.predictions} />
-              <Stop stop={this.props.selectedStop} />
-              <Destination predictions={this.props.predictions} />
-              <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
-              <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
-            </ScrollView>
-          </PTRView>
+          <ScrollView
+            style={styles.container}
+            activeRoute={activeRoute}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isRefreshing}
+                onRefresh={this._onRefresh}
+                tintColor="#FFF"
+                title="Refreshing..."
+                colors={['#FFF', '#FFF', '#FFF']}
+                progressBackgroundColor="#FFF"
+              />
+            }
+          >
+            <Directions directions={this.props.directions} selectedDirection={this.props.selectedDirection} onChooseDirection={this.props.onChooseDirection} />
+            <Minutes predictions={this.props.predictions} />
+            <Stop stop={this.props.selectedStop} />
+            <Destination predictions={this.props.predictions} />
+            <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
+            <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
+          </ScrollView>
       </View>
 
       );
+  },
+  _onRefresh() {
+    this.setState({isRefreshing: true});
+    setTimeout(() => {
+      // prepend 10 items
+      const rowData = Array.from(new Array(10))
+      .map((val, i) => ({
+        text: 'Loaded row ' + (+this.state.loaded + i),
+        clicks: 0,
+      }))
+      .concat(this.state.rowData);
+
+      this.setState({
+        loaded: this.state.loaded + 10,
+        isRefreshing: false,
+        rowData: rowData,
+      });
+    }, 5000);
   }
 });
 
