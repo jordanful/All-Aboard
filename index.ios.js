@@ -233,6 +233,7 @@ var NextPrediction = React.createClass({
 var ContentView = React.createClass({
   getInitialState: function() {
     return {
+        predictions: this.props.predictions,
         isRefreshing: false,
       }
   },
@@ -270,10 +271,13 @@ var ContentView = React.createClass({
   _onRefresh() {
     this.setState({isRefreshing: true});
     setTimeout(() => {
+      // We need to refresh the entire UI, not just predictions. The user might have moved, so we should geolocate, grab nearest stop, etc.
+      // Just like we do on handleRouteSelection
+      // AllAboardReact.handleRouteSelection(this.props.activeRoute) or something?
       api.getPredictions(this.props.activeRoute, this.props.selectedStop).then((predictions) => {
         this.setState({
           predictions: predictions,
-          isRefreshing: true
+          isRefreshing: false
         });
       });
     }, 5000);
