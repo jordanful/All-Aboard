@@ -54,7 +54,7 @@ var api = {
     var url = baseUrl + '/getpredictions' + urlParams + '&rt=' + route.rt + '&stpid=' + nearestStop.stpid + '&top=3';
     return fetch(url)
       .then((response) => response.json())
-      .then((response) => response['bustime-response']['prd'])
+      .then((response) => response['bustime-response'])
       .catch((error) => {
         console.warn(error.msg);
       });

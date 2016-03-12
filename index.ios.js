@@ -221,6 +221,7 @@ var Destination = React.createClass({
 
 var NextPrediction = React.createClass({
   render: function() {
+
     var prediction = this.props.prediction;
     if (!prediction) { return null };
 
@@ -230,17 +231,42 @@ var NextPrediction = React.createClass({
   }
 });
 
+var Error = React.createClass({
+
+  render: function() {
+    if (this.props.prediction) { return null };
+    return(
+      <Text style={styles.nextPrediction}>No arrival times.</Text> // TODO show the real error
+    )
+  }
+});
+
 var ContentView = React.createClass({
   getInitialState: function() {
     return {
         predictions: this.props.predictions,
         isRefreshing: false,
+        error: this.props.error
       }
   },
 
   render: function() {
     var activeRoute = this.props.activeRoute;
+    var predictionView;
 
+    if (this.props.predictions != null) {
+      predictionView =   <View>
+                           <Minutes predictions={this.props.predictions} />
+                           <Stop stop={this.props.selectedStop} />
+                           <Destination predictions={this.props.predictions} />
+                           <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
+                           <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
+                         </View>;
+
+    }
+    else {
+      predictionView =   <Error/>;
+    }
     return (
 
       <View style={styles.contentView}>
@@ -253,16 +279,14 @@ var ContentView = React.createClass({
                 refreshing={this.state.isRefreshing}
                 onRefresh={this._onRefresh}
                 tintColor="#FFF"
-                title="Refreshing..."
+                title=""
               />
             }
           >
             <Directions directions={this.props.directions} selectedDirection={this.props.selectedDirection} onChooseDirection={this.props.onChooseDirection} />
-            <Minutes predictions={this.props.predictions} />
-            <Stop stop={this.props.selectedStop} />
-            <Destination predictions={this.props.predictions} />
-            <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
-            <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
+
+            {predictionView}
+
           </ScrollView>
       </View>
 
@@ -306,6 +330,7 @@ var AllAboardReact = React.createClass({
           selectedDirection={this.state.selectedDirection}
           selectedStop={this.state.selectedStop}
           predictions={this.state.predictions}
+          errors={this.state.errors}
           />
       </SideMenu>
     );
@@ -358,10 +383,17 @@ var AllAboardReact = React.createClass({
   },
 
   getPredictions: function() {
-    api.getPredictions(this.state.selectedRoute, this.state.selectedStop).then((predictions) => {
-      this.setState({
-        predictions: predictions,
-      });
+    api.getPredictions(this.state.selectedRoute, this.state.selectedStop).then((response) => {
+      console.log(response)
+      if (response.hasOwnProperty('error'))
+        this.setState({
+          predictions: null,
+          error: response['error']
+        });
+      else
+        this.setState({
+          predictions: response['prd'],
+        });
     });
   },
 
