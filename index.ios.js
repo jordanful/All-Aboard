@@ -5,20 +5,21 @@ var api = require('/../api');
 
 
 var {
+  ActivityIndicatorIOS,
   AppRegistry,
   AppStateIOS,
+  AsyncStorage,
+  Image,
+  ListView,
+  RefreshControl,
+  ScrollView,
   StyleSheet,
   StatusBarIOS,
-  ListView,
   Text,
-  View,
-  ScrollView,
-  Image,
-  ActivityIndicatorIOS,
+  TextInput,
   TouchableHighlight,
   TouchableOpacity,
-  TextInput,
-  RefreshControl
+  View
 } = React;
 
 
@@ -26,6 +27,9 @@ var Menu = React.createClass({
   componentDidMount: function() {
     this.getAllRoutes(),
     AppStateIOS.addEventListener('change', this.handleAppStateChange);
+    // AsyncStorage.getItem("recentRoutes").then((value) => {
+    //   this.setState({recentRoutes: value});
+    // }).done();
   },
 
   componentWillUnmount: function() {
@@ -44,7 +48,8 @@ var Menu = React.createClass({
       prediction: null,
       userLocation: '',
       routeDataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-      filterText: ''
+      filterText: '',
+      // recentRoutes:
     }
   },
 
@@ -60,6 +65,10 @@ var Menu = React.createClass({
     return (
       <View style={styles.menuContainer}>
         <SearchBar/>
+        // <ListView
+        //   datasource={this.state.recentRoutes}
+        //   renderRow={this.renderRoute}
+        // />
         <ListView
           dataSource={this.state.routeDataSource}
           renderRow={this.renderRoute}
@@ -296,9 +305,8 @@ var ContentView = React.createClass({
     this.setState({isRefreshing: true});
     setTimeout(() => {
       // We need to refresh the entire UI, not just predictions. The user might have moved, so we should geolocate, grab nearest stop, etc.
-      // Just like we do on handleRouteSelection
-      // AllAboardReact.handleRouteSelection(this.props.activeRoute) or something?
-      api.getPredictions(this.props.activeRoute, this.props.selectedStop).then((predictions) => {
+      // This isn't working, need to read more on this stuff: https://facebook.github.io/react/tips/communicate-between-components.html
+      AllAboardReact.handleRouteSelection(this.props.activeRoute).then((predictions) => {
         this.setState({
           predictions: predictions,
           isRefreshing: false
