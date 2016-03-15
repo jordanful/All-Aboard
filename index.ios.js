@@ -65,10 +65,6 @@ var Menu = React.createClass({
     return (
       <View style={styles.menuContainer}>
         <SearchBar/>
-        // <ListView
-        //   datasource={this.state.recentRoutes}
-        //   renderRow={this.renderRoute}
-        // />
         <ListView
           dataSource={this.state.routeDataSource}
           renderRow={this.renderRoute}
@@ -112,13 +108,13 @@ var SearchBar = React.createClass({
       <TextInput
         ref='searchInput'
         style={styles.menuSearch}
-        autoCapitalize= 'words'
-        autoCorrect= {false}
-        clearButtonMode= 'while-editing'
+        autoCapitalize='words'
+        autoCorrect={false}
+        clearButtonMode='while-editing'
         placeholder='Search for a route'
         placeholderTextColor='#6C82A6'
-        clearTextOnFocus = {true}
-        returnKeyType= 'go'
+        clearTextOnFocus ={true}
+        returnKeyType='go'
         onChangeText={(text) => this.setState({text})}
         value={this.state.text}/>
     );
@@ -243,9 +239,12 @@ var NextPrediction = React.createClass({
 var Error = React.createClass({
 
   render: function() {
-    if (this.props.prediction) { return null };
-    return(
-      <Text style={styles.nextPrediction}>No arrival times.</Text> // TODO show the real error
+    let { error } = this.props;
+
+    return (
+      <Text style={styles.nextPrediction}>
+        {error.msg}
+      </Text>
     )
   }
 });
@@ -255,29 +254,13 @@ var ContentView = React.createClass({
     return {
         predictions: this.props.predictions,
         isRefreshing: false,
-        error: this.props.error
       }
   },
 
   render: function() {
-    var activeRoute = this.props.activeRoute;
-    var predictionView;
+    let { activeRoute, error } = this.props;
 
-    if (this.props.predictions != null) {
-      predictionView =   <View>
-                           <Minutes predictions={this.props.predictions} />
-                           <Stop stop={this.props.selectedStop} />
-                           <Destination predictions={this.props.predictions} />
-                           <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
-                           <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
-                         </View>;
-
-    }
-    else {
-      predictionView =   <Error/>;
-    }
     return (
-
       <View style={styles.contentView}>
         <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
           <ScrollView
@@ -293,9 +276,19 @@ var ContentView = React.createClass({
             }
           >
             <Directions directions={this.props.directions} selectedDirection={this.props.selectedDirection} onChooseDirection={this.props.onChooseDirection} />
+            {error &&
+              <Error error={error} />
+            }
 
-            {predictionView}
-
+            {!error &&
+              <View>
+                <Minutes predictions={this.props.predictions} />
+                <Stop stop={this.props.selectedStop} />
+                <Destination predictions={this.props.predictions} />
+                <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
+                <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
+              </View>
+            }
           </ScrollView>
       </View>
 
@@ -338,7 +331,7 @@ var AllAboardReact = React.createClass({
           selectedDirection={this.state.selectedDirection}
           selectedStop={this.state.selectedStop}
           predictions={this.state.predictions}
-          errors={this.state.errors}
+          error={this.state.error}
           />
       </SideMenu>
     );
@@ -396,11 +389,12 @@ var AllAboardReact = React.createClass({
       if (response.hasOwnProperty('error'))
         this.setState({
           predictions: null,
-          error: response['error']
+          error: response['error'][0],
         });
       else
         this.setState({
           predictions: response['prd'],
+          error: null,
         });
     });
   },
