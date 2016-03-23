@@ -1,4 +1,6 @@
 'use strict';
+
+var _ = require('lodash');
 var React = require('react-native');
 var SideMenu = require('react-native-side-menu');
 var api = require('/../api');
@@ -27,6 +29,7 @@ var Menu = React.createClass({
   componentDidMount: function() {
     this.getAllRoutes(),
     AppStateIOS.addEventListener('change', this.handleAppStateChange);
+
     // AsyncStorage.getItem("recentRoutes").then((value) => {
     //   this.setState({recentRoutes: value});
     // }).done();
@@ -47,6 +50,7 @@ var Menu = React.createClass({
       selectedRoute: null,
       prediction: null,
       userLocation: '',
+      allRoutes: [],
       routeDataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       filterText: '',
       // recentRoutes:
@@ -57,26 +61,58 @@ var Menu = React.createClass({
     api.getAllRoutes()
       .then((responseData) => responseData['bustime-response']['routes'])
       .then((routes) => this.setState({
-        routeDataSource: this.state.routeDataSource.cloneWithRows(routes)
+        allRoutes: routes,
       }));
   },
 
   render: function() {
+    let { allRoutes, filterText } = this.state;
+
+    let filteredRoutes = filterText.length > 0
+      ? this._filterRoutes(allRoutes, filterText)
+      : allRoutes;
+
     return (
       <View style={styles.menuContainer}>
-        <SearchBar/>
+        <SearchBar onChange={this._onChange} />
         <ListView
-          dataSource={this.state.routeDataSource}
+          renderHeader={{
+            <RecentlyViewedRoutes routes={this.props.recentlyViewedRoutes} />
+          }}
+          dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
           renderRow={this.renderRoute}
         />
       </View>
     );
   },
 
+  _onChange: function(text) {
+    this.setState({
+      filterText: text,
+    });
+  },
+
+  _filterRoutes: function(routes, filterText) {
+    return _.filter(routes, (route) => {
+      let filterTextLowercase = filterText.toLowerCase();
+      let routeNameLowercase = route.rtnm.toLowerCase();
+
+      if (route.rt.indexOf(filterTextLowercase) > -1) {
+        return true;
+      }
+
+      if (routeNameLowercase.indexOf(filterTextLowercase) > -1) {
+        return true;
+      }
+
+      return false;
+    });
+  },
+
   renderRoute: function(route) {
     return (
       <TouchableHighlight
-        onPress={() => this.props.onSelect(route)}
+        onPress={() => this.props.onSelect(route) && UserActions.viewRoute(route)}
         underlayColor='#0D1F42'
         >
         <View style={styles.row}>
@@ -98,12 +134,9 @@ var Menu = React.createClass({
 
 
 var SearchBar = React.createClass({
-  getInitialState: function() {
-    return {
-        text: ''
-      }
-  },
   render: function() {
+    let { onChange } = this.props; 
+
     return (
       <TextInput
         ref='searchInput'
@@ -115,8 +148,7 @@ var SearchBar = React.createClass({
         placeholderTextColor='#6C82A6'
         clearTextOnFocus ={true}
         returnKeyType='go'
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}/>
+        onChangeText={onChange} />
     );
   }
 });
@@ -350,6 +382,12 @@ var AllAboardReact = React.createClass({
     UserActions.listenForRefreshPredictions((() => {
       this.handleRouteSelection(this.state.selectedRoute);
     }).bind(this));
+
+
+    // UserActions.listenForRouteViewed(() => {
+    //   // 
+    //   // AsyncStorage.setItem(...);
+    // });
   },
 
   getInitialState: function() {

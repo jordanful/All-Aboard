@@ -6,6 +6,7 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
+    "lodash": "^4.6.1",
     "react-native": "^0.18.0-rc",
     "react-native-pull-to-refresh": "^1.1.0",
     "react-native-side-menu": "https://github.com/drtangible/react-native-side-menu.git#master",
