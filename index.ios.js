@@ -76,9 +76,9 @@ var Menu = React.createClass({
       <View style={styles.menuContainer}>
         <SearchBar onChange={this._onChange} />
         <ListView
-          renderHeader={{
-            <RecentlyViewedRoutes routes={this.props.recentlyViewedRoutes} />
-          }}
+          // renderHeader={{
+          //   // <RecentlyViewedRoutes routes={this.props.recentlyViewedRoutes} />
+          // }}
           dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
           renderRow={this.renderRoute}
         />
@@ -135,7 +135,7 @@ var Menu = React.createClass({
 
 var SearchBar = React.createClass({
   render: function() {
-    let { onChange } = this.props; 
+    let { onChange } = this.props;
 
     return (
       <TextInput
@@ -385,7 +385,7 @@ var AllAboardReact = React.createClass({
 
 
     // UserActions.listenForRouteViewed(() => {
-    //   // 
+    //   //
     //   // AsyncStorage.setItem(...);
     // });
   },
@@ -626,8 +626,6 @@ var AllAboardReact = React.createClass({
 const UserActions = {
   refreshPredictions() {
     return new Promise((resolve, reject) => {
-      this.callback({ foo: "bar" });
-
       setTimeout(() => {
         resolve();
       }, 1000);
@@ -643,4 +641,3 @@ const UserActions = {
 
 
 AppRegistry.registerComponent('AllAboardReact', () => AllAboardReact);
-
