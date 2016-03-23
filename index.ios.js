@@ -294,22 +294,31 @@ var ContentView = React.createClass({
 
       );
   },
+
   _onRefresh() {
-    this.setState({isRefreshing: true});
-    setTimeout(() => {
-      // We need to refresh the entire UI, not just predictions. The user might have moved, so we should geolocate, grab nearest stop, etc.
-      // This isn't working, need to read more on this stuff: https://facebook.github.io/react/tips/communicate-between-components.html
-      AllAboardReact.handleRouteSelection(this.props.activeRoute).then((predictions) => {
+    this.setState({
+      isRefreshing: true
+    });
+
+    UserActions.refreshPredictions()
+      .then(() => {
         this.setState({
-          predictions: predictions,
-          isRefreshing: false
+          isRefreshing: false,
+        });
+      })
+      .catch(() => {
+        alert("Oops! Please try again.");
+
+        this.setState({
+          isRefreshing: false,
         });
       });
-    }, 5000);
+
   }
 });
 
 var AllAboardReact = React.createClass({
+
   render: function() {
     var menu = (
       <Menu activeRoute={this.state.selectedRoute} onSelect={this.handleRouteSelection} />
@@ -337,6 +346,12 @@ var AllAboardReact = React.createClass({
     );
   },
 
+  componentDidMount() {
+    UserActions.listenForRefreshPredictions((() => {
+      this.handleRouteSelection(this.state.selectedRoute);
+    }).bind(this));
+  },
+
   getInitialState: function() {
     return {
       isMenuOpen: true,
@@ -356,10 +371,12 @@ var AllAboardReact = React.createClass({
     });
 
     api.getDirections(route).then((directions) => {
+
       this.setState({
         directions: directions,
         selectedDirection: directions[0],
       });
+
 
       this.getNearestStop();
     });
@@ -374,7 +391,9 @@ var AllAboardReact = React.createClass({
   },
 
   getNearestStop: function() {
+
     api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
+
       this.setState({
         selectedStop: selectedStop,
       });
@@ -385,17 +404,18 @@ var AllAboardReact = React.createClass({
 
   getPredictions: function() {
     api.getPredictions(this.state.selectedRoute, this.state.selectedStop).then((response) => {
-      console.log(response)
-      if (response.hasOwnProperty('error'))
+      if (response.hasOwnProperty('error')) {
         this.setState({
           predictions: null,
           error: response['error'][0],
         });
-      else
+      }
+      else {
         this.setState({
           predictions: response['prd'],
           error: null,
         });
+      }
     });
   },
 
@@ -564,4 +584,25 @@ var AllAboardReact = React.createClass({
   }
 });
 
+
+const UserActions = {
+  refreshPredictions() {
+    return new Promise((resolve, reject) => {
+      this.callback({ foo: "bar" });
+
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+  },
+
+  listenForRefreshPredictions(callback) {
+    this.callback = callback;
+  }
+};
+
+
+
+
 AppRegistry.registerComponent('AllAboardReact', () => AllAboardReact);
+
