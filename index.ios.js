@@ -30,9 +30,9 @@ var Menu = React.createClass({
     this.getAllRoutes(),
     AppStateIOS.addEventListener('change', this.handleAppStateChange);
 
-    // AsyncStorage.getItem("recentRoutes").then((value) => {
-    //   this.setState({recentRoutes: value});
-    // }).done();
+    AsyncStorage.getItem("recentRoutes").then((value) => {
+      this.setState({recentRoutes: value});
+    }).done();
   },
 
   componentWillUnmount: function() {
@@ -145,14 +145,28 @@ var SearchBar = React.createClass({
         autoCorrect={false}
         clearButtonMode='while-editing'
         placeholder='Search for a route'
-        placeholderTextColor='#6C82A6'
+        placeholderTextColor='#BABABA'
         clearTextOnFocus ={true}
         returnKeyType='go'
         onChangeText={onChange} />
     );
   }
 });
-
+// var RecentlyViewedRoutes = React.createClass({
+//   render: function() {
+//     return (
+//       <Text>
+//         66
+//       </Text>
+//       <Text>
+//         56
+//       </Text>
+//       <Text>
+//         12-B
+//       </Text>
+//     );
+//   }
+// });
 var Directions = React.createClass({
   render: function() {
     var directions = this.props.directions || [];
@@ -360,7 +374,7 @@ var AllAboardReact = React.createClass({
       <SideMenu
         animation='spring'
         touchToClose={true}
-        openMenuOffset={300}
+        openMenuOffset={deviceWidth * 0.86}
         isOpen={this.state.isMenuOpen}
         menu={menu}
         >
@@ -472,8 +486,7 @@ var AllAboardReact = React.createClass({
     flex: 1,
   },
   menuSearch: {
-    backgroundColor: '#1A3C75',
-    borderColor: '#1A3C75',
+    backgroundColor: '#FFFFFF',
     height: 40,
     padding: 11,
     margin: 10,
@@ -481,7 +494,7 @@ var AllAboardReact = React.createClass({
     marginBottom: 15,
     width: deviceWidth * 0.74,
     borderRadius: 22,
-    color: '#FFFFFF',
+    color: '#333',
     fontSize: 19,
     fontFamily: 'ProximaNovaLight'
   },
@@ -626,6 +639,8 @@ var AllAboardReact = React.createClass({
 const UserActions = {
   refreshPredictions() {
     return new Promise((resolve, reject) => {
+      this.callback({ foo: "bar" });
+
       setTimeout(() => {
         resolve();
       }, 1000);

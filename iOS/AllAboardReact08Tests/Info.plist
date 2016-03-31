@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>com.AllAboard</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -22,5 +22,12 @@
 	<string>1</string>
 	<key>CFBundleDisplayName</key>
 	<string>All Aboard</string>
+	<key>UILaunchImages</key>
+	<array>
+		<dict>
+			<key>UILaunchImageName</key>
+			<string>Default</string>
+		</dict>
+	</array>
 </dict>
 </plist>
