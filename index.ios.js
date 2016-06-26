@@ -134,10 +134,14 @@ var Menu = React.createClass({
 
 
 var SearchBar = React.createClass({
-  // // we should reset the filterText onFocus and onBlur, and blur when a route is selected
-  // resetFilterText: function() {
-  //   this.props.value = ''
-  // },
+  // when a route is selected or the menu button is tapped
+  // we should
+  // 1) blur the field
+  // 2) reset the filtertext
+
+  // when the textinput is focused
+  // we should
+  // 1) reset the filtertext
   render: function() {
     let { onChange } = this.props;
 
@@ -147,11 +151,10 @@ var SearchBar = React.createClass({
         style={styles.menuSearch}
         autoCapitalize='words'
         autoCorrect={false}
+        blurOnSubmit={true}
         clearButtonMode='while-editing'
         placeholder='Search for a route'
         placeholderTextColor='#BABABA'
-        onBlur={resetFilterText}
-        onFocus={resetFilterText}
         clearTextOnFocus ={true}
         returnKeyType='go'
         onChangeText={onChange} />
