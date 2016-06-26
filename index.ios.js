@@ -346,7 +346,7 @@ var ContentView = React.createClass({
       isRefreshing: true
     });
 
-    UserActions.refreshPredictions()
+    UserActions.refreshPredictions(this.props.activeRoute, this.props.selectedDirection)
       .then(() => {
         this.setState({
           isRefreshing: false,
@@ -394,7 +394,7 @@ var AllAboardReact = React.createClass({
 
   componentDidMount() {
     UserActions.listenForRefreshPredictions((() => {
-      this.handleRouteSelection(this.state.selectedRoute);
+      this.handleRouteSelection(this.state.selectedRoute, this.state.selectedDirection);
     }).bind(this));
 
 
@@ -423,13 +423,11 @@ var AllAboardReact = React.createClass({
     });
 
     api.getDirections(route).then((directions) => {
-
       this.setState({
         directions: directions,
         selectedDirection: directions[0],
       });
-
-
+      console.log(this.state.selectedDirection);
       this.getNearestStop();
     });
   },
@@ -438,14 +436,12 @@ var AllAboardReact = React.createClass({
     this.setState({
       selectedDirection: direction,
     });
-
+    console.log(this.state.selectedDirection);
     this.getNearestStop();
   },
 
   getNearestStop: function() {
-
     api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
-
       this.setState({
         selectedStop: selectedStop,
       });
@@ -637,13 +633,44 @@ var AllAboardReact = React.createClass({
 
 
 const UserActions = {
-  refreshPredictions() {
+  refreshPredictions(route, direction) {
     return new Promise((resolve, reject) => {
-      this.callback({ foo: "bar" });
+      console.log('refreshing prediction for... ' + route.rtnm + ' - ' + direction.dir);
+      // Skipping state to just grab this from the API call down there
+      // This is probably bad
+      var selectedStop;
+      // this.callback({ foo: "bar" });
 
       setTimeout(() => {
-        resolve();
-      }, 1000);
+      // Get the nearest stop because the user may have moved
+        api.getNearestStop(route, direction, (selectedStop) => {
+          console.log(route, direction);
+          console.log(selectedStop);
+        api.getPredictions(route, selectedStop).then((response) => {
+            if (response.hasOwnProperty('error')) {
+              console.log('getPredictions response has an error!');
+              this.setState({
+                predictions: null,
+                error: response['error'][0],
+              });
+            }
+            else {
+              console.log('getPredictions response seems ok');
+              console.log(response.prd[0].prdctdn + ' minutes until the bus arrives');
+              // The problem here is that I can't seem to access the state of AllAboardReact
+              this.setState({
+                predictions: response['prd'],
+                error: null,
+              });
+
+
+            }
+          });
+        });
+
+
+      resolve('success');
+    }, 500);
     });
   },
 
