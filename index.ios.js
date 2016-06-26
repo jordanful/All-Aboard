@@ -52,7 +52,7 @@ var Menu = React.createClass({
       userLocation: '',
       allRoutes: [],
       routeDataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-      filterText: '',
+      filterText: ''
       // recentRoutes:
     }
   },
@@ -134,6 +134,10 @@ var Menu = React.createClass({
 
 
 var SearchBar = React.createClass({
+  // // we should reset the filterText onFocus and onBlur, and blur when a route is selected
+  // resetFilterText: function() {
+  //   this.props.value = ''
+  // },
   render: function() {
     let { onChange } = this.props;
 
@@ -146,6 +150,8 @@ var SearchBar = React.createClass({
         clearButtonMode='while-editing'
         placeholder='Search for a route'
         placeholderTextColor='#BABABA'
+        onBlur={resetFilterText}
+        onFocus={resetFilterText}
         clearTextOnFocus ={true}
         returnKeyType='go'
         onChangeText={onChange} />
@@ -206,7 +212,7 @@ var ContentViewHeader = React.createClass({
 
     return (
       <View style={styles.contentViewHeader}>
-        <Button onPress={this.props.onLeftButtonPress} />
+        <Button onPress={this.props.onLeftButtonPress}  />
         <View style={styles.contentViewHeaderRouteNumberAndNameContainer}>
           <View style={activeRoute.rt && styles.contentViewHeaderRouteNumberContainer}>
             <Text style={styles.contentViewHeaderRouteNumber}>
@@ -397,7 +403,6 @@ var AllAboardReact = React.createClass({
       this.setState({
         predictions: predictions.prediction.prd
       });
-      console.log(this.state.predictions);
     }).bind(this));
 
 
@@ -415,8 +420,12 @@ var AllAboardReact = React.createClass({
 
   openMenu: function() {
     this.setState({
-      isMenuOpen: true,
+      filterText: '',
+      isMenuOpen: true
     });
+    // Reset the search and filteredRoutes
+    // searchInput.clear();
+
   },
 
   handleRouteSelection: function(route) {
