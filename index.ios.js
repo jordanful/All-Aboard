@@ -393,8 +393,11 @@ var AllAboardReact = React.createClass({
   },
 
   componentDidMount() {
-    UserActions.listenForRefreshPredictions((() => {
-      this.handleRouteSelection(this.state.selectedRoute, this.state.selectedDirection);
+    UserActions.listenForRefreshPredictions(((predictions) => {
+      this.setState({
+        predictions: predictions.prediction.prd
+      });
+      console.log(this.state.predictions);
     }).bind(this));
 
 
@@ -633,13 +636,14 @@ var AllAboardReact = React.createClass({
 
 
 const UserActions = {
-  refreshPredictions(route, direction) {
+  refreshPredictions(route, direction, prediction) {
     return new Promise((resolve, reject) => {
       console.log('refreshing prediction for... ' + route.rtnm + ' - ' + direction.dir);
+
       // Skipping state to just grab this from the API call down there
       // This is probably bad
       var selectedStop;
-      // this.callback({ foo: "bar" });
+
 
       setTimeout(() => {
       // Get the nearest stop because the user may have moved
@@ -649,21 +653,14 @@ const UserActions = {
         api.getPredictions(route, selectedStop).then((response) => {
             if (response.hasOwnProperty('error')) {
               console.log('getPredictions response has an error!');
-              this.setState({
-                predictions: null,
-                error: response['error'][0],
-              });
+              // TODO handle error
+
             }
             else {
               console.log('getPredictions response seems ok');
               console.log(response.prd[0].prdctdn + ' minutes until the bus arrives');
-              // The problem here is that I can't seem to access the state of AllAboardReact
-              this.setState({
-                predictions: response['prd'],
-                error: null,
-              });
-
-
+              // Should we use that listener callback?
+              this.callback({ prediction: response });
             }
           });
         });
