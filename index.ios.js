@@ -423,6 +423,8 @@ var AllAboardReact = React.createClass({
     this.setState({
       selectedRoute: route,
       isMenuOpen: false,
+      selectedStop: null,
+      predictions: null // Hide the predictions but we should show a loader
     });
 
     api.getDirections(route).then((directions) => {
@@ -438,6 +440,8 @@ var AllAboardReact = React.createClass({
   updateDirection: function(direction) {
     this.setState({
       selectedDirection: direction,
+      selectedStop: null,
+      predictions: null // Hide the predictions but we should show a loader
     });
     console.log(this.state.selectedDirection);
     this.getNearestStop();
