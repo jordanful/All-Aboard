@@ -112,9 +112,10 @@ var Menu = React.createClass({
   renderRoute: function(route) {
     return (
       <TouchableHighlight
-        onPress={() => this.props.onSelect(route) && UserActions.viewRoute(route)}
+        onPress={() => this.props.onSelect(route)
+                    && UserActions.viewRoute(route)}
         underlayColor='#0D1F42'
-        >
+      >
         <View style={styles.row}>
           <View style={styles.menuRouteNumberContainer}>
             <Text style={styles.menuRouteNumber}>
@@ -142,9 +143,10 @@ var SearchBar = React.createClass({
   // when the textinput is focused
   // we should
   // 1) reset the filtertext
-  render: function() {
-    let { onChange } = this.props;
 
+  render: function() {
+
+    let { onChange } = this.props;
     return (
       <TextInput
         ref='searchInput'
@@ -155,7 +157,7 @@ var SearchBar = React.createClass({
         clearButtonMode='while-editing'
         placeholder='Search for a route'
         placeholderTextColor='#BABABA'
-        clearTextOnFocus ={true}
+        clearTextOnFocus={true}
         returnKeyType='go'
         onChangeText={onChange} />
     );
@@ -372,6 +374,7 @@ var ContentView = React.createClass({
   }
 });
 
+
 var AllAboardReact = React.createClass({
 
   render: function() {
@@ -426,14 +429,13 @@ var AllAboardReact = React.createClass({
       filterText: '',
       isMenuOpen: true
     });
-    // Reset the search and filteredRoutes
-    // searchInput.clear();
 
   },
 
   handleRouteSelection: function(route) {
     this.setState({
       selectedRoute: route,
+      filterText: '', // this isn't working
       isMenuOpen: false,
       selectedStop: null,
       predictions: null // Hide the predictions but we should show a loader
@@ -484,8 +486,7 @@ var AllAboardReact = React.createClass({
         });
       }
     });
-  },
-
+  }
 });
 
  var Dimensions = require('Dimensions');
