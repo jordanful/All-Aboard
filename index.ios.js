@@ -4,6 +4,7 @@ var _ = require('lodash');
 var React = require('react-native');
 var SideMenu = require('react-native-side-menu');
 var api = require('/../api');
+var DismissKeyboard = require('dismissKeyboard'); // Require React Native's utility library.
 
 
 var {
@@ -113,6 +114,7 @@ var Menu = React.createClass({
     return (
       <TouchableHighlight
         onPress={() => this.props.onSelect(route)
+                    // && this.refs.searchInput.blur()
                     && UserActions.viewRoute(route)}
         underlayColor='#0D1F42'
       >
@@ -149,7 +151,7 @@ var SearchBar = React.createClass({
     let { onChange } = this.props;
     return (
       <TextInput
-        ref='searchInput'
+        //ref='searchInput'
         style={styles.menuSearch}
         autoCapitalize='words'
         autoCorrect={false}
@@ -321,6 +323,8 @@ var ContentView = React.createClass({
       <View style={styles.contentView}>
         <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
           <ScrollView
+            //https://github.com/facebook/react-native/issues/4229
+
             style={styles.container}
             activeRoute={activeRoute}
             refreshControl={
