@@ -1,8 +1,15 @@
-*Issues*
-* I am in callback hell. I should probably using 'promises'
-* I don't think I am using React best practices. Specifically, I don't know wtf 'props' are and am prob relying too heavily on state. 
+*TODO*
 
-Documentation:
+* Fix search & keyboard input interactions
+* Add loading UI when fetching and refreshing data
+* Submit!
+* Integrate recently viewed routes feature with local storage API
+* Integrate redux
+* Integrate flow
+* 'TODO' audit
+* Android
+
+CTA API docs:
 http://cl.ly/0w0340392L1B
 
 *Component list:*
@@ -16,7 +23,7 @@ http://cl.ly/0w0340392L1B
 * Menu: Displays all active routes in a list view
 * Route: an object that contain route name and number (and color which we do not use)
 * SearchBar: Receives user input and searches the RouteList
-* RecentRoutes? Displays recently selected routes at the top of RouteList (To build)
+* RecentRoutes: Displays recently selected routes at the top of RouteList
 
 *Hierarchy:*
 
@@ -31,4 +38,3 @@ http://cl.ly/0w0340392L1B
   - Prediction
   - Stop
   - Destination
- 

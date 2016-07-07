@@ -1,16 +1,15 @@
-var geolocation = {
+export default Geolocation = {
 
   geolocate(callback){
-    console.log('Geolocating user...')
-    var options = { 
+    var options = {
       enableHighAccuracy: true,
       timeout: 5000
     }
     function success(pos, location) {
       var latitude = pos.coords.latitude;
-      var longitude = pos.coords.longitude; 
+      var longitude = pos.coords.longitude;
+      // TODO maybe return an object instead of an array
       location = [latitude, longitude];
-      // console.log(location);
       return callback(location);
     }
     function error(err) {
@@ -35,9 +34,8 @@ var geolocation = {
     dist = dist * 60 * 1.1515
     if (unit=="K") { dist = dist * 1.609344 }
     if (unit=="N") { dist = dist * 0.8684 }
+
+    // TODO make sure we are returning the right type (number)
     return dist
   }
 }
-
-
-module.exports = geolocation;

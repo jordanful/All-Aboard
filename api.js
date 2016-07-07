@@ -1,37 +1,33 @@
-var geolocation = require('/../geolocation');
+import Geolocation from '/../geolocation';
 
-var baseUrl = 'http://ctabustracker.com/bustime/api/v2';
-var apiKey = 'PhX3QnZXw3LKKVU6jxc9CDpDC';
-var urlParams = '?key=' + apiKey + '&format=json';
+const baseUrl = 'http://ctabustracker.com/bustime/api/v2';
+const apiKey = 'PhX3QnZXw3LKKVU6jxc9CDpDC';
+const urlParams = '?key=' + apiKey + '&format=json';
 
-var api = {
-
+export default Api = {
   // Get list of stops, iterate through them, and return the nearest stop
   getNearestStop(route, direction, callback){
-    var closestId = 0;
 
-    geolocation.geolocate(function(location) { // Get user location
-      var closestDist = 0.00000000;
-      var nearestStop = {}
-      var userLat = location[0];
-      var userLon = location[1];
-      var url = baseUrl + '/getstops' + urlParams + '&rt=' + route.rt + '&dir=' + direction.dir;
+    // Get user location
+    Geolocation.geolocate(function(location) {
+      let shortestDistance = 0.00000000;
+      let nearestStop = {};
+      let userLat = location[0];
+      let userLon = location[1];
+      let url = baseUrl + '/getstops' + urlParams + '&rt=' + route.rt + '&dir=' + direction.dir;
       return fetch(url)
         .then((response) => response.json())
         .then((data) => {
           var data = data['bustime-response'];
-          var stopsCount = Object.keys(data.stops).length
-            for (var i = 0; i < stopsCount; i++) {
-                var stopLat = data.stops[i].lat;
-                var stopLon = data.stops[i].lon;
-                var stopId = data.stops[i].stpid;
-                var stopName = data.stops[i].stpnm;
-                var dist1 = geolocation.getDistance(userLat, userLon, stopLat, stopLon, 'K');
-                if (dist1 < closestDist || closestDist == 0.00000000) {
-                  closestId = stopId;
-                  closestDist = dist1;
-                  nearestStop = data.stops[i]
-                }
+          var numberOfStops = Object.keys(data.stops).length;
+            for (var i = 0; i < numberOfStops; i++) {
+              let stopLat = data.stops[i].lat;
+              let stopLon = data.stops[i].lon;
+              let distanceFromUserToStop = Geolocation.getDistance(userLat, userLon, stopLat, stopLon, 'K');
+              if (distanceFromUserToStop < shortestDistance || shortestDistance == 0.00000000) {
+                shortestDistance = distanceFromUserToStop;
+                nearestStop = data.stops[i];
+              }
             }
             return callback(nearestStop);
          });
@@ -39,7 +35,7 @@ var api = {
 
   },
 
-  // Get the directions for a route, North / South or East / West
+  // Get the directions for a route, either North / South or East / West
   getDirections(route){
     var url = baseUrl + '/getdirections' + urlParams + "&rt=" + route.rt;
     return fetch(url)
@@ -61,7 +57,6 @@ var api = {
   },
 
   // Get all the bus routes
-
   getAllRoutes() {
     var url = baseUrl + '/getroutes' + urlParams;
     return fetch(url)
@@ -69,5 +64,3 @@ var api = {
   }
 
 };
-
-module.exports = api;

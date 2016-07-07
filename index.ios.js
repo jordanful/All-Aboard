@@ -1,9 +1,8 @@
 'use strict';
-
+import Api from '/../api'; // TODO make this a proper module
 var _ = require('lodash');
 var React = require('react-native');
 var SideMenu = require('react-native-side-menu');
-var api = require('/../api');
 var DismissKeyboard = require('dismissKeyboard'); // Require React Native's utility library.
 
 
@@ -51,6 +50,7 @@ var Menu = React.createClass({
       selectedRoute: null,
       prediction: null,
       userLocation: '',
+      inputFocused: false,
       allRoutes: [],
       routeDataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       filterText: ''
@@ -59,7 +59,7 @@ var Menu = React.createClass({
   },
 
   getAllRoutes: function() {
-    api.getAllRoutes()
+    Api.getAllRoutes()
       .then((responseData) => responseData['bustime-response']['routes'])
       .then((routes) => this.setState({
         allRoutes: routes,
@@ -151,7 +151,7 @@ var SearchBar = React.createClass({
     let { onChange } = this.props;
     return (
       <TextInput
-        //ref='searchInput'
+        ref='searchInput'
         style={styles.menuSearch}
         autoCapitalize='words'
         autoCorrect={false}
@@ -160,7 +160,7 @@ var SearchBar = React.createClass({
         placeholder='Search for a route'
         placeholderTextColor='#BABABA'
         clearTextOnFocus={true}
-        returnKeyType='go'
+        returnKeyType='default'
         onChangeText={onChange} />
     );
   }
@@ -323,8 +323,6 @@ var ContentView = React.createClass({
       <View style={styles.contentView}>
         <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
           <ScrollView
-            //https://github.com/facebook/react-native/issues/4229
-
             style={styles.container}
             activeRoute={activeRoute}
             refreshControl={
@@ -336,6 +334,7 @@ var ContentView = React.createClass({
               />
             }
           >
+
             <Directions directions={this.props.directions} selectedDirection={this.props.selectedDirection} onChooseDirection={this.props.onChooseDirection} />
             {error &&
               <Error error={error} />
@@ -437,15 +436,17 @@ var AllAboardReact = React.createClass({
   },
 
   handleRouteSelection: function(route) {
+    // TODO blur the text input & reset the filter text
     this.setState({
       selectedRoute: route,
       filterText: '', // this isn't working
       isMenuOpen: false,
+      inputFocused: false,
       selectedStop: null,
       predictions: null // Hide the predictions but we should show a loader
     });
 
-    api.getDirections(route).then((directions) => {
+    Api.getDirections(route).then((directions) => {
       this.setState({
         directions: directions,
         selectedDirection: directions[0],
@@ -466,7 +467,7 @@ var AllAboardReact = React.createClass({
   },
 
   getNearestStop: function() {
-    api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
+    Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
       this.setState({
         selectedStop: selectedStop,
       });
@@ -476,7 +477,7 @@ var AllAboardReact = React.createClass({
   },
 
   getPredictions: function() {
-    api.getPredictions(this.state.selectedRoute, this.state.selectedStop).then((response) => {
+    Api.getPredictions(this.state.selectedRoute, this.state.selectedStop).then((response) => {
       if (response.hasOwnProperty('error')) {
         this.setState({
           predictions: null,
@@ -493,6 +494,9 @@ var AllAboardReact = React.createClass({
   }
 });
 
+////////////////////////////////////////////
+// TODO get the styles into another file //
+//////////////////////////////////////////
  var Dimensions = require('Dimensions');
  var deviceWidth = Dimensions.get('window').width;
  var deviceHeight = Dimensions.get('window').height;
@@ -668,10 +672,10 @@ const UserActions = {
 
       setTimeout(() => {
       // Get the nearest stop because the user may have moved
-        api.getNearestStop(route, direction, (selectedStop) => {
+        Api.getNearestStop(route, direction, (selectedStop) => {
           console.log(route, direction);
           console.log(selectedStop);
-        api.getPredictions(route, selectedStop).then((response) => {
+        Api.getPredictions(route, selectedStop).then((response) => {
             if (response.hasOwnProperty('error')) {
               console.log('getPredictions response has an error!');
               // TODO handle error
