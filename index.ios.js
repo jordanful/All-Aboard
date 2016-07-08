@@ -1,10 +1,4 @@
-import React from 'react-native';
-import Api from '/../api';
-import _ from 'lodash';
-import SideMenu from 'react-native-side-menu';
-import DismissKeyboard from 'dismissKeyboard';
-
-var {
+import React, {
   ActivityIndicatorIOS,
   AppRegistry,
   AppStateIOS,
@@ -19,9 +13,12 @@ var {
   TextInput,
   TouchableHighlight,
   TouchableOpacity,
-  View
-} = React;
-
+  View,
+} from 'react-native';
+import Api from '/../api';
+import _ from 'lodash';
+import SideMenu from 'react-native-side-menu';
+import DismissKeyboard from 'dismissKeyboard';
 
 var Menu = React.createClass({
   componentDidMount: function() {
