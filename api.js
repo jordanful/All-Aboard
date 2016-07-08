@@ -12,9 +12,9 @@ export default Api = {
     Geolocation.geolocate(function(location) {
       let shortestDistance = 0.00000000;
       let nearestStop = {};
-      let userLat = location[0];
-      let userLon = location[1];
-      let url = baseUrl + '/getstops' + urlParams + '&rt=' + route.rt + '&dir=' + direction.dir;
+      const userLat = location[0];
+      const userLon = location[1];
+      const url = baseUrl + '/getstops' + urlParams + '&rt=' + route.rt + '&dir=' + direction.dir;
       return fetch(url)
         .then((response) => response.json())
         .then((data) => {
