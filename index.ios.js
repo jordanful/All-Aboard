@@ -1,10 +1,9 @@
 'use strict';
-import Api from '/../api'; // TODO make this a proper module
+import Api from '/../api'; 
 var _ = require('lodash');
 var React = require('react-native');
 var SideMenu = require('react-native-side-menu');
 var DismissKeyboard = require('dismissKeyboard'); // Require React Native's utility library.
-
 
 var {
   ActivityIndicatorIOS,
@@ -495,7 +494,7 @@ var AllAboardReact = React.createClass({
 });
 
 ////////////////////////////////////////////
-// TODO get the styles into another file //
+// TODO get these styles into another file //
 //////////////////////////////////////////
  var Dimensions = require('Dimensions');
  var deviceWidth = Dimensions.get('window').width;
