@@ -1,9 +1,8 @@
-'use strict';
-import Api from '/../api'; 
-var _ = require('lodash');
-var React = require('react-native');
-var SideMenu = require('react-native-side-menu');
-var DismissKeyboard = require('dismissKeyboard'); // Require React Native's utility library.
+import React from 'react-native';
+import Api from '/../api';
+import _ from 'lodash';
+import SideMenu from 'react-native-side-menu';
+import DismissKeyboard from 'dismissKeyboard';
 
 var {
   ActivityIndicatorIOS,
