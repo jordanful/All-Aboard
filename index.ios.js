@@ -3,11 +3,11 @@ import React, {
   AppRegistry,
   AppStateIOS,
   AsyncStorage,
+  Component,
   Image,
   ListView,
   RefreshControl,
   ScrollView,
-  StyleSheet,
   StatusBarIOS,
   Text,
   TextInput,
@@ -15,11 +15,13 @@ import React, {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Api from '/../api';
+import Api from '/../src/api/api';
 import _ from 'lodash';
 import SideMenu from 'react-native-side-menu';
 import DismissKeyboard from 'dismissKeyboard';
+import Styles from '/../src/styles/styles.ios'
 
+// TODO move all component vars to classes
 var Menu = React.createClass({
   componentDidMount: function() {
     this.getAllRoutes(),
@@ -69,7 +71,7 @@ var Menu = React.createClass({
       : allRoutes;
 
     return (
-      <View style={styles.menuContainer}>
+      <View style={Styles.menuContainer}>
         <SearchBar onChange={this._onChange} />
         <ListView
           // renderHeader={{
@@ -113,13 +115,13 @@ var Menu = React.createClass({
                     && UserActions.viewRoute(route)}
         underlayColor='#0D1F42'
       >
-        <View style={styles.row}>
-          <View style={styles.menuRouteNumberContainer}>
-            <Text style={styles.menuRouteNumber}>
+        <View style={Styles.row}>
+          <View style={Styles.menuRouteNumberContainer}>
+            <Text style={Styles.menuRouteNumber}>
               {route.rt}
             </Text>
           </View>
-          <Text style={styles.menuRouteName}>
+          <Text style={Styles.menuRouteName}>
             {route.rtnm}
           </Text>
         </View>
@@ -147,7 +149,7 @@ var SearchBar = React.createClass({
     return (
       <TextInput
         ref='searchInput'
-        style={styles.menuSearch}
+        style={Styles.menuSearch}
         autoCapitalize='words'
         autoCorrect={false}
         blurOnSubmit={true}
@@ -180,10 +182,10 @@ var Directions = React.createClass({
     var directions = this.props.directions || [];
 
     return (
-      <View style={styles.directions}>
+      <View style={Styles.directions}>
         { directions.map((direction, i) =>
-          <TouchableOpacity key={i} style={styles.direction} onPress={() => this.props.onChooseDirection(direction)}>
-            <Text style={direction.dir == this.props.selectedDirection.dir ? styles.directionTextActive : styles.directionText}>
+          <TouchableOpacity key={i} style={Styles.direction} onPress={() => this.props.onChooseDirection(direction)}>
+            <Text style={direction.dir == this.props.selectedDirection.dir ? Styles.directionTextActive : Styles.directionText}>
               {this._prettyName(direction.dir)}
             </Text>
           </TouchableOpacity>
@@ -213,19 +215,19 @@ var ContentViewHeader = React.createClass({
     var activeRoute = this.props.activeRoute || { rtnm: "Choose Route", rt: "" };
 
     return (
-      <View style={styles.contentViewHeader}>
+      <View style={Styles.contentViewHeader}>
         <Button onPress={this.props.onLeftButtonPress}  />
-        <View style={styles.contentViewHeaderRouteNumberAndNameContainer}>
-          <View style={activeRoute.rt && styles.contentViewHeaderRouteNumberContainer}>
-            <Text style={styles.contentViewHeaderRouteNumber}>
+        <View style={Styles.contentViewHeaderRouteNumberAndNameContainer}>
+          <View style={activeRoute.rt && Styles.contentViewHeaderRouteNumberContainer}>
+            <Text style={Styles.contentViewHeaderRouteNumber}>
               {activeRoute.rt}
             </Text>
           </View>
-          <Text style={styles.contentViewHeaderRouteName}>
+          <Text style={Styles.contentViewHeaderRouteName}>
             {activeRoute.rtnm}
           </Text>
         </View>
-        <View style={styles.contentViewHeaderDummyRightSpace}></View>
+        <View style={Styles.contentViewHeaderDummyRightSpace}></View>
       </View>
     );
   }
@@ -235,7 +237,7 @@ class Button extends React.Component  {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
-        <Image style={styles.contentViewHeaderIcon} source={require('./assets/images/contentViewHeaderIcon.png')} />
+        <Image style={Styles.contentViewHeaderIcon} source={require('./assets/images/contentViewHeaderIcon.png')} />
       </TouchableOpacity>
     );
   }
@@ -249,8 +251,8 @@ var Minutes = React.createClass({
 
     return (
       <View>
-        <Text style={styles.minutes}>{prediction.prdctdn}</Text>
-        <Text style={styles.minutesLabel}>minutes</Text>
+        <Text style={Styles.minutes}>{prediction.prdctdn}</Text>
+        <Text style={Styles.minutesLabel}>minutes</Text>
       </View>
       );
   }
@@ -262,7 +264,7 @@ var Stop = React.createClass({
     if (!stop) { return null; }
 
     return (
-      <Text style={styles.stop}>{stop.stpnm}</Text>
+      <Text style={Styles.stop}>{stop.stpnm}</Text>
     );
   }
 });
@@ -273,7 +275,7 @@ var Destination = React.createClass({
     if (!prediction) { return null; }
 
     return(
-      <Text style={styles.destination}>To {prediction.des}</Text>
+      <Text style={Styles.destination}>To {prediction.des}</Text>
     );
   }
 });
@@ -285,7 +287,7 @@ var NextPrediction = React.createClass({
     if (!prediction) { return null };
 
     return(
-      <Text style={styles.nextPrediction}>{prediction.prdctdn} minutes</Text>
+      <Text style={Styles.nextPrediction}>{prediction.prdctdn} minutes</Text>
     );
   }
 });
@@ -296,7 +298,7 @@ var Error = React.createClass({
     let { error } = this.props;
 
     return (
-      <Text style={styles.nextPrediction}>
+      <Text style={Styles.nextPrediction}>
         {error.msg}
       </Text>
     )
@@ -315,10 +317,10 @@ var ContentView = React.createClass({
     let { activeRoute, error } = this.props;
 
     return (
-      <View style={styles.contentView}>
+      <View style={Styles.contentView}>
         <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
           <ScrollView
-            style={styles.container}
+            style={Styles.container}
             activeRoute={activeRoute}
             refreshControl={
               <RefreshControl
@@ -372,13 +374,19 @@ var ContentView = React.createClass({
   }
 });
 
-
 var AllAboardReact = React.createClass({
-
   render: function() {
+
     var menu = (
       <Menu activeRoute={this.state.selectedRoute} onSelect={this.handleRouteSelection} />
     );
+
+    // TODO refactor this into a module that styles can use, too
+    // make sure Dimensions are set in render function, in case we support
+    // landscape orientation or something in the future
+    const Dimensions = require('Dimensions');
+    const deviceWidth = Dimensions.get('window').width;
+    const deviceHeight = Dimensions.get('window').height;
 
     return (
       <SideMenu
@@ -488,172 +496,6 @@ var AllAboardReact = React.createClass({
     });
   }
 });
-
-////////////////////////////////////////////
-// TODO get these styles into another file //
-//////////////////////////////////////////
- var Dimensions = require('Dimensions');
- var deviceWidth = Dimensions.get('window').width;
- var deviceHeight = Dimensions.get('window').height;
-
- var styles = StyleSheet.create({
-  contentView: {
-    flex: 1,
-  },
-  menuContainer: {
-    backgroundColor: '#132C5B',
-    flex: 1,
-  },
-  menuSearch: {
-    backgroundColor: '#FFFFFF',
-    height: 40,
-    padding: 11,
-    margin: 10,
-    marginTop: 25,
-    marginBottom: 15,
-    width: deviceWidth * 0.74,
-    borderRadius: 22,
-    color: '#333',
-    fontSize: 19,
-    fontFamily: 'ProximaNovaLight'
-  },
-  row: {
-    flexDirection: 'row',
-    flex: 1,
-    padding: 10
-  },
-  menuRouteNumberContainer: {
-    backgroundColor: '#FDC053',
-    width: 35,
-    height: 24,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  menuRouteNumber: {
-    color: '#664100',
-    fontWeight: '600',
-    alignSelf: 'center',
-    fontFamily: 'ProximaNovaSemiBold'
-  },
-  menuRouteName: {
-    color: 'white',
-    fontSize: 22,
-    fontWeight: '300',
-    marginLeft: 12,
-    fontFamily: 'ProximaNovaLight'
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#28519E'
-  },
-  contentViewHeader: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    height: 64
-  },
-  contentViewHeaderIcon: {
-    marginLeft: 18,
-    marginTop: 10
-  },
-  contentViewHeaderDummyRightSpace: {
-    marginRight: 18,
-    marginTop: 10,
-    width: 25,
-    height: 19
-  },
-  contentViewHeaderRouteNumberAndNameContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  contentViewHeaderRouteNumberContainer: {
-    backgroundColor: '#FDC053',
-    width: 35,
-    height: 24,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10
-  },
-  contentViewHeaderRouteNumber: {
-    color: '#664100',
-    fontWeight: '600',
-    alignSelf: 'center',
-    fontFamily: 'ProximaNovaSemiBold'
-  },
-  contentViewHeaderRouteName: {
-    color: '#274A8D',
-    fontSize: 22,
-    marginLeft: 10,
-    marginTop: 10,
-    fontFamily: 'ProximaNovaLight'
-  },
-  minutes: {
-    fontSize: 140,
-    fontWeight: '100',
-    color: 'white',
-    marginTop: 40,
-    alignSelf: 'center',
-    fontFamily: 'ProximaNovaThin'
-  },
-  minutesLabel: {
-    fontSize: 24,
-    color: 'white',
-    opacity: 0.5,
-    alignSelf: 'center',
-    fontFamily: 'ProximaNovaLight'
-  },
-  nextPrediction: {
-    color: 'white',
-    marginTop: 60,
-    opacity: 0.7,
-    fontSize: 22,
-    alignSelf: 'center',
-    fontFamily: 'ProximaNovaLight'
-  },
-  stop: {
-    color: 'white',
-    marginTop: 45,
-    fontSize: 22,
-    alignSelf: 'center',
-    fontFamily: 'ProximaNovaLight'
-  },
-  destination: {
-    color: 'white',
-    opacity: 0.5,
-    fontSize: 19,
-    marginTop: 10,
-    alignSelf: 'center',
-    fontFamily: 'ProximaNovaLight'
-  },
-  directions: {
-    flexDirection: 'row',
-    marginTop: 20,
-  },
-  direction: {
-    flex: 0.5,
-    height: 44,
-    alignItems: 'center'
-  },
-  directionText: {
-    alignSelf: 'center',
-    fontSize: 30,
-    color: '#6884BA',
-    fontFamily: 'ProximaNovaLight'
-  },
-  directionTextActive: {
-    alignSelf: 'center',
-    fontSize: 30,
-    color: 'white',
-    fontFamily: 'ProximaNovaLight'
-  }
-});
-
 
 const UserActions = {
   refreshPredictions(route, direction, prediction) {
