@@ -21,29 +21,22 @@ import SideMenu from 'react-native-side-menu';
 import DismissKeyboard from 'dismissKeyboard';
 import Styles from '/../src/styles/styles.ios'
 
-// TODO move all component vars to classes
-var Menu = React.createClass({
-  componentDidMount: function() {
-    this.getAllRoutes(),
-    AppStateIOS.addEventListener('change', this.handleAppStateChange);
+// TODO this might make things easier
+// class BaseComponent extends React.Component {
+//   _bind(...methods) {
+//   methods.forEach( (method) => this[method] = this[method].bind(this) );
+//  }
+// }
 
-    AsyncStorage.getItem("recentRoutes").then((value) => {
-      this.setState({recentRoutes: value});
-    }).done();
-  },
 
-  componentWillUnmount: function() {
-    AppStateIOS.removeEventListener('change', this.handleAppStateChange);
-  },
-
-  handleAppStateChange: function(state) {
-    if (!this.state.loaded) {
-      this.getAllRoutes()
-    }
-  },
-
-  getInitialState: function() {
-    return {
+class Menu extends React.Component {
+  constructor(props) {
+    super(props);
+    this._onChange = this._onChange.bind(this);
+    this._filterRoutes = this._filterRoutes.bind(this);
+    this.getAllRoutes = this.getAllRoutes.bind(this);
+    this.renderRoute = this.renderRoute.bind(this);
+    this.state = {
       selectedRoute: null,
       prediction: null,
       userLocation: '',
@@ -52,20 +45,39 @@ var Menu = React.createClass({
       routeDataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       filterText: ''
       // recentRoutes:
-    }
-  },
+    };
 
-  getAllRoutes: function() {
+    // this._bind('_onChange', '_filterRoutes', 'getAllRoutes')
+  }
+
+  componentDidMount() {
+    this.getAllRoutes(),
+    AppStateIOS.addEventListener('change', this.handleAppStateChange);
+    AsyncStorage.getItem("recentRoutes").then((value) => {
+      this.setState({recentRoutes: value});
+    }).done();
+  }
+
+  componentWillUnmount() {
+    AppStateIOS.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  handleAppStateChange(state) {
+    if (!this.state.loaded) {
+      this.getAllRoutes()
+    }
+  }
+
+  getAllRoutes() {
     Api.getAllRoutes()
       .then((responseData) => responseData['bustime-response']['routes'])
       .then((routes) => this.setState({
         allRoutes: routes,
       }));
-  },
+  }
 
-  render: function() {
+  render() {
     let { allRoutes, filterText } = this.state;
-
     let filteredRoutes = filterText.length > 0
       ? this._filterRoutes(allRoutes, filterText)
       : allRoutes;
@@ -82,15 +94,15 @@ var Menu = React.createClass({
         />
       </View>
     );
-  },
+  }
 
-  _onChange: function(text) {
+  _onChange(text) {
     this.setState({
       filterText: text,
     });
-  },
+  }
 
-  _filterRoutes: function(routes, filterText) {
+  _filterRoutes(routes, filterText) {
     return _.filter(routes, (route) => {
       let filterTextLowercase = filterText.toLowerCase();
       let routeNameLowercase = route.rtnm.toLowerCase();
@@ -105,14 +117,13 @@ var Menu = React.createClass({
 
       return false;
     });
-  },
+  }
 
-  renderRoute: function(route) {
+  renderRoute(route) {
     return (
       <TouchableHighlight
-        onPress={() => this.props.onSelect(route)
-                    // && this.refs.searchInput.blur()
-                    && UserActions.viewRoute(route)}
+        onPress={() => this.props.onSelect(route)}
+                    // && UserActions.viewRoute(route)}
         underlayColor='#0D1F42'
       >
         <View style={Styles.row}>
@@ -128,12 +139,10 @@ var Menu = React.createClass({
       </TouchableHighlight>
     );
   }
+}
 
-});
+class SearchBar extends React.Component {
 
-
-
-var SearchBar = React.createClass({
   // when a route is selected or the menu button is tapped
   // we should
   // 1) blur the field
@@ -143,8 +152,7 @@ var SearchBar = React.createClass({
   // we should
   // 1) reset the filtertext
 
-  render: function() {
-
+  render() {
     let { onChange } = this.props;
     return (
       <TextInput
@@ -161,7 +169,7 @@ var SearchBar = React.createClass({
         onChangeText={onChange} />
     );
   }
-});
+}
 // var RecentlyViewedRoutes = React.createClass({
 //   render: function() {
 //     return (
@@ -177,8 +185,13 @@ var SearchBar = React.createClass({
 //     );
 //   }
 // });
-var Directions = React.createClass({
-  render: function() {
+class Directions extends React.Component {
+  constructor() {
+    super();
+    this._prettyName = this._prettyName.bind(this);
+  }
+
+  render() {
     var directions = this.props.directions || [];
 
     return (
@@ -192,9 +205,9 @@ var Directions = React.createClass({
         )}
       </View>
     );
-  },
+  }
 
-  _prettyName: function(fullDirectionName) {
+  _prettyName(fullDirectionName) {
     var DIRECTION_NAME_MAP = {
       "Northbound" : "North",
       "Southbound" : "South",
@@ -208,11 +221,11 @@ var Directions = React.createClass({
 
     return DIRECTION_NAME_MAP[fullDirectionName];
   }
-});
+}
 
-var ContentViewHeader = React.createClass({
-  render: function() {
-    var activeRoute = this.props.activeRoute || { rtnm: "Choose Route", rt: "" };
+class ContentViewHeader extends React.Component {
+  render() {
+    let activeRoute = this.props.activeRoute || { rtnm: "Choose Route", rt: "" };
 
     return (
       <View style={Styles.contentViewHeader}>
@@ -231,7 +244,7 @@ var ContentViewHeader = React.createClass({
       </View>
     );
   }
-});
+}
 
 class Button extends React.Component  {
   render() {
@@ -243,9 +256,8 @@ class Button extends React.Component  {
   }
 }
 
-
-var Minutes = React.createClass({
-  render: function() {
+class Minutes extends React.Component {
+  render() {
     var prediction = this.props.predictions && this.props.predictions[0];
     if (!prediction) { return null };
 
@@ -256,10 +268,10 @@ var Minutes = React.createClass({
       </View>
       );
   }
-});
+}
 
-var Stop = React.createClass({
-  render: function() {
+class Stop extends React.Component {
+  render() {
     var stop = this.props.stop;
     if (!stop) { return null; }
 
@@ -267,10 +279,10 @@ var Stop = React.createClass({
       <Text style={Styles.stop}>{stop.stpnm}</Text>
     );
   }
-});
+}
 
-var Destination = React.createClass({
-  render: function() {
+class Destination extends React.Component {
+  render() {
     var prediction = this.props.predictions && this.props.predictions[0];
     if (!prediction) { return null; }
 
@@ -278,44 +290,42 @@ var Destination = React.createClass({
       <Text style={Styles.destination}>To {prediction.des}</Text>
     );
   }
-});
+}
 
-var NextPrediction = React.createClass({
-  render: function() {
-
-    var prediction = this.props.prediction;
+class NextPrediction extends React.Component {
+  render() {
+    let prediction = this.props.prediction;
     if (!prediction) { return null };
-
     return(
       <Text style={Styles.nextPrediction}>{prediction.prdctdn} minutes</Text>
     );
   }
-});
+}
 
-var Error = React.createClass({
-
-  render: function() {
+class Error extends React.Component {
+  render() {
     let { error } = this.props;
-
     return (
       <Text style={Styles.nextPrediction}>
         {error.msg}
       </Text>
     )
   }
-});
+}
 
-var ContentView = React.createClass({
-  getInitialState: function() {
-    return {
-        predictions: this.props.predictions,
+class ContentView extends React.Component {
+  constructor(props) {
+    super(props);
+    this._onRefresh = this._onRefresh.bind(this);
+    this.state = {
+        predictions: props.predictions,
         isRefreshing: false,
-      }
-  },
+      };
+    // this._bind('_onRefresh');
+  }
 
-  render: function() {
+  render() {
     let { activeRoute, error } = this.props;
-
     return (
       <View style={Styles.contentView}>
         <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
@@ -348,15 +358,13 @@ var ContentView = React.createClass({
             }
           </ScrollView>
       </View>
-
       );
-  },
+  }
 
   _onRefresh() {
     this.setState({
       isRefreshing: true
     });
-
     UserActions.refreshPredictions(this.props.activeRoute, this.props.selectedDirection)
       .then(() => {
         this.setState({
@@ -370,23 +378,31 @@ var ContentView = React.createClass({
           isRefreshing: false,
         });
       });
-
   }
-});
+}
 
-var AllAboardReact = React.createClass({
-  render: function() {
+class AllAboardReact extends React.Component {
 
-    var menu = (
-      <Menu activeRoute={this.state.selectedRoute} onSelect={this.handleRouteSelection} />
-    );
+  constructor() {
+    super();
+    this.openMenu = this.openMenu.bind(this);
+    this.handleRouteSelection = this.handleRouteSelection.bind(this);
+    this.updateDirection = this.updateDirection.bind(this);
+    this.getNearestStop = this.getNearestStop.bind(this);
+    this.getPredictions = this.getPredictions.bind(this);
+    this.state = {isMenuOpen: true}
+  }
 
+  render() {
     // TODO refactor this into a module that styles can use, too
     // make sure Dimensions are set in render function, in case we support
     // landscape orientation or something in the future
     const Dimensions = require('Dimensions');
     const deviceWidth = Dimensions.get('window').width;
     const deviceHeight = Dimensions.get('window').height;
+    const menu = (
+        <Menu activeRoute={this.state.selectedRoute} onSelect={this.handleRouteSelection} />
+    );
 
     return (
       <SideMenu
@@ -408,7 +424,7 @@ var AllAboardReact = React.createClass({
           />
       </SideMenu>
     );
-  },
+  }
 
   componentDidMount() {
     UserActions.listenForRefreshPredictions(((predictions) => {
@@ -417,28 +433,20 @@ var AllAboardReact = React.createClass({
       });
     }).bind(this));
 
-
     // UserActions.listenForRouteViewed(() => {
     //   //
     //   // AsyncStorage.setItem(...);
     // });
-  },
+  }
 
-  getInitialState: function() {
-    return {
-      isMenuOpen: true,
-    };
-  },
-
-  openMenu: function() {
+  openMenu() {
     this.setState({
       filterText: '',
       isMenuOpen: true
     });
+  }
 
-  },
-
-  handleRouteSelection: function(route) {
+  handleRouteSelection(route) {
     // TODO blur the text input & reset the filter text
     this.setState({
       selectedRoute: route,
@@ -457,9 +465,9 @@ var AllAboardReact = React.createClass({
       console.log(this.state.selectedDirection);
       this.getNearestStop();
     });
-  },
+  }
 
-  updateDirection: function(direction) {
+  updateDirection(direction) {
     this.setState({
       selectedDirection: direction,
       selectedStop: null,
@@ -467,9 +475,9 @@ var AllAboardReact = React.createClass({
     });
     console.log(this.state.selectedDirection);
     this.getNearestStop();
-  },
+  }
 
-  getNearestStop: function() {
+  getNearestStop() {
     Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
       this.setState({
         selectedStop: selectedStop,
@@ -477,9 +485,9 @@ var AllAboardReact = React.createClass({
 
       this.getPredictions();
     });
-  },
+  }
 
-  getPredictions: function() {
+  getPredictions() {
     Api.getPredictions(this.state.selectedRoute, this.state.selectedStop).then((response) => {
       if (response.hasOwnProperty('error')) {
         this.setState({
@@ -495,7 +503,7 @@ var AllAboardReact = React.createClass({
       }
     });
   }
-});
+}
 
 const UserActions = {
   refreshPredictions(route, direction, prediction) {
@@ -505,7 +513,6 @@ const UserActions = {
       // Skipping state to just grab this from the API call down there
       // This is probably bad
       var selectedStop;
-
 
       setTimeout(() => {
       // Get the nearest stop because the user may have moved
@@ -526,8 +533,6 @@ const UserActions = {
             }
           });
         });
-
-
       resolve('success');
     }, 500);
     });
@@ -537,8 +542,5 @@ const UserActions = {
     this.callback = callback;
   }
 };
-
-
-
 
 AppRegistry.registerComponent('AllAboardReact', () => AllAboardReact);
