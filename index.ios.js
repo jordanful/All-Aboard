@@ -4,240 +4,20 @@ import React, {
   AppStateIOS,
   AsyncStorage,
   Component,
-  Image,
   RefreshControl,
   ScrollView,
   StatusBarIOS,
   Text,
-  TouchableHighlight,
-  TouchableOpacity,
   View,
 } from 'react-native';
-
 import Menu from '/../src/components/menu';
-import Api from '/../src/api/api';
-import _ from 'lodash';
 import SideMenu from 'react-native-side-menu';
+import ContentView from '/../src/components/content-view'
+import UserActions from '/../src/actions/user.js';
 import DismissKeyboard from 'dismissKeyboard';
 import Styles from '/../src/styles/styles.ios'
-
-// TODO this might make things easier
-// class BaseComponent extends React.Component {
-//   _bind(...methods) {
-//   methods.forEach( (method) => this[method] = this[method].bind(this) );
-//  }
-// }
-
-// var RecentlyViewedRoutes = React.createClass({
-//   render: function() {
-//     return (
-//       <Text>
-//         66
-//       </Text>
-//       <Text>
-//         56
-//       </Text>
-//       <Text>
-//         12-B
-//       </Text>
-//     );
-//   }
-// });
-class Directions extends React.Component {
-  constructor() {
-    super();
-    this._prettyName = this._prettyName.bind(this);
-  }
-
-  render() {
-    var directions = this.props.directions || [];
-
-    return (
-      <View style={Styles.directions}>
-        { directions.map((direction, i) =>
-          <TouchableOpacity key={i} style={Styles.direction} onPress={() => this.props.onChooseDirection(direction)}>
-            <Text style={direction.dir == this.props.selectedDirection.dir ? Styles.directionTextActive : Styles.directionText}>
-              {this._prettyName(direction.dir)}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </View>
-    );
-  }
-
-  _prettyName(fullDirectionName) {
-    var DIRECTION_NAME_MAP = {
-      "Northbound" : "North",
-      "Southbound" : "South",
-      "Eastbound"  : "East",
-      "Westbound"  : "West",
-      "North Bound" : "North",
-      "South Bound" : "South",
-      "East Bound"  : "East",
-      "West Bound"  : "West",
-    };
-
-    return DIRECTION_NAME_MAP[fullDirectionName];
-  }
-}
-
-class ContentViewHeader extends React.Component {
-  render() {
-    let activeRoute = this.props.activeRoute || { rtnm: "Choose Route", rt: "" };
-
-    return (
-      <View style={Styles.contentViewHeader}>
-        <Button onPress={this.props.onLeftButtonPress}  />
-        <View style={Styles.contentViewHeaderRouteNumberAndNameContainer}>
-          <View style={activeRoute.rt && Styles.contentViewHeaderRouteNumberContainer}>
-            <Text style={Styles.contentViewHeaderRouteNumber}>
-              {activeRoute.rt}
-            </Text>
-          </View>
-          <Text style={Styles.contentViewHeaderRouteName}>
-            {activeRoute.rtnm}
-          </Text>
-        </View>
-        <View style={Styles.contentViewHeaderDummyRightSpace}></View>
-      </View>
-    );
-  }
-}
-
-class Button extends React.Component  {
-  render() {
-    return (
-      <TouchableOpacity onPress={this.props.onPress}>
-        <Image style={Styles.contentViewHeaderIcon} source={require('./assets/images/contentViewHeaderIcon.png')} />
-      </TouchableOpacity>
-    );
-  }
-}
-
-class Minutes extends React.Component {
-  render() {
-    var prediction = this.props.predictions && this.props.predictions[0];
-    if (!prediction) { return null };
-
-    return (
-      <View>
-        <Text style={Styles.minutes}>{prediction.prdctdn}</Text>
-        <Text style={Styles.minutesLabel}>minutes</Text>
-      </View>
-      );
-  }
-}
-
-class Stop extends React.Component {
-  render() {
-    var stop = this.props.stop;
-    if (!stop) { return null; }
-
-    return (
-      <Text style={Styles.stop}>{stop.stpnm}</Text>
-    );
-  }
-}
-
-class Destination extends React.Component {
-  render() {
-    var prediction = this.props.predictions && this.props.predictions[0];
-    if (!prediction) { return null; }
-
-    return(
-      <Text style={Styles.destination}>To {prediction.des}</Text>
-    );
-  }
-}
-
-class NextPrediction extends React.Component {
-  render() {
-    let prediction = this.props.prediction;
-    if (!prediction) { return null };
-    return(
-      <Text style={Styles.nextPrediction}>{prediction.prdctdn} minutes</Text>
-    );
-  }
-}
-
-class Error extends React.Component {
-  render() {
-    let { error } = this.props;
-    return (
-      <Text style={Styles.nextPrediction}>
-        {error.msg}
-      </Text>
-    )
-  }
-}
-
-class ContentView extends React.Component {
-  constructor(props) {
-    super(props);
-    this._onRefresh = this._onRefresh.bind(this);
-    this.state = {
-        predictions: props.predictions,
-        isRefreshing: false,
-      };
-    // this._bind('_onRefresh');
-  }
-
-  render() {
-    let { activeRoute, error } = this.props;
-    return (
-      <View style={Styles.contentView}>
-        <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
-          <ScrollView
-            style={Styles.container}
-            activeRoute={activeRoute}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.isRefreshing}
-                onRefresh={this._onRefresh}
-                tintColor="#FFF"
-                title=""
-              />
-            }
-          >
-
-            <Directions directions={this.props.directions} selectedDirection={this.props.selectedDirection} onChooseDirection={this.props.onChooseDirection} />
-            {error &&
-              <Error error={error} />
-            }
-
-            {!error &&
-              <View>
-                <Minutes predictions={this.props.predictions} />
-                <Stop stop={this.props.selectedStop} />
-                <Destination predictions={this.props.predictions} />
-                <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
-                <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
-              </View>
-            }
-          </ScrollView>
-      </View>
-      );
-  }
-
-  _onRefresh() {
-    this.setState({
-      isRefreshing: true
-    });
-    UserActions.refreshPredictions(this.props.activeRoute, this.props.selectedDirection)
-      .then(() => {
-        this.setState({
-          isRefreshing: false,
-        });
-      })
-      .catch(() => {
-        alert("Oops! Please try again.");
-
-        this.setState({
-          isRefreshing: false,
-        });
-      });
-  }
-}
+import Api from '/../src/api/api';
+import _ from 'lodash';
 
 class AllAboardReact extends React.Component {
 
@@ -252,9 +32,6 @@ class AllAboardReact extends React.Component {
   }
 
   render() {
-    // TODO refactor this into a module that styles can use, too
-    // make sure Dimensions are set in render function, in case we support
-    // landscape orientation or something in the future
     const Dimensions = require('Dimensions');
     const deviceWidth = Dimensions.get('window').width;
     const deviceHeight = Dimensions.get('window').height;
@@ -320,7 +97,6 @@ class AllAboardReact extends React.Component {
         directions: directions,
         selectedDirection: directions[0],
       });
-      console.log(this.state.selectedDirection);
       this.getNearestStop();
     });
   }
@@ -331,7 +107,6 @@ class AllAboardReact extends React.Component {
       selectedStop: null,
       predictions: null // Hide the predictions but we should show a loader
     });
-    console.log(this.state.selectedDirection);
     this.getNearestStop();
   }
 
@@ -362,43 +137,5 @@ class AllAboardReact extends React.Component {
     });
   }
 }
-
-const UserActions = {
-  refreshPredictions(route, direction, prediction) {
-    return new Promise((resolve, reject) => {
-      console.log('refreshing prediction for... ' + route.rtnm + ' - ' + direction.dir);
-
-      // Skipping state to just grab this from the API call down there
-      // This is probably bad
-      var selectedStop;
-
-      setTimeout(() => {
-      // Get the nearest stop because the user may have moved
-        Api.getNearestStop(route, direction, (selectedStop) => {
-          console.log(route, direction);
-          console.log(selectedStop);
-        Api.getPredictions(route, selectedStop).then((response) => {
-            if (response.hasOwnProperty('error')) {
-              console.log('getPredictions response has an error!');
-              // TODO handle error
-
-            }
-            else {
-              console.log('getPredictions response seems ok');
-              console.log(response.prd[0].prdctdn + ' minutes until the bus arrives');
-              // Should we use that listener callback?
-              this.callback({ prediction: response });
-            }
-          });
-        });
-      resolve('success');
-    }, 500);
-    });
-  },
-
-  listenForRefreshPredictions(callback) {
-    this.callback = callback;
-  }
-};
 
 AppRegistry.registerComponent('AllAboardReact', () => AllAboardReact);
