@@ -17,7 +17,6 @@ import UserActions from '/../src/actions/user.js';
 import DismissKeyboard from 'dismissKeyboard';
 import Styles from '/../src/styles/styles.ios'
 import Api from '/../src/api/api';
-import _ from 'lodash';
 
 class AllAboardReact extends React.Component {
 
@@ -115,7 +114,6 @@ class AllAboardReact extends React.Component {
       this.setState({
         selectedStop: selectedStop,
       });
-
       this.getPredictions();
     });
   }

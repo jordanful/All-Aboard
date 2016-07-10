@@ -7,7 +7,8 @@ import React, {
   TouchableHighlight,
   View,
 } from 'react-native';
-import SearchBar from '/../src/components/search-bar';
+import SearchInput from '/../src/components/search-input';
+import _ from 'lodash';
 
 export default class Menu extends React.Component {
   constructor(props) {
@@ -64,7 +65,7 @@ export default class Menu extends React.Component {
 
     return (
       <View style={Styles.menuContainer}>
-        <SearchBar onChange={this._onChange} />
+        <SearchInput onChange={this._onChange} />
         <ListView
           // renderHeader={{
           //   // <RecentlyViewedRoutes routes={this.props.recentlyViewedRoutes} />

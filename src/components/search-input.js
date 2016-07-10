@@ -4,7 +4,7 @@ import React, {
   TextInput,
 } from 'react-native';
 
-export default class SearchBar extends React.Component {
+export default class SearchInput extends React.Component {
 
   // when a route is selected or the menu button is tapped
   // we should
