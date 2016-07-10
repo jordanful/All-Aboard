@@ -1,15 +1,14 @@
 export default Geolocation = {
-
   geolocate(callback){
     var options = {
       enableHighAccuracy: true,
       timeout: 5000
     }
     function success(pos, location) {
-      const latitude = pos.coords.latitude;
-      const longitude = pos.coords.longitude;
-      // TODO maybe return an object instead of an array
-      location = [latitude, longitude];
+      location = {
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude,
+      };
       return callback(location);
     }
     function error(err) {
