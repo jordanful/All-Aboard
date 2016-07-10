@@ -166,12 +166,10 @@ export default class ContentView extends React.Component {
               />
             }
           >
-
             <Directions directions={this.props.directions} selectedDirection={this.props.selectedDirection} onChooseDirection={this.props.onChooseDirection} />
             {error &&
               <Error error={error} />
             }
-
             {!error &&
               <View>
                 <Minutes predictions={this.props.predictions} />

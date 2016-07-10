@@ -1,12 +1,10 @@
 import React, {
   ActivityIndicatorIOS,
   AppRegistry,
-  AppStateIOS,
   AsyncStorage,
   Component,
   RefreshControl,
   ScrollView,
-  StatusBarIOS,
   Text,
   View,
 } from 'react-native';
@@ -19,7 +17,6 @@ import Styles from '/../src/styles/styles.ios'
 import Api from '/../src/api/api';
 
 class AllAboardReact extends React.Component {
-
   constructor() {
     super();
     this.openMenu = this.openMenu.bind(this);
@@ -37,7 +34,6 @@ class AllAboardReact extends React.Component {
     const menu = (
         <Menu activeRoute={this.state.selectedRoute} onSelect={this.handleRouteSelection} />
     );
-
     return (
       <SideMenu
         animation='spring'
