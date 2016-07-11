@@ -78,24 +78,25 @@ class AllAboardReact extends React.Component {
 
   openMenu() {
     this.setState({
-      filterText: '',
       isMenuOpen: true
     });
   }
+
   // TODO maybe move this to actions
   handleRouteSelection(route) {
     dismissKeyboard(); // kind of a hack
-    console.log(this.state);
     // TODO blur the text input & reset the filter text
     this.setState({
       selectedRoute: route,
-      filterText: '', // this isn't working
+      filterText: '', // need to fix this 
       isMenuOpen: false,
       inputFocused: false,
       selectedStop: null,
       predictions: null, // Hide the predictions but we should show a loader
       isLoading: true,
     });
+    console.log(this.state.filterText + ' is the filter text');
+
 
     Api.getDirections(route).then((directions) => {
       this.setState({
