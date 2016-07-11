@@ -13,7 +13,7 @@ import SideMenu from 'react-native-side-menu';
 import ContentView from '/../src/components/content-view'
 import UserActions from '/../src/actions/user.js';
 import DismissKeyboard from 'dismissKeyboard';
-import Styles from '/../src/styles/styles.ios'
+import Styles from '/../src/styles/styles.ios';
 import Api from '/../src/api/api';
 
 class AllAboardReact extends React.Component {
@@ -24,7 +24,10 @@ class AllAboardReact extends React.Component {
     this.updateDirection = this.updateDirection.bind(this);
     this.getNearestStop = this.getNearestStop.bind(this);
     this.getPredictions = this.getPredictions.bind(this);
-    this.state = {isMenuOpen: true}
+    this.state = {
+      isMenuOpen: true,
+      isLoading: false,
+    }
   }
 
   render() {
@@ -75,16 +78,18 @@ class AllAboardReact extends React.Component {
       isMenuOpen: true
     });
   }
-
+  // TODO maybe move this to actions
   handleRouteSelection(route) {
+    console.log(this.state);
     // TODO blur the text input & reset the filter text
     this.setState({
       selectedRoute: route,
       filterText: '', // this isn't working
       isMenuOpen: false,
       inputFocused: false,
-      selectedStop: null,
-      predictions: null // Hide the predictions but we should show a loader
+      // selectedStop: null,
+      // predictions: null, // Hide the predictions but we should show a loader
+      isLoading: true,
     });
 
     Api.getDirections(route).then((directions) => {
@@ -99,8 +104,9 @@ class AllAboardReact extends React.Component {
   updateDirection(direction) {
     this.setState({
       selectedDirection: direction,
-      selectedStop: null,
-      predictions: null // Hide the predictions but we should show a loader
+      isLoading: true,
+      // selectedStop: null,
+      // predictions: null // Hide the predictions but we should show a loader
     });
     this.getNearestStop();
   }
@@ -118,16 +124,19 @@ class AllAboardReact extends React.Component {
     Api.getPredictions(this.state.selectedRoute, this.state.selectedStop).then((response) => {
       if (response.hasOwnProperty('error')) {
         this.setState({
+          isLoading: false,
           predictions: null,
           error: response['error'][0],
         });
       }
       else {
         this.setState({
+          isLoading: false,
           predictions: response['prd'],
           error: null,
         });
       }
+      console.log(this.state);
     });
   }
 }

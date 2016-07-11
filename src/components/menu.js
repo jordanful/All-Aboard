@@ -1,4 +1,5 @@
 import React, {
+  ActivityIndicatorIOS,
   AppStateIOS,
   AsyncStorage,
   Component,
@@ -24,19 +25,19 @@ export default class Menu extends React.Component {
       inputFocused: false,
       allRoutes: [],
       routeDataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-      filterText: ''
+      filterText: '',
+      isLoading: true,
       // recentRoutes:
     };
-
     // this._bind('_onChange', '_filterRoutes', 'getAllRoutes')
   }
 
   componentDidMount() {
     this.getAllRoutes(),
     AppStateIOS.addEventListener('change', this.handleAppStateChange);
-    AsyncStorage.getItem("recentRoutes").then((value) => {
-      this.setState({recentRoutes: value});
-    }).done();
+    // AsyncStorage.getItem("recentRoutes").then((value) => {
+    //   this.setState({recentRoutes: value});
+    // }).done();
   }
 
   componentWillUnmount() {
@@ -54,6 +55,7 @@ export default class Menu extends React.Component {
       .then((responseData) => responseData['bustime-response']['routes'])
       .then((routes) => this.setState({
         allRoutes: routes,
+        isLoading: false,
       }));
   }
 

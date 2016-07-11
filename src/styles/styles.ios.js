@@ -5,6 +5,11 @@ const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 export default Styles = StyleSheet.create({
+center: {
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 8,
+},
  contentView: {
    flex: 1,
  },
