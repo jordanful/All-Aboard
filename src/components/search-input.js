@@ -24,7 +24,7 @@ export default class SearchInput extends React.Component {
         autoCapitalize='words'
         autoCorrect={false}
         blurOnSubmit={true}
-        clearButtonMode='while-editing'
+        clearButtonMode='always'
         placeholder='Search for a route'
         placeholderTextColor='#BABABA'
         clearTextOnFocus={true}

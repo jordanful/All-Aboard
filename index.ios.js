@@ -6,13 +6,14 @@ import React, {
   RefreshControl,
   ScrollView,
   Text,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import Menu from '/../src/components/menu';
 import SideMenu from 'react-native-side-menu';
 import ContentView from '/../src/components/content-view'
 import UserActions from '/../src/actions/user.js';
-import DismissKeyboard from 'dismissKeyboard';
+import dismissKeyboard from 'dismissKeyboard';
 import Styles from '/../src/styles/styles.ios';
 import Api from '/../src/api/api';
 
@@ -38,24 +39,27 @@ class AllAboardReact extends React.Component {
         <Menu activeRoute={this.state.selectedRoute} onSelect={this.handleRouteSelection} />
     );
     return (
-      <SideMenu
-        animation='spring'
-        touchToClose={true}
-        openMenuOffset={deviceWidth * 0.86}
-        isOpen={this.state.isMenuOpen}
-        menu={menu}
+      // https://github.com/facebook/react-native/issues/4229
+      <TouchableWithoutFeedback onPress={dismissKeyboard}>
+        <SideMenu
+          animation='spring'
+          touchToClose={true}
+          openMenuOffset={deviceWidth * 0.86}
+          isOpen={this.state.isMenuOpen}
+          menu={menu}
         >
-        <ContentView
-          onLeftButtonPress={this.openMenu}
-          onChooseDirection={this.updateDirection}
-          activeRoute={this.state.selectedRoute}
-          directions={this.state.directions}
-          selectedDirection={this.state.selectedDirection}
-          selectedStop={this.state.selectedStop}
-          predictions={this.state.predictions}
-          error={this.state.error}
+          <ContentView
+            onLeftButtonPress={this.openMenu}
+            onChooseDirection={this.updateDirection}
+            activeRoute={this.state.selectedRoute}
+            directions={this.state.directions}
+            selectedDirection={this.state.selectedDirection}
+            selectedStop={this.state.selectedStop}
+            predictions={this.state.predictions}
+            error={this.state.error}
           />
-      </SideMenu>
+        </SideMenu>
+      </TouchableWithoutFeedback>
     );
   }
 
@@ -80,6 +84,7 @@ class AllAboardReact extends React.Component {
   }
   // TODO maybe move this to actions
   handleRouteSelection(route) {
+    dismissKeyboard(); // kind of a hack
     console.log(this.state);
     // TODO blur the text input & reset the filter text
     this.setState({
@@ -87,8 +92,8 @@ class AllAboardReact extends React.Component {
       filterText: '', // this isn't working
       isMenuOpen: false,
       inputFocused: false,
-      // selectedStop: null,
-      // predictions: null, // Hide the predictions but we should show a loader
+      selectedStop: null,
+      predictions: null, // Hide the predictions but we should show a loader
       isLoading: true,
     });
 

@@ -4,6 +4,7 @@ import React, {
   AsyncStorage,
   Component,
   ListView,
+  ScrollView,
   Text,
   TouchableHighlight,
   View,
@@ -68,13 +69,13 @@ export default class Menu extends React.Component {
     return (
       <View style={Styles.menuContainer}>
         <SearchInput onChange={this._onChange} />
-        <ListView
-          // renderHeader={{
-          //   // <RecentlyViewedRoutes routes={this.props.recentlyViewedRoutes} />
-          // }}
-          dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
-          renderRow={this.renderRoute}
-        />
+          <ListView
+            // renderHeader={{
+            //   // <RecentlyViewedRoutes routes={this.props.recentlyViewedRoutes} />
+            // }}
+            dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
+            renderRow={this.renderRoute}
+          />
       </View>
     );
   }
