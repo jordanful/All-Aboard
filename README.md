@@ -1,6 +1,6 @@
 # All Aboard
 ## A simple bus tracker for the Chicago CTA
-<img src="https://cl.ly/1o3y370q190q/iphone-app.png" alt="All Aboard on the iPhone 6S" align="right"/>
+<img src="https://cl.ly/0a1x1v3W2z2E/iphone.png" alt="All Aboard on the iPhone 6S" align="right"/>
 ### Installation
 1. Clone
 2. `npm install`
