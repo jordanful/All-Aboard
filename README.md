@@ -21,7 +21,7 @@ Please see the list of ToDos below. We'll monitor pull requests.
 * 'TODO' audit
 * Android
 
-![All Aboard on the iPhone 6S](https://cl.ly/1c2z150G1g3Y/1242x2208.png)
+![All Aboard on the iPhone 6S](https://cl.ly/1o3y370q190q/iphone-app.png)
 
 ### CTA API docs:
 http://cl.ly/0w0340392L1B
