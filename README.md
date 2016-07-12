@@ -6,7 +6,7 @@
 2. `npm install`
 
 ### Contributing
-We very much welcome contributions. If you've been interested in React Native, this app is a great way to into the framework. There are only a few components, no authentication, and a simple API.
+We very much welcome contributions. If you've been interested in React Native, this app is a great way into the framework. There are only a few components, no authentication, and a simple API.
 
 Please see the list of ToDos below. We'll monitor pull requests.
 
