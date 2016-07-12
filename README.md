@@ -1,16 +1,16 @@
-**All Aboard**
-*A simple bus tracker for the Chicago CTA*
+# All Aboard
+## A simple bus tracker for the Chicago CTA
 
-*Installation*
+### Installation
 1. Clone
 2. `npm install`
 
-*Contributing*
+### Contributing
 We very much welcome contributions. If you've been interested in React Native, this app is a great way to into the framework. There are only a few components, no authentication, and a simple API.
 
 Please see the list of ToDos below. We'll monitor pull requests.
 
-*TODO*
+### TODO
 * Fix search & keyboard input interactions
 * Add loading UI when fetching data
 * Resubmit
@@ -21,12 +21,12 @@ Please see the list of ToDos below. We'll monitor pull requests.
 * 'TODO' audit
 * Android
 
-![All Aboard on the iPhone 6S]('https://cl.ly/1c2z150G1g3Y/1242x2208.png')
+![All Aboard on the iPhone 6S](https://cl.ly/1c2z150G1g3Y/1242x2208.png)
 
-*CTA API docs:*
+### CTA API docs:
 http://cl.ly/0w0340392L1B
 
-*Component list:*
+### Component list:
 
 * ContentView: contains everything on our main view (predictions, directions etc)
 * Menu: contains our route list
@@ -39,7 +39,7 @@ http://cl.ly/0w0340392L1B
 * SearchBar: Receives user input and searches the RouteList
 * RecentRoutes: Displays recently selected routes at the top of RouteList
 
-*Hierarchy:*
+### Hierarchy:
 
 * Menu
   - SearchBar
