@@ -15,6 +15,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  
+  
   NSURL *jsCodeLocation;
 
   /**
@@ -45,7 +47,9 @@
                                                       moduleName:@"AllAboardReact"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
-
+  UIView *loading = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] objectAtIndex:0];
+  rootView.loadingView = loading;
+  rootView.loadingViewFadeDelay = 1;
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
