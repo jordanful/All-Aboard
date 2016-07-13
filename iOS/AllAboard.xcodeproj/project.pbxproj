@@ -134,8 +134,8 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		FD4ED1051CA9D983007CFCA8 /* Default-568h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h.png"; path = "../assets/images/Default-568h.png"; sourceTree = "<group>"; };
 		FD4ED1061CA9D983007CFCA8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../assets/images/Default-568h@2x.png"; sourceTree = "<group>"; };
-		FDB8A7791C8FC2EF004B22A5 /* All Aboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "All Aboard.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDB8A77A1C8FC2EF004B22A5 /* All Aboard.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "All Aboard.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDB8A7791C8FC2EF004B22A5 /* AllAboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllAboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDB8A77A1C8FC2EF004B22A5 /* AllAboard.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AllAboard.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,8 +305,8 @@
 				13B07FAE1A68108700A75B9A /* AllAboardReact */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* AllAboardReact08Tests */,
-				FDB8A7791C8FC2EF004B22A5 /* All Aboard.app */,
-				FDB8A77A1C8FC2EF004B22A5 /* All Aboard.xctest */,
+				FDB8A7791C8FC2EF004B22A5 /* AllAboard.app */,
+				FDB8A77A1C8FC2EF004B22A5 /* AllAboard.xctest */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -315,9 +315,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* All AboardTests */ = {
+		00E356ED1AD99517003FC87E /* AllAboardTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "All AboardTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "AllAboardTests" */;
 			buildPhases = (
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
@@ -328,14 +328,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = "All AboardTests";
+			name = AllAboardTests;
 			productName = AllAboardReact08Tests;
-			productReference = FDB8A77A1C8FC2EF004B22A5 /* All Aboard.xctest */;
+			productReference = FDB8A77A1C8FC2EF004B22A5 /* AllAboard.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* All Aboard */ = {
+		13B07F861A680F5B00A75B9A /* AllAboard */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "All Aboard" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AllAboard" */;
 			buildPhases = (
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -348,9 +348,9 @@
 			);
 			dependencies = (
 			);
-			name = "All Aboard";
+			name = AllAboard;
 			productName = "Hello World";
-			productReference = FDB8A7791C8FC2EF004B22A5 /* All Aboard.app */;
+			productReference = FDB8A7791C8FC2EF004B22A5 /* AllAboard.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -371,7 +371,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "All Aboard" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AllAboard" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -426,8 +426,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* All Aboard */,
-				00E356ED1AD99517003FC87E /* All AboardTests */,
+				13B07F861A680F5B00A75B9A /* AllAboard */,
+				00E356ED1AD99517003FC87E /* AllAboardTests */,
 			);
 		};
 /* End PBXProject section */
@@ -595,7 +595,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* All Aboard */;
+			target = 13B07F861A680F5B00A75B9A /* AllAboard */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -628,8 +628,8 @@
 				INFOPLIST_FILE = AllAboardReact08Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "All Aboard";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/All Aboard.app/All Aboard";
+				PRODUCT_NAME = AllAboard;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AllAboard.app/AllAboard";
 			};
 			name = Debug;
 		};
@@ -645,8 +645,8 @@
 				INFOPLIST_FILE = AllAboardReact08Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "All Aboard";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/All Aboard.app/All Aboard";
+				PRODUCT_NAME = AllAboard;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AllAboard.app/AllAboard";
 			};
 			name = Release;
 		};
@@ -668,7 +668,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AllAboard;
-				PRODUCT_NAME = "All Aboard";
+				PRODUCT_NAME = AllAboard;
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "arm64 armv7s armv7";
 			};
@@ -692,7 +692,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AllAboard;
-				PRODUCT_NAME = "All Aboard";
+				PRODUCT_NAME = AllAboard;
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "arm64 armv7s armv7";
 			};
@@ -787,7 +787,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "All AboardTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "AllAboardTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -796,7 +796,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "All Aboard" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AllAboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -805,7 +805,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "All Aboard" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "AllAboard" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
