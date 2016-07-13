@@ -1,4 +1,4 @@
-import Geolocation from '/../src/api/geolocation';
+import Geolocation from '../../src/api/geolocation';
 
 const baseUrl = 'http://ctabustracker.com/bustime/api/v2';
 const apiKey = 'PhX3QnZXw3LKKVU6jxc9CDpDC';

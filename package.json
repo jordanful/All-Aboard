@@ -1,15 +1,17 @@
 {
-  "name": "AllAboardReact08",
+  "name": "AllAboard",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
-    "lodash": "^4.6.1",
-    "react-native": "^0.18.0-rc",
-    "react-native-pull-to-refresh": "^1.1.0",
-    "react-native-side-menu": "https://github.com/drtangible/react-native-side-menu.git#master",
-    "react-refresh-control": "^2.0.5"
+    "react": "15.2.1",
+    "react-native": "^0.29.0",
+    "react-native-side-menu": "https://github.com/jordanful/react-native-side-menu.git#master",
+    "lodash": "4.6.1"
+  },
+  "devDependencies": {
+    "react": "^15.2.1"
   }
 }

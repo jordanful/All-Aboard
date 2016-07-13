@@ -1,4 +1,4 @@
-import Api from '/../src/api/api';
+import Api from '../../src/api/api';
 
 export default UserActions = {
   refreshPredictions(route, direction, prediction) {

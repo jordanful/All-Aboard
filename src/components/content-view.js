@@ -1,6 +1,7 @@
-import React, {
-  AppStateIOS,
-  Component,
+import React, { Component } from 'react';
+
+import {
+  AppState,
   Image,
   RefreshControl,
   ScrollView,
@@ -10,7 +11,7 @@ import React, {
   View,
 } from 'react-native';
 
-import UserActions from '/../src/actions/user';
+import UserActions from '../../src/actions/user';
 
 class Directions extends React.Component {
   constructor() {
@@ -76,7 +77,7 @@ class Button extends React.Component  {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
-        <Image style={Styles.contentViewHeaderIcon} source={require('/../assets/images/contentViewHeaderIcon.png')} />
+        <Image style={Styles.contentViewHeaderIcon} source={require('../../assets/images/contentViewHeaderIcon.png')} />
       </TouchableOpacity>
     );
   }

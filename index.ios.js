@@ -1,23 +1,23 @@
-import React, {
-  ActivityIndicatorIOS,
+import React, { Component } from 'react';
+import {
+  ActivityIndicator,
   AppRegistry,
   AsyncStorage,
-  Component,
   RefreshControl,
   ScrollView,
   Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import Menu from '/../src/components/menu';
+import Menu from './src/components/menu';
 import SideMenu from 'react-native-side-menu';
-import ContentView from '/../src/components/content-view'
-import UserActions from '/../src/actions/user.js';
+import ContentView from './src/components/content-view';
+import UserActions from './src/actions/user';
 import dismissKeyboard from 'dismissKeyboard';
-import Styles from '/../src/styles/styles.ios';
-import Api from '/../src/api/api';
+import Styles from './src/styles/styles.ios';
+import Api from './src/api/api';
 
-class AllAboardReact extends React.Component {
+class AllAboard extends React.Component {
   constructor() {
     super();
     this.openMenu = this.openMenu.bind(this);
@@ -88,7 +88,7 @@ class AllAboardReact extends React.Component {
     // TODO blur the text input & reset the filter text
     this.setState({
       selectedRoute: route,
-      filterText: '', // need to fix this 
+      filterText: '', // need to fix this
       isMenuOpen: false,
       inputFocused: false,
       selectedStop: null,
@@ -147,4 +147,4 @@ class AllAboardReact extends React.Component {
   }
 }
 
-AppRegistry.registerComponent('AllAboardReact', () => AllAboardReact);
+AppRegistry.registerComponent('AllAboard', () => AllAboard);

@@ -1,6 +1,7 @@
-import React, {
-  AppStateIOS,
-  Component,
+import React, { Component } from 'react';
+
+import {
+  AppState,
   TextInput,
 } from 'react-native';
 

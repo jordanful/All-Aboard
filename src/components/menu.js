@@ -1,15 +1,15 @@
-import React, {
-  ActivityIndicatorIOS,
-  AppStateIOS,
+import React, { Component } from 'react';
+
+import {
+  AppState,
   AsyncStorage,
-  Component,
   ListView,
   ScrollView,
   Text,
   TouchableHighlight,
   View,
 } from 'react-native';
-import SearchInput from '/../src/components/search-input';
+import SearchInput from '../../src/components/search-input';
 import _ from 'lodash';
 
 export default class Menu extends React.Component {
@@ -35,18 +35,18 @@ export default class Menu extends React.Component {
 
   componentDidMount() {
     this.getAllRoutes(),
-    AppStateIOS.addEventListener('change', this.handleAppStateChange);
+    AppState.addEventListener('change', this.handleAppStateChange);
     // AsyncStorage.getItem("recentRoutes").then((value) => {
     //   this.setState({recentRoutes: value});
     // }).done();
   }
 
   componentWillUnmount() {
-    AppStateIOS.removeEventListener('change', this.handleAppStateChange);
+    AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
   handleAppStateChange(state) {
-    if (!this.state.loaded) {
+    if (!state === 'active') {
       this.getAllRoutes()
     }
   }
@@ -73,6 +73,7 @@ export default class Menu extends React.Component {
             // renderHeader={{
             //   // <RecentlyViewedRoutes routes={this.props.recentlyViewedRoutes} />
             // }}
+            enableEmptySections={true}
             dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
             renderRow={this.renderRoute}
           />

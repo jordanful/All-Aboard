@@ -1,4 +1,4 @@
-import React, { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const Dimensions = require('Dimensions');
 const deviceWidth = Dimensions.get('window').width;
