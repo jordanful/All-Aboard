@@ -77,7 +77,7 @@ class Button extends React.Component  {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
-        <Image style={Styles.contentViewHeaderIcon} source={require('../../assets/images/contentViewHeaderIcon.png')} />
+        <Image style={Styles.contentViewHeaderIcon} source={require('../../src/assets/images/contentViewHeaderIcon.png')} />
       </TouchableOpacity>
     );
   }
