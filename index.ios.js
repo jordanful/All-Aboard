@@ -110,11 +110,13 @@ class AllAboard extends React.Component {
   updateDirection(direction) {
     this.setState({
       selectedDirection: direction,
-      isLoading: true,
-      // selectedStop: null,
-      // predictions: null // Hide the predictions but we should show a loader
-    });
-    this.getNearestStop();
+      selectedStop: null,
+      predictions: null,
+      // isLoading: true,
+    },
+    function() {
+      this.getNearestStop();
+    });   
   }
 
   getNearestStop() {
