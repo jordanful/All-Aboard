@@ -16,12 +16,12 @@ export default class RecentlyViewedRoutes extends React.Component {
 
         <View style={Styles.recentlyViewedRoute}>
           <Text style={Styles.recentlyViewedRouteNumber}>
-            66
+            761
           </Text>
         </View>
         <View style={Styles.recentlyViewedRoute}>
           <Text style={Styles.recentlyViewedRouteNumber}>
-            66
+            12-B
           </Text>
         </View>
     </View>

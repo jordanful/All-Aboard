@@ -174,7 +174,6 @@ center: {
 
  },
  recentlyViewedRoute: {
-   color: 'white',
    width: 50,
    height: 50,
    borderRadius: 25,
