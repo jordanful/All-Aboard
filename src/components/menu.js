@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import {
   AppState,
   AsyncStorage,
@@ -9,7 +8,10 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import RecentlyViewedRoutes from '../../src/components/recently-viewed-routes';
 import SearchInput from '../../src/components/search-input';
+import UserActions from '../../src/actions/user.js';
+
 import _ from 'lodash';
 
 export default class Menu extends React.Component {
@@ -28,7 +30,7 @@ export default class Menu extends React.Component {
       routeDataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       filterText: '',
       isLoading: true,
-      // recentRoutes:
+      recentRoutes: '',
     };
     // this._bind('_onChange', '_filterRoutes', 'getAllRoutes')
   }
@@ -36,9 +38,9 @@ export default class Menu extends React.Component {
   componentDidMount() {
     this.getAllRoutes(),
     AppState.addEventListener('change', this.handleAppStateChange);
-    // AsyncStorage.getItem("recentRoutes").then((value) => {
-    //   this.setState({recentRoutes: value});
-    // }).done();
+    AsyncStorage.getItem("recentRoutes").then((value) => {
+      this.setState({recentRoutes: value});
+    }).done();
   }
 
   componentWillUnmount() {
@@ -69,6 +71,7 @@ export default class Menu extends React.Component {
     return (
       <View style={Styles.menuContainer}>
         <SearchInput onChange={this._onChange} />
+        <RecentlyViewedRoutes routes={this.props.recentlyViewedRoutes} />
           <ListView
             // renderHeader={{
             //   // <RecentlyViewedRoutes routes={this.props.recentlyViewedRoutes} />
@@ -107,8 +110,8 @@ export default class Menu extends React.Component {
   renderRoute(route) {
     return (
       <TouchableHighlight
-        onPress={() => this.props.onSelect(route)}
-                    // && UserActions.viewRoute(route)}
+        onPress={() => this.props.onSelect(route)
+                     && UserActions.viewRoute(route)}
         underlayColor='#0D1F42'
       >
         <View style={Styles.row}>

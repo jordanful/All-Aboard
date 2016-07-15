@@ -35,5 +35,8 @@ export default UserActions = {
 
   listenForRefreshPredictions(callback) {
     this.callback = callback;
-  }
+  },
+  viewRoute(route) {
+    console.log(route.rtnm + ' viewed!');
+  },
 }
