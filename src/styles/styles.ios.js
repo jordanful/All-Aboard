@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import React, { StyleSheet } from 'react-native';
 
 const Dimensions = require('Dimensions');
 const deviceWidth = Dimensions.get('window').width;
@@ -164,5 +164,27 @@ center: {
    fontSize: 30,
    color: 'white',
    fontFamily: 'ProximaNovaLight'
- }
+ },
+ // Recently Viewed Routes
+ recentlyViewedRoutes: {
+   flexDirection: 'row',
+   alignItems: 'flex-start',
+   marginBottom: 10,
+   marginLeft: 10,
+
+ },
+ recentlyViewedRoute: {
+   color: 'white',
+   width: 50,
+   height: 50,
+   borderRadius: 25,
+   marginRight: 10,
+   backgroundColor: '#FDC053',
+   justifyContent: 'center',
+   alignItems: 'center',
+ },
+ recentlyViewedRouteNumber: {
+   fontSize: 16,
+   fontWeight: '600',
+ },
 });
