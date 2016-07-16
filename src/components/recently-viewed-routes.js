@@ -1,30 +1,49 @@
 import React, { Component } from 'react';
 import {
   Text,
-  View,
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native';
+import UserActions from '../../src/actions/user.js';
 
 export default class RecentlyViewedRoutes extends React.Component {
   render() {
-    return (
-      <View style={Styles.recentlyViewedRoutes}>
-        <View style={Styles.recentlyViewedRoute}>
-          <Text style={Styles.recentlyViewedRouteNumber}>
-            66
-          </Text>
-        </View>
+    // var recentRoutes = this.props.routes || [];
+    const recentRoutes = [ // dummy for building out UI
+      {
+        rt: '76',
+      },
+      {
+        rt: '66',
+      },
+      {
+        rt: '12-B',
+      },
+      {
+        rt: '56',
+      },
+      {
+        rt: '198',
+      },
+      {
+        rt: '4',
+      },
+      {
+        rt: '402',
+      },
 
-        <View style={Styles.recentlyViewedRoute}>
-          <Text style={Styles.recentlyViewedRouteNumber}>
-            761
-          </Text>
-        </View>
-        <View style={Styles.recentlyViewedRoute}>
-          <Text style={Styles.recentlyViewedRouteNumber}>
-            12-B
-          </Text>
-        </View>
-    </View>
+    ]
+
+    return (
+      <ScrollView horizontal={true} scrollsToTop={false} showsHorizontalScrollIndicator={false} style={Styles.recentlyViewedRoutes}>
+        { recentRoutes.map((route, i) =>
+          <TouchableOpacity onPress={this.props.onPress} key={i} style={Styles.recentlyViewedRoute}>
+            <Text style={Styles.recentlyViewedRouteNumber}>
+              {route.rt}
+            </Text>
+          </TouchableOpacity>
+          )}
+      </ScrollView>
     );
   }
 }

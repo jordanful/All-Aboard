@@ -36,7 +36,32 @@ export default UserActions = {
   listenForRefreshPredictions(callback) {
     this.callback = callback;
   },
+
+  getAll() {
+    Promise.all(AsyncStorage.getAllKeys()
+      .then(ks =>
+        ks.map(k =>
+          AsyncStorage.getItem(k)
+        )
+      )
+    )
+  },
+
   viewRoute(route) {
     console.log(route.rtnm + ' viewed!');
+    // AsyncStorage.mergeItem(route, () =>
+    // AsyncStorage.getAll()
+    //   .then(routes =>
+    //     this.setState({
+    //       recentRoutes: routes,
+    //     })
+    //   )
+    //   .catch(err =>
+    //     this.setState({
+    //       recentRoutes: '',
+    //     })
+    //   );
+    // );
   },
+
 }

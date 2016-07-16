@@ -71,15 +71,14 @@ export default class Menu extends React.Component {
     return (
       <View style={Styles.menuContainer}>
         <SearchInput onChange={this._onChange} />
-        <RecentlyViewedRoutes routes={this.props.recentlyViewedRoutes} />
-          <ListView
-            // renderHeader={{
-            //   // <RecentlyViewedRoutes routes={this.props.recentlyViewedRoutes} />
-            // }}
-            enableEmptySections={true}
-            dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
-            renderRow={this.renderRoute}
-          />
+        <ScrollView style={Styles.menuRoutes}>
+          <RecentlyViewedRoutes style={Styles.recentlyViewedRoutesContainer} routes={this.props.recentlyViewedRoutes} />
+            <ListView
+              enableEmptySections={true}
+              dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
+              renderRow={this.renderRoute}
+              />
+        </ScrollView>
       </View>
     );
   }

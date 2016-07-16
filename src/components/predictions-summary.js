@@ -63,7 +63,6 @@ class Error extends React.Component {
 export default class PredictionsSummary extends React.Component {
   render() {
     return (
-      // TODO @Dan This is causing syntax error since I moved it
       {error &&
         <Error error={error} />
       }

@@ -165,13 +165,12 @@ center: {
    color: 'white',
    fontFamily: 'ProximaNovaLight'
  },
- // Recently Viewed Routes
+menuRoutes: {
+  // flex: 1,
+},
  recentlyViewedRoutes: {
-   flexDirection: 'row',
-   alignItems: 'flex-start',
    marginBottom: 10,
-   marginLeft: 10,
-
+   paddingLeft: 10,
  },
  recentlyViewedRoute: {
    width: 50,
