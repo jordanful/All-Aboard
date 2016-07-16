@@ -3,6 +3,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  View,
 } from 'react-native';
 import UserActions from '../../src/actions/user.js';
 
@@ -35,7 +36,8 @@ export default class RecentlyViewedRoutes extends React.Component {
     ]
 
     return (
-      <ScrollView horizontal={true} scrollsToTop={false} showsHorizontalScrollIndicator={false} style={Styles.recentlyViewedRoutes}>
+      <View style={Styles.recentlyViewedRoutes}>
+      <ScrollView horizontal={true} scrollsToTop={false} showsHorizontalScrollIndicator={false}>
         { recentRoutes.map((route, i) =>
           <TouchableOpacity onPress={this.props.onPress} key={i} style={Styles.recentlyViewedRoute}>
             <Text style={Styles.recentlyViewedRouteNumber}>
@@ -44,6 +46,7 @@ export default class RecentlyViewedRoutes extends React.Component {
           </TouchableOpacity>
           )}
       </ScrollView>
+    </View>
     );
   }
 }

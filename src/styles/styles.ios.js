@@ -166,11 +166,12 @@ center: {
    fontFamily: 'ProximaNovaLight'
  },
 menuRoutes: {
-  // flex: 1,
+  flex: 1,
 },
  recentlyViewedRoutes: {
    marginBottom: 10,
    paddingLeft: 10,
+   height: 60,
  },
  recentlyViewedRoute: {
    width: 50,

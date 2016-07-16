@@ -116,7 +116,7 @@ class AllAboard extends React.Component {
     },
     function() {
       this.getNearestStop();
-    });   
+    });
   }
 
   getNearestStop() {
