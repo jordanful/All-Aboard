@@ -11,7 +11,6 @@ import {
 import RecentlyViewedRoutes from '../../src/components/recently-viewed-routes';
 import SearchInput from '../../src/components/search-input';
 import UserActions from '../../src/actions/user.js';
-
 import _ from 'lodash';
 
 export default class Menu extends React.Component {
@@ -32,7 +31,6 @@ export default class Menu extends React.Component {
       isLoading: true,
       recentRoutes: '',
     };
-    // this._bind('_onChange', '_filterRoutes', 'getAllRoutes')
   }
 
   componentDidMount() {

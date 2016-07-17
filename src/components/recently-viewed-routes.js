@@ -39,7 +39,11 @@ export default class RecentlyViewedRoutes extends React.Component {
       <View style={Styles.recentlyViewedRoutes}>
       <ScrollView horizontal={true} scrollsToTop={false} showsHorizontalScrollIndicator={false}>
         { recentRoutes.map((route, i) =>
-          <TouchableOpacity onPress={this.props.onPress} key={i} style={Styles.recentlyViewedRoute}>
+          <TouchableOpacity
+            onPress={() =>
+                        UserActions.handleRouteSelection(route)}
+            key={i}
+            style={Styles.recentlyViewedRoute}>
             <Text style={Styles.recentlyViewedRouteNumber}>
               {route.rt}
             </Text>
