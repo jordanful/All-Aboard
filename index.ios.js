@@ -50,7 +50,7 @@ class AllAboard extends React.Component {
         >
           <ContentView
             onLeftButtonPress={this.openMenu}
-            onChooseDirection={this.updateDirection}
+            onChooseDirection={UserActions.updateDirection}
             activeRoute={this.state.selectedRoute}
             directions={this.state.directions}
             selectedDirection={this.state.selectedDirection}

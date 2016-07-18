@@ -1,11 +1,9 @@
 import Api from '../../src/api/api';
 import dismissKeyboard from 'dismissKeyboard';
-
 export default UserActions = {
-
   handleRouteSelection(route) {
-    console.log(route.rt + ' viewed!');
     dismissKeyboard();
+    var selectedStop;
     this.setState({
       selectedRoute: route,
       isMenuOpen: false,
@@ -14,15 +12,21 @@ export default UserActions = {
       predictions: null, // Hide the predictions but we should show a loader
       isLoading: true,
     });
-    console.log(this.state.filterText + ' is the filter text');
 
     Api.getDirections(route).then((directions) => {
       this.setState({
         directions: directions,
         selectedDirection: directions[0],
-      });
-      this.getNearestStop();
-    });
+      })
+      Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
+        this.setState({
+          selectedStop: selectedStop,
+        },
+          UserActions.getPredictions()
+        )
+      })
+
+    })
   },
 
   updateDirection(direction) {
@@ -30,21 +34,16 @@ export default UserActions = {
       selectedDirection: direction,
       selectedStop: null,
       predictions: null,
-      // isLoading: true,
     },
-    function() {
-      this.getNearestStop();
-    });
-  },
-
-  getNearestStop() {
-    Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
+    Api.getNearestStop(this.state.selectedRoute, direction, (selectedStop) =>
       this.setState({
         selectedStop: selectedStop,
-      });
-      this.getPredictions();
-    });
-  },
+      },
+        UserActions.getPredictions()
+      )
+    )
+
+  )},
 
   getPredictions() {
     Api.getPredictions(this.state.selectedRoute, this.state.selectedStop).then((response) => {
@@ -108,18 +107,12 @@ export default UserActions = {
       setTimeout(() => {
       // Get the nearest stop because the user may have moved
         Api.getNearestStop(route, direction, (selectedStop) => {
-          console.log(route, direction);
-          console.log(selectedStop);
         Api.getPredictions(route, selectedStop).then((response) => {
             if (response.hasOwnProperty('error')) {
               console.log('getPredictions response has an error!');
               // TODO handle error
-
             }
             else {
-              console.log('getPredictions response seems ok');
-              console.log(response.prd[0].prdctdn + ' minutes until the bus arrives');
-              // Should we use that listener callback?
               this.callback({ prediction: response });
             }
           });

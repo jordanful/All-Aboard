@@ -7,7 +7,6 @@ const urlParams = '?key=' + apiKey + '&format=json';
 export default Api = {
   // Get list of stops, iterate through them, and return the nearest stop
   getNearestStop(route, direction, callback){
-
     // Get user location
     Geolocation.geolocate(function(location) {
       let shortestDistance = 0.00000000;
