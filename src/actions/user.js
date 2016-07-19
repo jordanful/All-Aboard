@@ -12,18 +12,16 @@ export default UserActions = {
       predictions: null, // Hide the predictions but we should show a loader
       isLoading: true,
     });
-
     Api.getDirections(route).then((directions) => {
       this.setState({
         directions: directions,
         selectedDirection: directions[0],
       })
-      Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
+      Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (nearestStop) => {
         this.setState({
-          selectedStop: selectedStop,
-        },
-          UserActions.getPredictions()
-        )
+          selectedStop: nearestStop,
+        })
+      UserActions.getPredictions()
       })
 
     })
@@ -35,13 +33,13 @@ export default UserActions = {
       selectedStop: null,
       predictions: null,
     },
-    Api.getNearestStop(this.state.selectedRoute, direction, (selectedStop) =>
+    Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (nearestStop) => {
       this.setState({
-        selectedStop: selectedStop,
-      },
-        UserActions.getPredictions()
-      )
-    )
+        selectedStop: nearestStop,
+      })
+    UserActions.getPredictions()
+    })
+
 
   )},
 
@@ -61,7 +59,6 @@ export default UserActions = {
           error: null,
         });
       }
-      console.log(this.state);
     });
   },
 
