@@ -7,7 +7,6 @@ const urlParams = '?key=' + apiKey + '&format=json';
 export default Api = {
   // Get list of stops, iterate through them, and return the nearest stop
   getNearestStop(route, direction, callback){
-
     // Get user location
     Geolocation.geolocate(function(location) {
       let shortestDistance = 0.00000000;
@@ -15,7 +14,7 @@ export default Api = {
       const userLat = location.latitude;
       const userLon = location.longitude;
       const url = baseUrl + '/getstops' + urlParams + '&rt=' + route.rt + '&dir=' + direction.dir;
-      return fetch(url)
+      fetch(url)
         .then((response) => response.json())
         .then((data) => {
           var data = data['bustime-response'];
@@ -29,6 +28,7 @@ export default Api = {
                 nearestStop = data.stops[i];
               }
             }
+            console.log(nearestStop);
             return callback(nearestStop);
          });
     });

@@ -17,12 +17,7 @@ export default UserActions = {
         directions: directions,
         selectedDirection: directions[0],
       })
-      Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (nearestStop) => {
-        this.setState({
-          selectedStop: nearestStop,
-        })
-      UserActions.getPredictions()
-      })
+    UserActions.getPredictions()
 
     })
   },
@@ -32,33 +27,32 @@ export default UserActions = {
       selectedDirection: direction,
       selectedStop: null,
       predictions: null,
-    },
-    Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (nearestStop) => {
-      this.setState({
-        selectedStop: nearestStop,
-      })
-    UserActions.getPredictions()
-    })
+    }, UserActions.getPredictions() )
 
-
-  )},
+  },
 
   getPredictions() {
-    Api.getPredictions(this.state.selectedRoute, this.state.selectedStop).then((response) => {
-      if (response.hasOwnProperty('error')) {
-        this.setState({
-          isLoading: false,
-          predictions: null,
-          error: response['error'][0],
-        });
-      }
-      else {
-        this.setState({
-          isLoading: false,
-          predictions: response['prd'],
-          error: null,
-        });
-      }
+    Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
+    Api.getPredictions(this.state.selectedRoute, selectedStop).then((response) => {
+        if (response.hasOwnProperty('error')) {
+          console.warn(response.error[0].msg);
+          console.log(response.error);
+          this.setState({
+            isLoading: false,
+            predictions: null,
+            error: response['error'][0],
+            selectedStop: selectedStop,
+          });
+        }
+        else {
+          this.setState({
+            isLoading: false,
+            predictions: response['prd'],
+            error: null,
+            selectedStop: selectedStop,
+          });
+        }
+      });
     });
   },
 
@@ -97,9 +91,7 @@ export default UserActions = {
 
   refreshPredictions(route, direction, prediction) {
     return new Promise((resolve, reject) => {
-      // Skipping state to just grab this from the API call down there
-      // This is probably bad
-      var selectedStop;
+
 
       setTimeout(() => {
       // Get the nearest stop because the user may have moved
