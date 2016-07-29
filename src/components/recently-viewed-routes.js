@@ -9,22 +9,29 @@ import UserActions from '../../src/actions/user.js';
 
 export default class RecentlyViewedRoutes extends React.Component {
   render() {
-    // var recentRoutes = this.props.routes || [];
+    // let recentRoutes = this.props.routes || [];
     const recentRoutes = [ // dummy for building out UI
       {
         rt: '76',
+        rtnm: 'Test route',
       },
       {
         rt: '66',
+        rtnm: 'Chicago',
       },
       {
         rt: '12-B',
+        rtnm: 'Alberta',
+
       },
       {
         rt: '56',
+        rtnm: 'Milwaukee',
+
       },
       {
         rt: '198',
+        rtnm: 'Cleveland Express',
       },
       {
         rt: '4',
