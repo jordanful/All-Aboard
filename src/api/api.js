@@ -28,7 +28,6 @@ export default Api = {
                 nearestStop = data.stops[i];
               }
             }
-            console.log(nearestStop);
             return callback(nearestStop);
          });
     });

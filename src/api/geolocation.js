@@ -12,7 +12,7 @@ export default Geolocation = {
       return callback(location);
     }
     function error(err) {
-      console.warn('geolocation error: code ' + err.code + ' - ' + err.message)
+      console.log('geolocation error: code ' + err.code + ' - ' + err.message)
       return callback(err)
     }
 

@@ -16,22 +16,26 @@ export default UserActions = {
       this.setState({
         directions: directions,
         selectedDirection: directions[0],
-      })
-    UserActions.getPredictions()
-
+      },
+      function() {
+        UserActions.getPredictions()
+      });
     })
   },
 
   updateDirection(direction) {
     this.setState({
-      selectedDirection: direction,
       selectedStop: null,
       predictions: null,
-    }, UserActions.getPredictions() )
-
+      selectedDirection: direction,
+    },
+    function() {
+      UserActions.getPredictions()
+    });
   },
 
   getPredictions() {
+    console.log(this.state.selectedDirection.dir, 'is the direction');
     Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
     Api.getPredictions(this.state.selectedRoute, selectedStop).then((response) => {
         if (response.hasOwnProperty('error')) {
@@ -91,8 +95,6 @@ export default UserActions = {
 
   refreshPredictions(route, direction, prediction) {
     return new Promise((resolve, reject) => {
-
-
       setTimeout(() => {
       // Get the nearest stop because the user may have moved
         Api.getNearestStop(route, direction, (selectedStop) => {
