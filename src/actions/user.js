@@ -74,23 +74,20 @@ export default UserActions = {
   },
 
   addRecentlyViewedRoute(route) {
+    let currentRecentRoutes = this.state.recentRoutes; // in case we can't set local storage
     // TODO
     // if recently viewed routes > 10 or something
     // then remove the oldest to avoid a very long list
-    Promise.all(AsyncStorage.mergeItem(route, () =>
-      getRecentlyViewedRoutes()
-      .then(routes =>
-        this.setState({
-          recentRoutes: routes,
-        })
-      )
-      .catch(err =>
-        this.setState({
-          recentRoutes: '',
-        })
-      )
-    )
-    )
+    try {
+      await AsyncStorage.mergeItem(route) // TODO we need to pass both a key and a value and a callback, not just 'route'
+                                          // TODO in a callback reset recentRoutes to include this new route
+                                          // I think we need to assign a UUID as a storage key, then the route object as the value
+    } catch (error) {
+      console.log(error);
+      this.setState({
+        recentRoutes: currentRecentRoutes,
+      });
+    }
   },
 
   refreshPredictions(route, direction, prediction) {
