@@ -12,8 +12,8 @@ class Minutes extends React.Component {
 
     return (
       <View>
-        <Text style={Styles.minutes}>{prediction.prdctdn}</Text>
-        <Text style={Styles.minutesLabel}>minutes</Text>
+        <Text allowFontScaling={false} style={Styles.minutes}>{prediction.prdctdn}</Text>
+        <Text allowFontScaling={false} style={Styles.minutesLabel}>minutes</Text>
       </View>
       );
   }
@@ -24,7 +24,7 @@ class Stop extends React.Component {
     var stop = this.props.stop;
     if (!stop) { return null; }
     return (
-      <Text style={Styles.stop}>{stop.stpnm}</Text>
+      <Text allowFontScaling={false} style={Styles.stop}>{stop.stpnm}</Text>
     );
   }
 }
@@ -34,7 +34,7 @@ class Destination extends React.Component {
     var prediction = this.props.predictions && this.props.predictions[0];
     if (!prediction) { return null; }
     return(
-      <Text style={Styles.destination}>To {prediction.des}</Text>
+      <Text allowFontScaling={false} style={Styles.destination}>To {prediction.des}</Text>
     );
   }
 }
@@ -44,7 +44,7 @@ class NextPrediction extends React.Component {
     let prediction = this.props.prediction;
     if (!prediction) { return null };
     return(
-      <Text style={Styles.nextPrediction}>{prediction.prdctdn} minutes</Text>
+      <Text allowFontScaling={false} style={Styles.nextPrediction}>{prediction.prdctdn} minutes</Text>
     );
   }
 }
@@ -53,7 +53,7 @@ class Error extends React.Component {
   render() {
     let { error } = this.props;
     return (
-      <Text style={Styles.nextPrediction}>
+      <Text allowFontScaling={false} style={Styles.nextPrediction}>
         {error.msg}
       </Text>
     )

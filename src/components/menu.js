@@ -113,11 +113,11 @@ export default class Menu extends React.Component {
       >
         <View style={Styles.row}>
           <View style={Styles.menuRouteNumberContainer}>
-            <Text style={Styles.menuRouteNumber}>
+            <Text allowFontScaling={false} style={Styles.menuRouteNumber}>
               {route.rt}
             </Text>
           </View>
-          <Text style={Styles.menuRouteName}>
+          <Text allowFontScaling={false} style={Styles.menuRouteName}>
             {route.rtnm}
           </Text>
         </View>
