@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   ActivityIndicator,
   AppRegistry,
-  AsyncStorage,
   RefreshControl,
   ScrollView,
   Text,

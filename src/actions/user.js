@@ -1,7 +1,10 @@
 import Api from '../../src/api/api';
+import Storage from '../../src/data/storage'
 import dismissKeyboard from 'dismissKeyboard';
+
 export default UserActions = {
   handleRouteSelection(route) {
+    Storage.addRecentlyViewedRoute(route);
     dismissKeyboard();
     var selectedStop;
     this.setState({
@@ -58,36 +61,6 @@ export default UserActions = {
         }
       });
     });
-  },
-
-  getRecentlyViewedRoutes() {
-    Promise.all(AsyncStorage.getAllKeys()
-      .then(ks =>
-        ks.map(k =>
-          AsyncStorage.getItem(k)
-        )
-      )
-      .catch(err =>
-         console.log(err)
-      )
-    )
-  },
-
-  addRecentlyViewedRoute(route) {
-    let currentRecentRoutes = this.state.recentRoutes; // in case we can't set local storage
-    // TODO
-    // if recently viewed routes > 10 or something
-    // then remove the oldest to avoid a very long list
-    try {
-      await AsyncStorage.mergeItem(route) // TODO we need to pass both a key and a value and a callback, not just 'route'
-                                          // TODO in a callback reset recentRoutes to include this new route
-                                          // I think we need to assign a UUID as a storage key, then the route object as the value
-    } catch (error) {
-      console.log(error);
-      this.setState({
-        recentRoutes: currentRecentRoutes,
-      });
-    }
   },
 
   refreshPredictions(route, direction, prediction) {
