@@ -25,7 +25,7 @@ class Directions extends React.Component {
       <View style={Styles.directions}>
         { directions.map((direction, i) =>
           <TouchableOpacity key={i} style={Styles.direction} onPress={() => this.props.onChooseDirection(direction)}>
-            <Text style={direction.dir == this.props.selectedDirection.dir ? Styles.directionTextActive : Styles.directionText}>
+            <Text allowFontScaling={false} style={direction.dir == this.props.selectedDirection.dir ? Styles.directionTextActive : Styles.directionText}>
               {this._prettyName(direction.dir)}
             </Text>
           </TouchableOpacity>
@@ -59,11 +59,11 @@ class ContentViewHeader extends React.Component {
         <Button onPress={this.props.onLeftButtonPress}  />
         <View style={Styles.contentViewHeaderRouteNumberAndNameContainer}>
           <View style={activeRoute.rt && Styles.contentViewHeaderRouteNumberContainer}>
-            <Text style={Styles.contentViewHeaderRouteNumber}>
+            <Text allowFontScaling={false} style={Styles.contentViewHeaderRouteNumber}>
               {activeRoute.rt}
             </Text>
           </View>
-          <Text style={Styles.contentViewHeaderRouteName}>
+          <Text allowFontScaling={false} style={Styles.contentViewHeaderRouteName}>
             {activeRoute.rtnm}
           </Text>
         </View>
@@ -90,8 +90,8 @@ class Minutes extends React.Component {
 
     return (
       <View>
-        <Text style={Styles.minutes}>{prediction.prdctdn}</Text>
-        <Text style={Styles.minutesLabel}>minutes</Text>
+        <Text allowFontScaling={false} style={Styles.minutes}>{prediction.prdctdn}</Text>
+        <Text allowFontScaling={false} style={Styles.minutesLabel}>minutes</Text>
       </View>
       );
   }
@@ -103,7 +103,7 @@ class Stop extends React.Component {
     if (!stop) { return null; }
 
     return (
-      <Text style={Styles.stop}>{stop.stpnm}</Text>
+      <Text allowFontScaling={false} style={Styles.stop}>{stop.stpnm}</Text>
     );
   }
 }
@@ -114,7 +114,7 @@ class Destination extends React.Component {
     if (!prediction) { return null; }
 
     return(
-      <Text style={Styles.destination}>To {prediction.des}</Text>
+      <Text allowFontScaling={false} style={Styles.destination}>To {prediction.des}</Text>
     );
   }
 }
@@ -124,7 +124,7 @@ class NextPrediction extends React.Component {
     let prediction = this.props.prediction;
     if (!prediction) { return null };
     return(
-      <Text style={Styles.nextPrediction}>{prediction.prdctdn} minutes</Text>
+      <Text allowFontScaling={false} style={Styles.nextPrediction}>{prediction.prdctdn} minutes</Text>
     );
   }
 }
@@ -133,7 +133,7 @@ class Error extends React.Component {
   render() {
     let { error } = this.props;
     return (
-      <Text style={Styles.nextPrediction}>
+      <Text allowFontScaling={false} style={Styles.nextPrediction}>
         {error.msg}
       </Text>
     )
