@@ -4,7 +4,7 @@ import dismissKeyboard from 'dismissKeyboard';
 
 export default UserActions = {
   handleRouteSelection(route) {
-    Storage.addRecentlyViewedRoute(route);
+    Storage.addRecentlyViewedRoute();
     dismissKeyboard();
     var selectedStop;
     this.setState({

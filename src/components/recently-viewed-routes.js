@@ -6,42 +6,11 @@ import {
   View,
 } from 'react-native';
 import UserActions from '../../src/actions/user.js';
+import { recentRoutes } from '../../src/constants/routes.js'; // TODO remove this - its just for testing
 
 export default class RecentlyViewedRoutes extends React.Component {
   render() {
     // let recentRoutes = this.props.routes || [];
-    const recentRoutes = [ // dummy for building out UI
-      {
-        rt: '76',
-        rtnm: 'Test route',
-      },
-      {
-        rt: '66',
-        rtnm: 'Chicago',
-      },
-      {
-        rt: '12-B',
-        rtnm: 'Alberta',
-
-      },
-      {
-        rt: '56',
-        rtnm: 'Milwaukee',
-
-      },
-      {
-        rt: '198',
-        rtnm: 'Cleveland Express',
-      },
-      {
-        rt: '4',
-      },
-      {
-        rt: '402',
-      },
-
-    ]
-
     return (
       <View style={Styles.recentlyViewedRoutes}>
       <ScrollView horizontal={true} scrollsToTop={false} showsHorizontalScrollIndicator={false}>
@@ -51,7 +20,7 @@ export default class RecentlyViewedRoutes extends React.Component {
                         UserActions.handleRouteSelection(route)}
             key={i}
             style={Styles.recentlyViewedRoute}>
-            <Text style={Styles.recentlyViewedRouteNumber}>
+            <Text allowFontScaling={false} style={Styles.recentlyViewedRouteNumber}>
               {route.rt}
             </Text>
           </TouchableOpacity>
