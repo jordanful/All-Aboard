@@ -1,7 +1,5 @@
 import {AsyncStorage} from 'react-native'
-// import uuid from 'react-native-uuid'
-// import { recentRoutes } from '../../src/constants/routes.js';
-// const key = uuid.v4();
+
 const key = 'recentRoutes';
 
 export default Storage = {
