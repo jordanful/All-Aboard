@@ -4,7 +4,7 @@ import dismissKeyboard from 'dismissKeyboard';
 
 export default UserActions = {
   handleRouteSelection(route) {
-    Storage.addRecentlyViewedRoute();
+    let newRecentlyViewedRoute = Storage.addRecentlyViewedRoute(route);
     dismissKeyboard();
     var selectedStop;
     this.setState({
@@ -14,6 +14,7 @@ export default UserActions = {
       selectedStop: null,
       predictions: null, // Hide the predictions but we should show a loader
       isLoading: true,
+      recentRoutes: route, // TODO perform a merge on asyncstorage instead of a set so we get all recently viewed routes
     });
     Api.getDirections(route).then((directions) => {
       this.setState({
@@ -38,7 +39,6 @@ export default UserActions = {
   },
 
   getPredictions() {
-    console.log(this.state.selectedDirection.dir, 'is the direction');
     Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
     Api.getPredictions(this.state.selectedRoute, selectedStop).then((response) => {
         if (response.hasOwnProperty('error')) {

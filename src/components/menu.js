@@ -36,9 +36,12 @@ export default class Menu extends React.Component {
   componentDidMount() {
     this.getAllRoutes(),
     AppState.addEventListener('change', this.handleAppStateChange);
-    AsyncStorage.getItem("recentRoutes").then((value) => {
-      this.setState({recentRoutes: value});
-    }).done();
+    // AsyncStorage.getItem("recentRoutes").then((value) => {
+    //   this.setState({recentRoutes: value});
+    // }).done();
+    this.setState({
+      recentRoutes: Storage.getRecentlyViewedRoutes(),
+    })
   }
 
   componentWillUnmount() {
@@ -70,7 +73,7 @@ export default class Menu extends React.Component {
       <View style={Styles.menuContainer}>
         <SearchInput onChange={this._onChange} />
         <ScrollView style={Styles.menuRoutes}>
-          <RecentlyViewedRoutes style={Styles.recentlyViewedRoutesContainer} routes={this.props.recentlyViewedRoutes} />
+          <RecentlyViewedRoutes style={Styles.recentlyViewedRoutesContainer} routes={this.props.recentlyViewedRoutes} /> 
             <ListView
               enableEmptySections={true}
               dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}

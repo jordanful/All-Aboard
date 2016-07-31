@@ -6,11 +6,11 @@ import {
   View,
 } from 'react-native';
 import UserActions from '../../src/actions/user.js';
-import { recentRoutes } from '../../src/constants/routes.js'; // TODO remove this - its just for testing
 
 export default class RecentlyViewedRoutes extends React.Component {
   render() {
-    // let recentRoutes = this.props.routes || [];
+    let recentRoutes = this.props.routes || [];
+    console.warn(recentRoutes, 'are the recent routes')
     return (
       <View style={Styles.recentlyViewedRoutes}>
       <ScrollView horizontal={true} scrollsToTop={false} showsHorizontalScrollIndicator={false}>
