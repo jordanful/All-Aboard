@@ -4,9 +4,16 @@ import dismissKeyboard from 'dismissKeyboard';
 
 export default UserActions = {
   handleRouteSelection(route) {
-    let newRecentlyViewedRoute = Storage.addRecentlyViewedRoute(route);
     dismissKeyboard();
+
+    Storage.addRecentlyViewedRoute(route).then((recentlyViewedRoutes) => {
+      this.setState({
+        recentRoutes: recentlyViewedRoutes,
+      });
+    });
+
     var selectedStop;
+
     this.setState({
       selectedRoute: route,
       isMenuOpen: false,
@@ -14,8 +21,8 @@ export default UserActions = {
       selectedStop: null,
       predictions: null, // Hide the predictions but we should show a loader
       isLoading: true,
-      recentRoutes: route, // TODO perform a merge on asyncstorage instead of a set so we get all recently viewed routes
     });
+
     Api.getDirections(route).then((directions) => {
       this.setState({
         directions: directions,

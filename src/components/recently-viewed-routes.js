@@ -17,17 +17,7 @@ export default class RecentlyViewedRoutes extends React.Component {
   };
 
   static defaultProps = {
-    routes: [
-      { rt: '8', rtnm: 'Halsted' },
-      { rt: '9', rtnm: 'Balsted' },
-      { rt: '10', rtnm: 'Galsted' },
-      { rt: '11', rtnm: 'Jalsted' },
-      { rt: '12', rtnm: 'Kalsted' },
-      { rt: '13', rtnm: 'Lalsted' },
-      { rt: '14', rtnm: 'Malsted' },
-      { rt: '15', rtnm: 'Nalsted' },
-      { rt: '16', rtnm: 'Oalsted' },
-    ],
+    routes: [],
   };
 
 

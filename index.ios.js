@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import Storage from './src/data/storage';
 import Menu from './src/components/menu';
 import SideMenu from 'react-native-side-menu';
 import ContentView from './src/components/content-view';
@@ -34,9 +35,7 @@ class AllAboard extends React.Component {
     const Dimensions = require('Dimensions');
     const deviceWidth = Dimensions.get('window').width;
     const deviceHeight = Dimensions.get('window').height;
-    const menu = (
-        <Menu activeRoute={this.state.selectedRoute} onSelect={UserActions.handleRouteSelection} />
-    );
+
     return (
       // https://github.com/facebook/react-native/issues/4229
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
@@ -45,7 +44,13 @@ class AllAboard extends React.Component {
           touchToClose={true}
           openMenuOffset={deviceWidth * 0.86}
           isOpen={this.state.isMenuOpen}
-          menu={menu}
+          menu={
+            <Menu
+              activeRoute={this.state.selectedRoute}
+              onSelect={UserActions.handleRouteSelection}
+              recentlyViewedRoutes={this.state.recentRoutes}
+              />
+          }
         >
           <ContentView
             onLeftButtonPress={this.openMenu}
@@ -68,6 +73,12 @@ class AllAboard extends React.Component {
         predictions: predictions.prediction.prd
       });
     }).bind(this));
+
+    Storage.getRecentlyViewedRoutes().then((recentlyViewedRoutes) => {
+      this.setState({
+        recentRoutes: recentlyViewedRoutes,
+      });
+    });
   }
 
   openMenu() {

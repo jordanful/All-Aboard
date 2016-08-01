@@ -189,6 +189,7 @@ export default class ContentView extends React.Component {
     this.setState({
       isRefreshing: true
     });
+
     UserActions.refreshPredictions(this.props.activeRoute, this.props.selectedDirection)
       .then(() => {
         this.setState({

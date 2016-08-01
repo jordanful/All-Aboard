@@ -1,31 +1,36 @@
-import {AsyncStorage} from 'react-native'
+import { take, uniqBy } from 'lodash';
+import { AsyncStorage } from 'react-native'
 
 const key = 'recentRoutes';
 
 export default Storage = {
 
-  async addRecentlyViewedRoute(route) {
-    try {
-      await AsyncStorage.setItem(key, JSON.stringify(route), () => {
-        AsyncStorage.getItem(key, (err, result) => {
-          console.log('set the recently viewed route as', result);
-          return result;
-        })
-      })
-    } catch (error) {
-      console.log('there was an error', error);
-    }
+  addRecentlyViewedRoute(route) {
+    return new Promise((resolve, reject) => {
+      this.getRecentlyViewedRoutes().then((recentlyViewedRoutes) => {
+
+        // Add route to front of list.
+        recentlyViewedRoutes.unshift(route);
+
+        // Remove duplicates from list.
+        recentlyViewedRoutes = uniqBy(recentlyViewedRoutes, 'rt');
+
+        // Take the first 10 routes from list.
+        recentlyViewedRoutes = take(recentlyViewedRoutes, 10)
+
+        AsyncStorage.setItem(key, JSON.stringify(recentlyViewedRoutes), () => {
+          resolve(recentlyViewedRoutes);
+        });
+      });
+    });
   },
 
-  async getRecentlyViewedRoutes() {
-    try {
-      const recentRoutes = await AsyncStorage.getItem(key);
-      if (recentRoutes !== null) {
-        return recentRoutes;
-      }
-    } catch (error) {
-      console.log(key, 'caught error getting recent routes', error);
-    }
+  getRecentlyViewedRoutes() {
+    return new Promise((resolve, reject) => {
+      AsyncStorage.getItem(key, (err, recentlyViewedRoutes) => {
+        resolve(recentlyViewedRoutes ? JSON.parse(recentlyViewedRoutes) : []);
+      });
+    });
   }
 
 }

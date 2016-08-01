@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   AppState,
   AsyncStorage,
@@ -14,12 +14,18 @@ import UserActions from '../../src/actions/user.js';
 import _ from 'lodash';
 
 export default class Menu extends React.Component {
+
+  static propTypes = {
+    recentlyViewedRoutes: PropTypes.array,
+  };
+
   constructor(props) {
     super(props);
     this._onChange = this._onChange.bind(this);
     this._filterRoutes = this._filterRoutes.bind(this);
     this.getAllRoutes = this.getAllRoutes.bind(this);
     this.renderRoute = this.renderRoute.bind(this);
+
     this.state = {
       selectedRoute: null,
       prediction: null,
@@ -29,19 +35,12 @@ export default class Menu extends React.Component {
       routeDataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       filterText: '',
       isLoading: true,
-      recentRoutes: '',
     };
   }
 
   componentDidMount() {
     this.getAllRoutes(),
     AppState.addEventListener('change', this.handleAppStateChange);
-    // AsyncStorage.getItem("recentRoutes").then((value) => {
-    //   this.setState({recentRoutes: value});
-    // }).done();
-    this.setState({
-      recentRoutes: Storage.getRecentlyViewedRoutes(),
-    })
   }
 
   componentWillUnmount() {
@@ -64,7 +63,9 @@ export default class Menu extends React.Component {
   }
 
   render() {
+    let { recentlyViewedRoutes } = this.props;
     let { allRoutes, filterText } = this.state;
+
     let filteredRoutes = filterText.length > 0
       ? this._filterRoutes(allRoutes, filterText)
       : allRoutes;
@@ -73,12 +74,15 @@ export default class Menu extends React.Component {
       <View style={Styles.menuContainer}>
         <SearchInput onChange={this._onChange} />
         <ScrollView style={Styles.menuRoutes}>
-          <RecentlyViewedRoutes style={Styles.recentlyViewedRoutesContainer} routes={this.props.recentlyViewedRoutes} /> 
-            <ListView
-              enableEmptySections={true}
-              dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
-              renderRow={this.renderRoute}
-              />
+          <RecentlyViewedRoutes
+            style={Styles.recentlyViewedRoutesContainer}
+            routes={recentlyViewedRoutes}
+            /> 
+          <ListView
+            enableEmptySections={true}
+            dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
+            renderRow={this.renderRoute}
+            />
         </ScrollView>
       </View>
     );
