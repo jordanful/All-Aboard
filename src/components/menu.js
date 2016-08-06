@@ -73,7 +73,7 @@ export default class Menu extends React.Component {
     return (
       <View style={Styles.menuContainer}>
         <SearchInput onChange={this._onChange} />
-        <ScrollView style={Styles.menuRoutes}>
+        <ScrollView style={Styles.menuRoutes} >
           <RecentlyViewedRoutes
             style={Styles.recentlyViewedRoutesContainer}
             routes={recentlyViewedRoutes}

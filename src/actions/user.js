@@ -49,8 +49,6 @@ export default UserActions = {
     Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
     Api.getPredictions(this.state.selectedRoute, selectedStop).then((response) => {
         if (response.hasOwnProperty('error')) {
-          console.warn(response.error[0].msg);
-          console.log(response.error);
           this.setState({
             isLoading: false,
             predictions: null,
