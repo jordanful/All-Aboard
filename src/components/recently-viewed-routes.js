@@ -6,10 +6,8 @@ import {
   ScrollView,
   View,
 } from 'react-native';
-
 import Styles from '../styles/styles.ios';
 import UserActions from '../actions/user.js';
-
 export default class RecentlyViewedRoutes extends React.Component {
 
   static propTypes = {
@@ -20,10 +18,8 @@ export default class RecentlyViewedRoutes extends React.Component {
     routes: [],
   };
 
-
   render() {
     let { routes } = this.props;
-
     return (
       <View style={Styles.recentlyViewedRoutes}>
         <ScrollView horizontal={true} scrollsToTop={false} showsHorizontalScrollIndicator={false}>

@@ -77,7 +77,7 @@ export default class Menu extends React.Component {
           <RecentlyViewedRoutes
             style={Styles.recentlyViewedRoutesContainer}
             routes={recentlyViewedRoutes}
-            /> 
+            />
           <ListView
             enableEmptySections={true}
             dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}

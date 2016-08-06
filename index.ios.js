@@ -23,7 +23,6 @@ class AllAboard extends React.Component {
     this.openMenu = this.openMenu.bind(this);
     UserActions.handleRouteSelection = UserActions.handleRouteSelection.bind(this);
     UserActions.updateDirection = UserActions.updateDirection.bind(this);
-    // UserActions.getNearestStop = UserActions.getNearestStop.bind(this);
     UserActions.getPredictions = UserActions.getPredictions.bind(this);
     this.state = {
       isMenuOpen: true,
