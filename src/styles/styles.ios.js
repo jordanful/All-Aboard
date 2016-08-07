@@ -56,6 +56,11 @@ center: {
    marginLeft: 12,
    fontFamily: 'ProximaNovaLight'
  },
+ menuActivityIndicator: {
+   marginTop: deviceHeight * 0.1,
+   marginLeft: deviceWidth * 0.33,
+   alignSelf: 'flex-start'
+ },
  container: {
    flex: 1,
    backgroundColor: '#28519E'

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import {
+  ActivityIndicator,
   AppState,
   AsyncStorage,
   ListView,
@@ -65,11 +66,20 @@ export default class Menu extends React.Component {
   render() {
     let { recentlyViewedRoutes } = this.props;
     let { allRoutes, filterText } = this.state;
-
     let filteredRoutes = filterText.length > 0
       ? this._filterRoutes(allRoutes, filterText)
       : allRoutes;
-
+    let isLoading = this.state.isLoading;
+    let listView;
+    if (isLoading) {
+      listView = <ActivityIndicator style={Styles.menuActivityIndicator} size="large" color="#73829D"/>
+    } else {
+      listView = <ListView
+                  enableEmptySections={true}
+                  dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
+                  renderRow={this.renderRoute}
+                  />
+    }
     return (
       <View style={Styles.menuContainer}>
         <SearchInput onChange={this._onChange} />
@@ -78,11 +88,7 @@ export default class Menu extends React.Component {
             style={Styles.recentlyViewedRoutesContainer}
             routes={recentlyViewedRoutes}
             />
-          <ListView
-            enableEmptySections={true}
-            dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
-            renderRow={this.renderRoute}
-            />
+          {listView}
         </ScrollView>
       </View>
     );
