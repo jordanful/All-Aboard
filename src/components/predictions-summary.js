@@ -5,7 +5,7 @@ import {
   View,
 } from 'react-native';
 
-class Minutes extends React.Component {
+class Minutes extends Component {
   render() {
     var prediction = this.props.predictions && this.props.predictions[0];
     if (!prediction) { return null };
@@ -19,7 +19,7 @@ class Minutes extends React.Component {
   }
 }
 
-class Stop extends React.Component {
+class Stop extends Component {
   render() {
     var stop = this.props.stop;
     if (!stop) { return null; }
@@ -29,7 +29,7 @@ class Stop extends React.Component {
   }
 }
 
-class Destination extends React.Component {
+class Destination extends Component {
   render() {
     var prediction = this.props.predictions && this.props.predictions[0];
     if (!prediction) { return null; }
@@ -39,7 +39,7 @@ class Destination extends React.Component {
   }
 }
 
-class NextPrediction extends React.Component {
+class NextPrediction extends Component {
   render() {
     let prediction = this.props.prediction;
     if (!prediction) { return null };
@@ -49,7 +49,7 @@ class NextPrediction extends React.Component {
   }
 }
 
-class Error extends React.Component {
+class Error extends Component {
   render() {
     let { error } = this.props;
     return (
@@ -60,7 +60,7 @@ class Error extends React.Component {
   }
 }
 
-export default class PredictionsSummary extends React.Component {
+export default class PredictionsSummary extends Component {
   render() {
     return (
       {error &&

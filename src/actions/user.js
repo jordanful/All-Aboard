@@ -3,26 +3,19 @@ import Storage from '../../src/data/storage'
 import dismissKeyboard from 'dismissKeyboard';
 
 export default UserActions = {
+
   handleRouteSelection(route) {
     dismissKeyboard();
-
+    this.setState({
+      selectedRoute: route,
+      isMenuOpen: false,
+      inputFocused: false,
+    });
     Storage.addRecentlyViewedRoute(route).then((recentlyViewedRoutes) => {
       this.setState({
         recentRoutes: recentlyViewedRoutes,
       });
     });
-
-    var selectedStop;
-
-    this.setState({
-      selectedRoute: route,
-      isMenuOpen: false,
-      inputFocused: false,
-      selectedStop: null,
-      predictions: null, // Hide the predictions but we should show a loader
-      isLoading: true,
-    });
-
     Api.getDirections(route).then((directions) => {
       this.setState({
         directions: directions,
@@ -36,8 +29,6 @@ export default UserActions = {
 
   updateDirection(direction) {
     this.setState({
-      selectedStop: null,
-      predictions: null,
       selectedDirection: direction,
     },
     function() {
@@ -46,12 +37,16 @@ export default UserActions = {
   },
 
   getPredictions() {
+    this.setState({
+      predictions: null,
+      selectedStop: null,
+      isLoading: true,
+    });
     Api.getNearestStop(this.state.selectedRoute, this.state.selectedDirection, (selectedStop) => {
     Api.getPredictions(this.state.selectedRoute, selectedStop).then((response) => {
         if (response.hasOwnProperty('error')) {
           this.setState({
             isLoading: false,
-            predictions: null,
             error: response['error'][0],
             selectedStop: selectedStop,
           });

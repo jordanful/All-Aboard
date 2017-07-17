@@ -1,5 +1,5 @@
-import React, { Component, PropTypes, } from 'react';
-
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   TouchableOpacity,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Styles from '../styles/styles.ios';
 import UserActions from '../actions/user.js';
-export default class RecentlyViewedRoutes extends React.Component {
+export default class RecentlyViewedRoutes extends Component {
 
   static propTypes = {
     routes: PropTypes.array.isRequired,

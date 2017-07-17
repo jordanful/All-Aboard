@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ActivityIndicator } from 'react-native';
 
-export default class LoadingIndicator extends React.Component {
+export default class LoadingIndicator extends Component {
   constructor() {
     super();
   }

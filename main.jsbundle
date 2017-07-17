@@ -28122,7 +28122,7 @@ var _locals=_slicedToArray(locals,1);
 
 var hot=_locals[0].hot;
 
-if(!React.Component){
+if(!Component){
 throw new Error('imports[0] for react-transform-hmr does not look like React.');
 }
 
@@ -32362,7 +32362,7 @@ internalInstance._pendingForceUpdate=true;
 function forceUpdateIfPending(internalInstance,React){
 if(internalInstance._pendingForceUpdate===true){
 var publicInstance=internalInstance._instance;
-React.Component.prototype.forceUpdate.call(publicInstance);
+Component.prototype.forceUpdate.call(publicInstance);
 }
 }
 
@@ -36493,7 +36493,7 @@ this.props.children)));
 
 {
 return true;
-}}]);return Modal;}(React.Component);Modal.propTypes={animationType:PropTypes.oneOf(['none','slide','fade']),transparent:PropTypes.bool,visible:PropTypes.bool,onRequestClose:Platform.OS==='android'?PropTypes.func.isRequired:PropTypes.func,onShow:PropTypes.func,animated:deprecatedPropType(PropTypes.bool,'Use the `animationType` prop instead.')};Modal.defaultProps={visible:true};
+}}]);return Modal;}(Component);Modal.propTypes={animationType:PropTypes.oneOf(['none','slide','fade']),transparent:PropTypes.bool,visible:PropTypes.bool,onRequestClose:Platform.OS==='android'?PropTypes.func.isRequired:PropTypes.func,onShow:PropTypes.func,animated:deprecatedPropType(PropTypes.bool,'Use the `animationType` prop instead.')};Modal.defaultProps={visible:true};
 
 
 var styles=StyleSheet.create({
@@ -48903,7 +48903,7 @@ return!!nextProps.shouldUpdate;
 {
 var child=this.props.children;
 return child===null||child===false?null:onlyChild(child);
-}}]);return StaticContainer;}(React.Component);
+}}]);return StaticContainer;}(Component);
 
 
 
@@ -55978,7 +55978,7 @@ this._propsAnimated.__getValue(),{
 ref:refName})));
 
 
-}}]);return AnimatedComponent;}(React.Component);
+}}]);return AnimatedComponent;}(Component);
 
 AnimatedComponent.propTypes={
 style:function style(props,propName,componentName){
@@ -58871,7 +58871,7 @@ setTouchTargetting:this.setTouchTargetting.bind(this)}))));
 
 
 
-}}]);return Inspector;}(React.Component);
+}}]);return Inspector;}(Component);
 
 
 var styles=StyleSheet.create({
@@ -59075,7 +59075,7 @@ React.createElement(View,{style:[styles.content,contentStyle]})))));
 
 
 
-}}]);return ElementBox;}(React.Component);
+}}]);return ElementBox;}(Component);
 
 
 var styles=StyleSheet.create({
@@ -59128,7 +59128,7 @@ React.createElement(View,{style:[style,this.props.style]},
 this.props.children));
 
 
-}}]);return BorderBox;}(React.Component);
+}}]);return BorderBox;}(Component);
 
 
 module.exports=BorderBox;
@@ -59272,7 +59272,7 @@ onClick:this.props.setTouchTargetting}))));
 
 
 
-}}]);return InspectorPanel;}(React.Component);
+}}]);return InspectorPanel;}(Component);
 
 
 InspectorPanel.propTypes={
@@ -59296,7 +59296,7 @@ this.props.pressed&&styles.buttonPressed]},
 React.createElement(Text,{style:styles.buttonText},this.props.title)));
 
 
-}}]);return Button;}(React.Component);
+}}]);return Button;}(Component);
 
 
 var styles=StyleSheet.create({
@@ -59551,7 +59551,7 @@ frame.width,' × ',frame.height)))));
 
 
 
-}}]);return BoxInspector;}(React.Component);var
+}}]);return BoxInspector;}(Component);var
 
 
 BoxContainer=function(_React$Component2){babelHelpers.inherits(BoxContainer,_React$Component2);function BoxContainer(){babelHelpers.classCallCheck(this,BoxContainer);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(BoxContainer).apply(this,arguments));}babelHelpers.createClass(BoxContainer,[{key:'render',value:function render()
@@ -59571,7 +59571,7 @@ React.createElement(Text,{style:styles.boxText},box.right)),
 React.createElement(Text,{style:styles.boxText},box.bottom)));
 
 
-}}]);return BoxContainer;}(React.Component);
+}}]);return BoxContainer;}(Component);
 
 
 var styles=StyleSheet.create({
@@ -59656,7 +59656,7 @@ return React.createElement(Text,{key:name,style:styles.value},value);
 
 
 
-}}]);return StyleInspector;}(React.Component);
+}}]);return StyleInspector;}(Component);
 
 
 var styles=StyleSheet.create({
@@ -60147,7 +60147,7 @@ rows),
 inspector));
 
 
-}}]);return YellowBox;}(React.Component);
+}}]);return YellowBox;}(Component);
 
 
 var backgroundColor=function backgroundColor(opacity){return'rgba(250, 186, 48, '+opacity+')';};
@@ -62257,7 +62257,7 @@ layout.height.setValue(height);
 layout.width.setValue(width);
 
 this.setState({layout:layout});
-}}]);return NavigationAnimatedView;}(React.Component);NavigationAnimatedView.propTypes={applyAnimation:PropTypes.func,navigationState:NavigationPropTypes.navigationState.isRequired,renderOverlay:PropTypes.func,renderScene:PropTypes.func.isRequired};NavigationAnimatedView.defaultProps={applyAnimation:applyDefaultAnimation};
+}}]);return NavigationAnimatedView;}(Component);NavigationAnimatedView.propTypes={applyAnimation:PropTypes.func,navigationState:NavigationPropTypes.navigationState.isRequired,renderOverlay:PropTypes.func,renderScene:PropTypes.func.isRequired};NavigationAnimatedView.defaultProps={applyAnimation:applyDefaultAnimation};
 
 
 var styles=StyleSheet.create({
@@ -62730,7 +62730,7 @@ this.props.sceneRendererProps.scene.route);
 
 {
 return this.props.sceneRenderer(this.props.sceneRendererProps);
-}}]);return SceneView;}(React.Component);SceneView.propTypes={sceneRenderer:PropTypes.func.isRequired,sceneRendererProps:NavigationPropTypes.SceneRenderer};var
+}}]);return SceneView;}(Component);SceneView.propTypes={sceneRenderer:PropTypes.func.isRequired,sceneRendererProps:NavigationPropTypes.SceneRenderer};var
 
 
 
@@ -62789,7 +62789,7 @@ sceneRendererProps:props})));
 
 
 
-}}]);return NavigationCard;}(React.Component);NavigationCard.propTypes=babelHelpers.extends({},NavigationPropTypes.SceneRendererProps,{onComponentRef:PropTypes.func.isRequired,onNavigateBack:PropTypes.func,panHandlers:NavigationPropTypes.panHandlers,pointerEvents:PropTypes.string.isRequired,renderScene:PropTypes.func.isRequired,style:PropTypes.any});
+}}]);return NavigationCard;}(Component);NavigationCard.propTypes=babelHelpers.extends({},NavigationPropTypes.SceneRendererProps,{onComponentRef:PropTypes.func.isRequired,onNavigateBack:PropTypes.func,panHandlers:NavigationPropTypes.panHandlers,pointerEvents:PropTypes.string.isRequired,renderScene:PropTypes.func.isRequired,style:PropTypes.any});
 
 
 var styles=StyleSheet.create({
@@ -63754,7 +63754,7 @@ return'box-only';
 }
 
 return'auto';
-}}]);return Container;}(React.Component);
+}}]);return Container;}(Component);
 
 return Container;
 }
@@ -64039,7 +64039,7 @@ renderScene:this.props.renderScene,
 style:style})));
 
 
-}}]);return NavigationCardStack;}(React.Component);NavigationCardStack.propTypes={direction:PropTypes.oneOf([Directions.HORIZONTAL,Directions.VERTICAL]),navigationState:NavigationPropTypes.navigationState.isRequired,onNavigateBack:PropTypes.func,renderOverlay:PropTypes.func,renderScene:PropTypes.func.isRequired};NavigationCardStack.defaultProps={direction:Directions.HORIZONTAL,renderOverlay:emptyFunction.thatReturnsNull};
+}}]);return NavigationCardStack;}(Component);NavigationCardStack.propTypes={direction:PropTypes.oneOf([Directions.HORIZONTAL,Directions.VERTICAL]),navigationState:NavigationPropTypes.navigationState.isRequired,onNavigateBack:PropTypes.func,renderOverlay:PropTypes.func,renderScene:PropTypes.func.isRequired};NavigationCardStack.defaultProps={direction:Directions.HORIZONTAL,renderOverlay:emptyFunction.thatReturnsNull};
 
 
 var styles=StyleSheet.create({
@@ -64264,7 +64264,7 @@ styleInterpolator(props)]},
 subView));
 
 
-}}]);return NavigationHeader;}(React.Component);NavigationHeader.defaultProps={renderTitleComponent:function renderTitleComponent(props){var navigationState=props.navigationState;var title=String(navigationState.title||'');return React.createElement(NavigationHeaderTitle,null,title);},renderLeftComponent:function renderLeftComponent(props){if(props.scene.index===0||!props.onNavigateBack){return null;}return React.createElement(NavigationHeaderBackButton,{onPress:props.onNavigateBack});},renderRightComponent:function renderRightComponent(props){return null;}};NavigationHeader.propTypes=babelHelpers.extends({},NavigationPropTypes.SceneRendererProps,{onNavigateBack:PropTypes.func,renderLeftComponent:PropTypes.func,renderRightComponent:PropTypes.func,renderTitleComponent:PropTypes.func,style:View.propTypes.style,viewProps:PropTypes.shape(View.propTypes)});NavigationHeader.
+}}]);return NavigationHeader;}(Component);NavigationHeader.defaultProps={renderTitleComponent:function renderTitleComponent(props){var navigationState=props.navigationState;var title=String(navigationState.title||'');return React.createElement(NavigationHeaderTitle,null,title);},renderLeftComponent:function renderLeftComponent(props){if(props.scene.index===0||!props.onNavigateBack){return null;}return React.createElement(NavigationHeaderBackButton,{onPress:props.onNavigateBack});},renderRightComponent:function renderRightComponent(props){return null;}};NavigationHeader.propTypes=babelHelpers.extends({},NavigationPropTypes.SceneRendererProps,{onNavigateBack:PropTypes.func,renderLeftComponent:PropTypes.func,renderRightComponent:PropTypes.func,renderTitleComponent:PropTypes.func,style:View.propTypes.style,viewProps:PropTypes.shape(View.propTypes)});NavigationHeader.
 
 HEIGHT=APPBAR_HEIGHT+STATUSBAR_HEIGHT;NavigationHeader.
 Title=NavigationHeaderTitle;NavigationHeader.
@@ -64992,7 +64992,7 @@ this.props.onTransitionEnd&&this.props.onTransitionEnd(
 this._transitionProps,
 prevTransitionProps);
 
-}}]);return NavigationTransitioner;}(React.Component);NavigationTransitioner.propTypes={configureTransition:PropTypes.func,navigationState:NavigationPropTypes.navigationState.isRequired,onTransitionEnd:PropTypes.func,onTransitionStart:PropTypes.func,render:PropTypes.func.isRequired};
+}}]);return NavigationTransitioner;}(Component);NavigationTransitioner.propTypes={configureTransition:PropTypes.func,navigationState:NavigationPropTypes.navigationState.isRequired,onTransitionEnd:PropTypes.func,onTransitionStart:PropTypes.func,render:PropTypes.func.isRequired};
 
 
 function buildTransitionProps(
@@ -93525,7 +93525,7 @@ menu,
 this.getContentView()));
 
 
-}}]);return SideMenu;}(_react.Component);
+}}]);return SideMenu;}(_Component);
 
 
 SideMenu.propTypes={

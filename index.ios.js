@@ -17,7 +17,7 @@ import UserActions from './src/actions/user';
 import Styles from './src/styles/styles.ios';
 import Api from './src/api/api';
 
-class AllAboard extends React.Component {
+class AllAboard extends Component {
   constructor() {
     super();
     this.openMenu = this.openMenu.bind(this);

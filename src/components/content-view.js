@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import {
+  ActivityIndicator,
   AppState,
   Image,
   RefreshControl,
@@ -13,7 +14,7 @@ import {
 
 import UserActions from '../../src/actions/user';
 
-class Directions extends React.Component {
+class Directions extends Component {
   constructor() {
     super();
     this._prettyName = this._prettyName.bind(this);
@@ -50,7 +51,7 @@ class Directions extends React.Component {
   }
 }
 
-class ContentViewHeader extends React.Component {
+class ContentViewHeader extends Component {
   render() {
     let activeRoute = this.props.activeRoute || { rtnm: "Choose Route", rt: "" };
 
@@ -73,7 +74,7 @@ class ContentViewHeader extends React.Component {
   }
 }
 
-class Button extends React.Component  {
+class Button extends Component  {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
@@ -83,9 +84,10 @@ class Button extends React.Component  {
   }
 }
 
-class Minutes extends React.Component {
+class Minutes extends Component {
+
   render() {
-    var prediction = this.props.predictions && this.props.predictions[0];
+    let prediction = this.props.predictions && this.props.predictions[0];
     if (!prediction) { return null };
 
     return (
@@ -97,7 +99,7 @@ class Minutes extends React.Component {
   }
 }
 
-class Stop extends React.Component {
+class Stop extends Component {
   render() {
     var stop = this.props.stop;
     if (!stop) { return null; }
@@ -108,7 +110,7 @@ class Stop extends React.Component {
   }
 }
 
-class Destination extends React.Component {
+class Destination extends Component {
   render() {
     var prediction = this.props.predictions && this.props.predictions[0];
     if (!prediction) { return null; }
@@ -119,7 +121,7 @@ class Destination extends React.Component {
   }
 }
 
-class NextPrediction extends React.Component {
+class NextPrediction extends Component {
   render() {
     let prediction = this.props.prediction;
     if (!prediction) { return null };
@@ -129,7 +131,7 @@ class NextPrediction extends React.Component {
   }
 }
 
-class Error extends React.Component {
+class Error extends Component {
   render() {
     let { error } = this.props;
     return (
@@ -140,18 +142,33 @@ class Error extends React.Component {
   }
 }
 
-export default class ContentView extends React.Component {
+export default class ContentView extends Component {
   constructor(props) {
     super(props);
     this._onRefresh = this._onRefresh.bind(this);
     this.state = {
         predictions: props.predictions,
         isRefreshing: false,
+        // isLoading: true,
       };
   }
 
   render() {
     let { activeRoute, error } = this.props;
+    let predictionView;
+    let isLoading = this.state.isLoading;
+    if (isLoading) {
+      predictionView = <ActivityIndicator style={Styles.contentViewActivityIndicator} size="small" color="#6280B8"/>
+    } else {
+      predictionView =
+        <View>
+          <Minutes predictions={this.props.predictions} />
+          <Stop stop={this.props.selectedStop} />
+          <Destination predictions={this.props.predictions} />
+          <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
+          <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
+        </View>
+    }
     return (
       <View style={Styles.contentView}>
         <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
@@ -172,13 +189,7 @@ export default class ContentView extends React.Component {
               <Error error={error} />
             }
             {!error &&
-              <View>
-                <Minutes predictions={this.props.predictions} />
-                <Stop stop={this.props.selectedStop} />
-                <Destination predictions={this.props.predictions} />
-                <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
-                <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
-              </View>
+              predictionView
             }
           </ScrollView>
       </View>
@@ -187,13 +198,15 @@ export default class ContentView extends React.Component {
 
   _onRefresh() {
     this.setState({
-      isRefreshing: true
+      isRefreshing: true,
+      isLoading: true
     });
 
     UserActions.refreshPredictions(this.props.activeRoute, this.props.selectedDirection)
       .then(() => {
         this.setState({
           isRefreshing: false,
+          isLoading: false
         });
       })
       .catch(() => {
@@ -201,6 +214,7 @@ export default class ContentView extends React.Component {
 
         this.setState({
           isRefreshing: false,
+          isLoading: false
         });
       });
   }

@@ -12,6 +12,7 @@ center: {
 },
  contentView: {
    flex: 1,
+   justifyContent: 'center',
  },
  menuContainer: {
    backgroundColor: '#132C5B',
@@ -83,6 +84,10 @@ center: {
    marginTop: 10,
    width: 25,
    height: 19
+ },
+ contentViewActivityIndicator: {
+   alignSelf: 'center',
+   marginTop: 60,
  },
  contentViewHeaderRouteNumberAndNameContainer: {
    justifyContent: 'center',

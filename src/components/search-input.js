@@ -5,17 +5,7 @@ import {
   TextInput,
 } from 'react-native';
 
-export default class SearchInput extends React.Component {
-
-  // when a route is selected or the menu button is tapped
-  // we should
-  // 1) blur the field
-  // 2) reset the filtertext
-
-  // when the textinput is focused
-  // we should
-  // 1) reset the filtertext
-
+export default class SearchInput extends Component {
   render() {
     let { onChange } = this.props;
     return (

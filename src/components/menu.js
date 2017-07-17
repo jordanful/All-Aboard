@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
   AppState,
@@ -14,7 +15,7 @@ import SearchInput from '../../src/components/search-input';
 import UserActions from '../../src/actions/user.js';
 import _ from 'lodash';
 
-export default class Menu extends React.Component {
+export default class Menu extends Component {
 
   static propTypes = {
     recentlyViewedRoutes: PropTypes.array,

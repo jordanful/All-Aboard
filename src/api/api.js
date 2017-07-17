@@ -13,6 +13,7 @@ export default Api = {
       let nearestStop = {};
       const userLat = location.latitude;
       const userLon = location.longitude;
+      console.log(direction.dir);
       const url = baseUrl + '/getstops' + urlParams + '&rt=' + route.rt + '&dir=' + direction.dir;
       fetch(url)
         .then((response) => response.json())
