@@ -27,9 +27,10 @@ center: {
    marginBottom: 15,
    width: deviceWidth * 0.74,
    borderRadius: 22,
-   color: '#333',
+   color: '#626262',
    fontSize: 19,
-   fontFamily: 'ProximaNovaLight'
+   fontWeight: '500',
+   fontFamily: 'System'
  },
  row: {
    flexDirection: 'row',
@@ -45,17 +46,17 @@ center: {
    alignItems: 'center'
  },
  menuRouteNumber: {
-   color: '#664100',
+   color: '#3E2700',
    fontWeight: '600',
    alignSelf: 'center',
-   fontFamily: 'ProximaNovaSemiBold'
+   fontFamily: 'System'
  },
  menuRouteName: {
    color: 'white',
-   fontSize: 22,
-   fontWeight: '300',
-   marginLeft: 12,
-   fontFamily: 'ProximaNovaLight'
+   fontSize: 19,
+   fontWeight: '500',
+   marginLeft: 10,
+   fontFamily: 'System'
  },
  menuActivityIndicator: {
    marginTop: deviceHeight * 0.1,
@@ -107,52 +108,53 @@ center: {
    color: '#664100',
    fontWeight: '600',
    alignSelf: 'center',
-   fontFamily: 'ProximaNovaSemiBold'
+   fontFamily: 'System'
  },
  contentViewHeaderRouteName: {
    color: '#274A8D',
    fontSize: 22,
    marginLeft: 10,
    marginTop: 10,
-   fontFamily: 'ProximaNovaLight'
+   fontWeight: '500',
+   fontFamily: 'System'
  },
  minutes: {
-   fontSize: 140,
-   fontWeight: '100',
+   fontSize: 130,
+   fontWeight: '500',
    color: 'white',
-   marginTop: 40,
+   marginTop: 30,
    alignSelf: 'center',
-   fontFamily: 'ProximaNovaThin'
+   fontFamily: 'System'
  },
  minutesLabel: {
    fontSize: 24,
    color: 'white',
-   opacity: 0.5,
    alignSelf: 'center',
-   fontFamily: 'ProximaNovaLight'
+   fontFamily: 'System'
  },
  nextPrediction: {
    color: 'white',
-   marginTop: 60,
-   opacity: 0.7,
+   marginTop: 40,
+   opacity: 0.8,
    fontSize: 22,
+   fontWeight: '500',
    alignSelf: 'center',
-   fontFamily: 'ProximaNovaLight'
+   fontFamily: 'System'
  },
  stop: {
    color: 'white',
    marginTop: 45,
    fontSize: 22,
    alignSelf: 'center',
-   fontFamily: 'ProximaNovaLight'
+   fontFamily: 'System'
  },
  destination: {
    color: 'white',
-   opacity: 0.5,
+   opacity: 0.75,
    fontSize: 19,
    marginTop: 10,
    alignSelf: 'center',
-   fontFamily: 'ProximaNovaLight'
+   fontFamily: 'System'
  },
  directions: {
    flexDirection: 'row',
@@ -167,13 +169,13 @@ center: {
    alignSelf: 'center',
    fontSize: 30,
    color: '#6884BA',
-   fontFamily: 'ProximaNovaLight'
+   fontFamily: 'System'
  },
  directionTextActive: {
    alignSelf: 'center',
    fontSize: 30,
    color: 'white',
-   fontFamily: 'ProximaNovaLight'
+   fontFamily: 'System'
  },
 menuRoutes: {
   flex: 1,
@@ -193,7 +195,7 @@ menuRoutes: {
    alignItems: 'center',
  },
  recentlyViewedRouteNumber: {
-   fontSize: 16,
+   fontSize: 19,
    fontWeight: '600',
  },
 });
