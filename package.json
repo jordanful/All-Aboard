@@ -7,10 +7,8 @@
   },
   "dependencies": {
     "lodash": "4.6.1",
-    "react-native": "^0.46.3",
-    "react-native-side-menu": "git+https://github.com/react-native-community/react-native-side-menu.git#master"
-  },
-  "devDependencies": {
-    "react": "^16.0.0-alpha.12"
+    "react-native": "^0.51.0",
+    "react": "16.0.0",
+    "react-native-side-menu": "1.1.3"
   }
 }
