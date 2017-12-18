@@ -1,10 +1,14 @@
 import React, { StyleSheet } from 'react-native';
-
+import {ifIphoneX } from 'react-native-iphone-x-helper';
 const Dimensions = require('Dimensions');
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 export default Styles = StyleSheet.create({
+safeArea: {
+  flex: 1,
+  backgroundColor: '#132C5B',
+},
 center: {
   alignItems: 'center',
   justifyContent: 'center',
@@ -23,7 +27,11 @@ center: {
    height: 40,
    padding: 11,
    margin: 10,
-   marginTop: 25,
+   ...ifIphoneX({
+     marginTop: 50
+   }, {
+     marginTop: 25
+   }),
    marginBottom: 15,
    width: deviceWidth * 0.74,
    borderRadius: 22,
@@ -72,13 +80,18 @@ center: {
    borderTopLeftRadius: 8,
    borderTopRightRadius: 8,
    flexDirection: 'row',
-   alignItems: 'center',
    justifyContent: 'space-between',
-   height: 64
+   alignItems: 'flex-end',
+   paddingBottom: 15,
+   ...ifIphoneX({
+     height: 90,
+   }, {
+     height: 64
+   })
  },
  contentViewHeaderIcon: {
    marginLeft: 18,
-   marginTop: 10
+   marginTop: 10,
  },
  contentViewHeaderDummyRightSpace: {
    marginRight: 18,
@@ -91,7 +104,6 @@ center: {
    marginTop: 60,
  },
  contentViewHeaderRouteNumberAndNameContainer: {
-   justifyContent: 'center',
    alignItems: 'center',
    flexDirection: 'row',
  },
@@ -100,8 +112,8 @@ center: {
    width: 35,
    height: 24,
    borderRadius: 12,
-   justifyContent: 'center',
    alignItems: 'center',
+   justifyContent: 'center',
    marginTop: 10
  },
  contentViewHeaderRouteNumber: {

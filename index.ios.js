@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   AppRegistry,
   RefreshControl,
+  SafeAreaView,
   ScrollView,
   Text,
   TouchableWithoutFeedback,
@@ -36,8 +37,9 @@ class AllAboard extends Component {
     const deviceHeight = Dimensions.get('window').height;
 
     return (
-      // https://github.com/facebook/react-native/issues/4229
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
+      <SafeAreaView style={Styles.safeArea}>
+
         <SideMenu
           animation='spring'
           touchToClose={true}
@@ -62,6 +64,7 @@ class AllAboard extends Component {
             error={this.state.error}
           />
         </SideMenu>
+        </SafeAreaView>
       </TouchableWithoutFeedback>
     );
   }
