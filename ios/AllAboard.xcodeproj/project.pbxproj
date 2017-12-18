@@ -17,7 +17,6 @@
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
@@ -36,11 +35,13 @@
 		2DCD954D1E0B4F2C00145EB5 /* AllAboardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AllAboardTests.m */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		FD6BDF2A1D372523007D37A0 /* Default-568h.png in Resources */ = {isa = PBXBuildFile; fileRef = FD6BDF281D372523007D37A0 /* Default-568h.png */; };
-		FD6BDF2B1D372523007D37A0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD6BDF291D372523007D37A0 /* Default-568h@2x.png */; };
 		FDE84C711D369AA9006E8D1C /* ProximaNovaLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = FDE84C6E1D369AA9006E8D1C /* ProximaNovaLight.otf */; };
 		FDE84C721D369AA9006E8D1C /* ProximaNovaSemibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FDE84C6F1D369AA9006E8D1C /* ProximaNovaSemibold.otf */; };
 		FDE84C731D369AA9006E8D1C /* ProximaNovaThin.otf in Resources */ = {isa = PBXBuildFile; fileRef = FDE84C701D369AA9006E8D1C /* ProximaNovaThin.otf */; };
+		FDF3AF031FE7676400F1A5F7 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDF3AF021FE7676400F1A5F7 /* Launch Screen.storyboard */; };
+		FDF3AF051FE767F800F1A5F7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDF3AF041FE767F800F1A5F7 /* LaunchScreen.xib */; };
+		FDF3AF081FE7680200F1A5F7 /* Default-568h.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF3AF061FE7680100F1A5F7 /* Default-568h.png */; };
+		FDF3AF091FE7680200F1A5F7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDF3AF071FE7680200F1A5F7 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -306,7 +307,6 @@
 		13B07F961A680F5B00A75B9A /* AllAboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllAboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = AllAboard/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = AllAboard/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AllAboard/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AllAboard/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AllAboard/main.m; sourceTree = "<group>"; };
@@ -316,11 +316,13 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		FD6BDF281D372523007D37A0 /* Default-568h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h.png"; path = "../src/assets/images/Default-568h.png"; sourceTree = "<group>"; };
-		FD6BDF291D372523007D37A0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../src/assets/images/Default-568h@2x.png"; sourceTree = "<group>"; };
 		FDE84C6E1D369AA9006E8D1C /* ProximaNovaLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ProximaNovaLight.otf; sourceTree = "<group>"; };
 		FDE84C6F1D369AA9006E8D1C /* ProximaNovaSemibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ProximaNovaSemibold.otf; sourceTree = "<group>"; };
 		FDE84C701D369AA9006E8D1C /* ProximaNovaThin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ProximaNovaThin.otf; sourceTree = "<group>"; };
+		FDF3AF021FE7676400F1A5F7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		FDF3AF041FE767F800F1A5F7 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		FDF3AF061FE7680100F1A5F7 /* Default-568h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h.png"; sourceTree = "<group>"; };
+		FDF3AF071FE7680200F1A5F7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -462,7 +464,8 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				FDF3AF041FE767F800F1A5F7 /* LaunchScreen.xib */,
+				FDF3AF021FE7676400F1A5F7 /* Launch Screen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = AllAboard;
@@ -537,8 +540,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				FD6BDF281D372523007D37A0 /* Default-568h.png */,
-				FD6BDF291D372523007D37A0 /* Default-568h@2x.png */,
+				FDF3AF061FE7680100F1A5F7 /* Default-568h.png */,
+				FDF3AF071FE7680200F1A5F7 /* Default-568h@2x.png */,
 				FDE84C6E1D369AA9006E8D1C /* ProximaNovaLight.otf */,
 				FDE84C6F1D369AA9006E8D1C /* ProximaNovaSemibold.otf */,
 				FDE84C701D369AA9006E8D1C /* ProximaNovaThin.otf */,
@@ -981,10 +984,11 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				FDE84C721D369AA9006E8D1C /* ProximaNovaSemibold.otf in Resources */,
+				FDF3AF081FE7680200F1A5F7 /* Default-568h.png in Resources */,
+				FDF3AF031FE7676400F1A5F7 /* Launch Screen.storyboard in Resources */,
 				FDE84C711D369AA9006E8D1C /* ProximaNovaLight.otf in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				FD6BDF2A1D372523007D37A0 /* Default-568h.png in Resources */,
-				FD6BDF2B1D372523007D37A0 /* Default-568h@2x.png in Resources */,
+				FDF3AF051FE767F800F1A5F7 /* LaunchScreen.xib in Resources */,
+				FDF3AF091FE7680200F1A5F7 /* Default-568h@2x.png in Resources */,
 				FDE84C731D369AA9006E8D1C /* ProximaNovaThin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1087,18 +1091,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = AllAboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1147,7 +1139,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Launch Images (Legacy)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = R7Q5XE25PW;
@@ -1157,6 +1148,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = AllAboard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1173,7 +1165,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Launch Images (Legacy)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R7Q5XE25PW;
 				HEADER_SEARCH_PATHS = (
@@ -1182,6 +1173,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
 				INFOPLIST_FILE = AllAboard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
