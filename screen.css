@@ -1,0 +1,123 @@
+body {
+	font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background-color: white;
+	color: #1A2C5B;
+	-webkit-backface-visibility: hidden;
+	font-weight: 300;
+}
+#container {
+	max-width: 800px;
+	margin: 0 auto;
+	-webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 40px;
+  position: relative;
+}
+#left {
+	margin-top: 40px;
+	max-width: 339px;
+	float: left;
+}
+.quotes {
+	-moz-animation-duration: 1s;
+  -moz-animation-delay: .7s;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-delay: .7s;
+  -ms-animation-duration: 1s;
+  -ms-animation-delay: .7s;
+  -o-animation-duration: 1s;
+  -o-animation-delay: .7s;
+  animation-duration: 1s;
+  animation-delay: .7s;
+}
+.quote {
+	margin-top: 30px;
+	line-height: 1.5em;
+	font-size: 1.0em;
+}
+h1 {
+	font-size: 3.2em;
+	font-weight: 300;
+	margin-bottom: 30px;
+	font-weight: 100;
+}
+h2 {
+	font-size: 1.5em;
+	color: #002F4C;
+	margin-bottom: 30px;
+	font-weight: 400;
+	line-height: 1.5em;
+}
+.phone {
+	float: right;
+	margin: 50px 40px 0 0;
+	width: 253px;
+	height: 526px;
+}
+
+.button {
+	border-radius: 6px;
+	cursor: pointer;
+	background-image: -o-linear-gradient(-89deg, #FED680 0%, #FCB445 100%);
+	background-image: -moz-linear-gradient(-89deg, #FED680 0%, #FCB445 100%);
+	background-image: -ms-linear-gradient(-89deg, #FED680 0%, #FCB445 100%);
+	background-image: linear-gradient(-179deg, #FED680 0%, #FCB445 100%);
+	width: auto;
+	padding: 22px 31px;
+	text-align: center;
+	display: inline-block;
+	font-size: 1.2em;
+	text-decoration: none !important;
+	margin-top: 30px;
+	color: #795E2E;
+	text-shadow: 0px 1px 0px rgba(255,254,254,0.20);
+
+}
+
+.button:active {
+	top: 2px;
+	position: relative;
+}
+.app-store {
+	width: 135px;
+	height: 40px;
+	margin-top: 30px;
+	display: block;
+}
+
+.byline {
+	font-size: .9em;
+	margin-top: 50px;
+}
+
+a {
+	text-decoration: none;
+	color: #FDC868;
+}
+
+/*Smaller Screens*/
+@media screen and (max-width: 710px) {
+	h2 {
+		margin-bottom: 20px
+	}
+  .phone {
+    display: none;
+  }
+  .button {
+  	margin-bottom: 40px;
+  }
+
+  .app-store {
+  	margin: 10px auto 40px auto;
+  }
+  .byline {
+  	margin-bottom: 40px;
+  }
+  #left {
+  	float: none;
+  	margin: 0 auto;
+  }
+  #container {
+  	text-align: center;
+  }
