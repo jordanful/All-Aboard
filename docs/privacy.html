@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — All Aboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: #0B1A38;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 80px 24px 60px;
+    }
+
+    .back {
+      display: inline-block;
+      color: #F5B731;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 40px;
+    }
+
+    .back:hover { text-decoration: underline; }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .updated {
+      font-size: 14px;
+      color: #5E73A0;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 32px 0 12px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #8A9BC2;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    ul {
+      color: #8A9BC2;
+      font-size: 16px;
+      line-height: 1.7;
+      padding-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    a { color: #F5B731; }
+
+    @media (max-width: 480px) {
+      .container { padding: 60px 20px 40px; }
+      h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back">&larr; All Aboard</a>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: February 10, 2026</p>
+
+    <h2>Overview</h2>
+    <p>
+      All Aboard is a simple transit tracker for the Chicago CTA. We believe in
+      straightforward privacy: we don't collect your data, period.
+    </p>
+
+    <h2>Data We Collect</h2>
+    <p>None. All Aboard does not collect, store, or transmit any personal data. There are no user accounts, no analytics, no tracking, and no server or database.</p>
+
+    <h2>Location Data</h2>
+    <p>
+      All Aboard requests access to your device's location to find the nearest
+      bus stop or train station. Your location is used entirely on-device and is
+      sent only to the CTA's public API to retrieve nearby arrival predictions.
+      Your location is never stored, logged, or sent anywhere else.
+    </p>
+
+    <h2>Recently Viewed Routes</h2>
+    <p>
+      The app stores your recently viewed routes locally on your device using
+      AsyncStorage. This data never leaves your device and is not accessible
+      to us or any third party.
+    </p>
+
+    <h2>Third-Party Services</h2>
+    <p>All Aboard communicates with the following public CTA APIs to provide transit data:</p>
+    <ul>
+      <li>CTA Bus Tracker API</li>
+      <li>CTA Train Tracker API</li>
+      <li>CTA Customer Alerts API</li>
+    </ul>
+    <p>
+      These are public APIs operated by the Chicago Transit Authority. Please refer
+      to the <a href="https://www.transitchicago.com/privacy/">CTA's privacy policy</a>
+      for information about how they handle API requests.
+    </p>
+
+    <h2>Children's Privacy</h2>
+    <p>
+      All Aboard does not collect any data from anyone, including children under 13.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      If this policy changes, we will update this page with the new date.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions? Open an issue on
+      <a href="https://github.com/jordanful/All-Aboard">GitHub</a>.
+    </p>
+  </div>
+</body>
+</html>

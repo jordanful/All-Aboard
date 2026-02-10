@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Aboard — Chicago CTA Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: #0B1A38;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero {
+      max-width: 640px;
+      width: 100%;
+      padding: 80px 24px 60px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #F5B731;
+      color: #0B1A38;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 19px;
+      color: #8A9BC2;
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto 48px;
+    }
+
+    .features {
+      max-width: 640px;
+      width: 100%;
+      padding: 0 24px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .feature {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    .feature-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .feature h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: #8A9BC2;
+      line-height: 1.5;
+    }
+
+    .lines {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      padding: 0 24px;
+    }
+
+    .line-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 32px 24px;
+      text-align: center;
+      color: #5E73A0;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #8A9BC2;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #F5B731;
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 60px 20px 40px; }
+      h1 { font-size: 36px; }
+      .subtitle { font-size: 17px; }
+      .features { grid-template-columns: 1fr; padding: 0 20px 40px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="badge">Chicago CTA</div>
+    <h1>All Aboard</h1>
+    <p class="subtitle">
+      Real-time bus and train arrivals for the CTA.
+      Pick a route and see when the next one is coming.
+    </p>
+  </div>
+
+  <div class="lines">
+    <div class="line-dot" style="background: #c60c30;" title="Red Line"></div>
+    <div class="line-dot" style="background: #00a1de;" title="Blue Line"></div>
+    <div class="line-dot" style="background: #62361b;" title="Brown Line"></div>
+    <div class="line-dot" style="background: #009b3a;" title="Green Line"></div>
+    <div class="line-dot" style="background: #f9461c;" title="Orange Line"></div>
+    <div class="line-dot" style="background: #522398;" title="Purple Line"></div>
+    <div class="line-dot" style="background: #e27ea6;" title="Pink Line"></div>
+    <div class="line-dot" style="background: #f9e300;" title="Yellow Line"></div>
+  </div>
+
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">🚌</div>
+      <h3>129 Bus Routes</h3>
+      <p>Live predictions for every CTA bus route in Chicago.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🚇</div>
+      <h3>8 Train Lines</h3>
+      <p>Real-time arrivals for every L line.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📍</div>
+      <h3>Nearest Stop</h3>
+      <p>Automatically finds the closest stop or station to you.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">⚠️</div>
+      <h3>Service Alerts</h3>
+      <p>CTA alerts so you know about delays before you leave.</p>
+    </div>
+  </div>
+
+  <footer>
+    <a href="privacy.html">Privacy Policy</a>
+    &nbsp;&middot;&nbsp;
+    <a href="https://github.com/jordanful/All-Aboard">GitHub</a>
+  </footer>
+</body>
+</html>
