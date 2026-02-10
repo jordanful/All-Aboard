@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 
 import {
   ActivityIndicator,
-  AppState,
-  Image,
   RefreshControl,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-import UserActions from '../../src/actions/user';
+import UserActions from '../actions/user';
+import Styles from '../styles/styles.ios';
 
 class Directions extends Component {
   constructor() {
@@ -25,9 +23,14 @@ class Directions extends Component {
     return (
       <View style={Styles.directions}>
         { directions.map((direction, i) =>
-          <TouchableOpacity key={i} style={Styles.direction} onPress={() => this.props.onChooseDirection(direction)}>
+          <TouchableOpacity
+            key={i}
+            style={direction.dir == this.props.selectedDirection.dir ? Styles.directionActive : Styles.direction}
+            onPress={() => this.props.onChooseDirection(direction)}
+            activeOpacity={0.7}
+          >
             <Text allowFontScaling={false} style={direction.dir == this.props.selectedDirection.dir ? Styles.directionTextActive : Styles.directionText}>
-              {this._prettyName(direction.dir)}
+              {direction.label || this._prettyName(direction.dir)}
             </Text>
           </TouchableOpacity>
         )}
@@ -51,51 +54,77 @@ class Directions extends Component {
   }
 }
 
-class ContentViewHeader extends Component {
-  render() {
-    let activeRoute = this.props.activeRoute || { rtnm: "Choose Route", rt: "" };
-
-    return (
-      <View style={Styles.contentViewHeader}>
-        <Button onPress={this.props.onLeftButtonPress}  />
-        <View style={Styles.contentViewHeaderRouteNumberAndNameContainer}>
-          <View style={activeRoute.rt && Styles.contentViewHeaderRouteNumberContainer}>
-            <Text allowFontScaling={false} style={Styles.contentViewHeaderRouteNumber}>
-              {activeRoute.rt}
-            </Text>
-          </View>
-          <Text allowFontScaling={false} style={Styles.contentViewHeaderRouteName}>
-            {activeRoute.rtnm}
-          </Text>
-        </View>
-        <View style={Styles.contentViewHeaderDummyRightSpace}></View>
-      </View>
-    );
-  }
-}
-
-class Button extends Component  {
+class MenuButton extends Component {
   render() {
     return (
-      <TouchableOpacity onPress={this.props.onPress}>
-        <Image style={Styles.contentViewHeaderIcon} source={require('../../src/assets/images/contentViewHeaderIcon.png')} />
+      <TouchableOpacity onPress={this.props.onPress} style={Styles.menuButton} activeOpacity={0.6}>
+        <View style={Styles.menuButtonLine} />
+        <View style={Styles.menuButtonLine} />
+        <View style={Styles.menuButtonLine} />
       </TouchableOpacity>
     );
   }
 }
 
-class Minutes extends Component {
+class ContentViewHeader extends Component {
+  render() {
+    let activeRoute = this.props.activeRoute;
+    let hasRoute = activeRoute && activeRoute.rt;
 
+    return (
+      <View style={Styles.contentViewHeader}>
+        <MenuButton onPress={this.props.onLeftButtonPress} />
+        <View style={Styles.contentViewHeaderRouteInfo}>
+          {hasRoute ? (
+            <>
+              <View style={[
+                Styles.contentViewHeaderRouteNumberContainer,
+                activeRoute.type === 'train' && { backgroundColor: activeRoute.color },
+              ]}>
+                <Text allowFontScaling={false} style={[
+                  Styles.contentViewHeaderRouteNumber,
+                  activeRoute.type === 'train' && { color: activeRoute.textColor },
+                ]}>
+                  {activeRoute.type === 'train' ? activeRoute.rt.charAt(0) : activeRoute.rt}
+                </Text>
+              </View>
+              <Text allowFontScaling={false} style={Styles.contentViewHeaderRouteName} numberOfLines={1}>
+                {activeRoute.rtnm}
+              </Text>
+            </>
+          ) : (
+            <Text allowFontScaling={false} style={Styles.contentViewHeaderPlaceholder}>
+              Choose a route
+            </Text>
+          )}
+        </View>
+      </View>
+    );
+  }
+}
+
+class Minutes extends Component {
   render() {
     let prediction = this.props.predictions && this.props.predictions[0];
     if (!prediction) { return null };
 
+    let isApproaching = prediction.isApp === '1';
+    let isDelayed = prediction.isDly === '1';
+    let displayValue = isApproaching ? 'Due' : prediction.prdctdn;
+    let label = isDelayed ? 'delayed' : (isApproaching ? 'now' : 'minutes');
+
     return (
-      <View>
-        <Text allowFontScaling={false} style={Styles.minutes}>{prediction.prdctdn}</Text>
-        <Text allowFontScaling={false} style={Styles.minutesLabel}>minutes</Text>
+      <View style={Styles.predictionContainer}>
+        <Text allowFontScaling={false} style={[
+          Styles.minutes,
+          isApproaching && { fontSize: 72, lineHeight: 82 },
+        ]}>{displayValue}</Text>
+        <Text allowFontScaling={false} style={[
+          Styles.minutesLabel,
+          isDelayed && { color: '#E8534E' },
+        ]}>{label}</Text>
       </View>
-      );
+    );
   }
 }
 
@@ -125,17 +154,65 @@ class NextPrediction extends Component {
   render() {
     let prediction = this.props.prediction;
     if (!prediction) { return null };
+    let text = prediction.isApp === '1' ? 'Due' : prediction.prdctdn + ' min';
     return(
-      <Text allowFontScaling={false} style={Styles.nextPrediction}>{prediction.prdctdn} minutes</Text>
+      <Text allowFontScaling={false} style={Styles.nextPrediction}>{text}</Text>
     );
   }
 }
 
-class Error extends Component {
+class Alerts extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { expanded: false };
+  }
+
+  render() {
+    let { alerts } = this.props;
+    if (!alerts || alerts.length === 0) return null;
+
+    let count = alerts.length;
+    let hasMajor = alerts.some(a => a.MajorAlert === '1');
+    let label = count === 1 ? alerts[0].Headline : count + ' service alerts';
+
+    return (
+      <View style={Styles.alertsContainer}>
+        <TouchableOpacity
+          style={[Styles.alertBanner, hasMajor && Styles.alertBannerMajor]}
+          activeOpacity={0.7}
+          onPress={() => this.setState({ expanded: !this.state.expanded })}
+        >
+          <View style={Styles.alertBannerLeft}>
+            <Text allowFontScaling={false} style={Styles.alertBannerIcon}>!</Text>
+          </View>
+          <Text allowFontScaling={false} style={Styles.alertBannerText} numberOfLines={1}>
+            {label}
+          </Text>
+          <Text allowFontScaling={false} style={Styles.alertBannerChevron}>
+            {this.state.expanded ? '▾' : '▸'}
+          </Text>
+        </TouchableOpacity>
+
+        {this.state.expanded && alerts.map((alert, i) => (
+          <View key={alert.AlertId || i} style={Styles.alertDetail}>
+            <Text allowFontScaling={false} style={Styles.alertDetailImpact}>
+              {alert.Impact || alert.Headline}
+            </Text>
+            <Text allowFontScaling={false} style={Styles.alertDetailText}>
+              {alert.ShortDescription}
+            </Text>
+          </View>
+        ))}
+      </View>
+    );
+  }
+}
+
+class ErrorMessage extends Component {
   render() {
     let { error } = this.props;
     return (
-      <Text allowFontScaling={false} style={Styles.nextPrediction}>
+      <Text allowFontScaling={false} style={Styles.errorText}>
         {error.msg}
       </Text>
     )
@@ -149,7 +226,6 @@ export default class ContentView extends Component {
     this.state = {
         predictions: props.predictions,
         isRefreshing: false,
-        // isLoading: true,
       };
   }
 
@@ -157,40 +233,62 @@ export default class ContentView extends Component {
     let { activeRoute, error } = this.props;
     let predictionView;
     let isLoading = this.state.isLoading;
-    if (isLoading) {
-      predictionView = <ActivityIndicator style={Styles.contentViewActivityIndicator} size="small" color="#6280B8"/>
+    let hasRoute = activeRoute && activeRoute.rt;
+
+    if (!hasRoute) {
+      predictionView = (
+        <View style={Styles.emptyState}>
+          <Text allowFontScaling={false} style={Styles.emptyStateText}>
+            Select a route to begin
+          </Text>
+        </View>
+      );
+    } else if (isLoading) {
+      predictionView = <ActivityIndicator style={Styles.contentViewActivityIndicator} size="small" color="rgba(255,255,255,0.5)"/>
     } else {
+      let nextPredictions = this.props.predictions && this.props.predictions.slice(1);
       predictionView =
         <View>
           <Minutes predictions={this.props.predictions} />
           <Stop stop={this.props.selectedStop} />
           <Destination predictions={this.props.predictions} />
-          <NextPrediction prediction={this.props.predictions && this.props.predictions[1]} />
-          <NextPrediction prediction={this.props.predictions && this.props.predictions[2]} />
+          {nextPredictions && nextPredictions.length > 0 && (
+            <View style={Styles.nextPredictionsContainer}>
+              <Text allowFontScaling={false} style={Styles.nextPredictionLabel}>Also arriving</Text>
+              {nextPredictions.map((p, i) => (
+                <NextPrediction key={i} prediction={p} />
+              ))}
+            </View>
+          )}
         </View>
     }
     return (
       <View style={Styles.contentView}>
         <ContentViewHeader activeRoute={activeRoute} onLeftButtonPress={this.props.onLeftButtonPress} />
           <ScrollView
-            style={Styles.container}
-            activeRoute={activeRoute}
+            style={Styles.contentScrollView}
+            contentContainerStyle={!hasRoute && { flex: 1 }}
             refreshControl={
-              <RefreshControl
-                refreshing={this.state.isRefreshing}
-                onRefresh={this._onRefresh}
-                tintColor="#FFF"
-                title=""
-              />
+              hasRoute ? (
+                <RefreshControl
+                  refreshing={this.state.isRefreshing}
+                  onRefresh={this._onRefresh}
+                  tintColor="rgba(255,255,255,0.5)"
+                  title=""
+                />
+              ) : undefined
             }
           >
-            <Directions directions={this.props.directions} selectedDirection={this.props.selectedDirection} onChooseDirection={this.props.onChooseDirection} />
-            {error &&
-              <Error error={error} />
-            }
-            {!error &&
-              predictionView
-            }
+            {hasRoute && (
+              <Directions
+                directions={this.props.directions}
+                selectedDirection={this.props.selectedDirection}
+                onChooseDirection={this.props.onChooseDirection}
+              />
+            )}
+            {hasRoute && <Alerts alerts={this.props.alerts} />}
+            {error && <ErrorMessage error={error} />}
+            {!error && predictionView}
           </ScrollView>
       </View>
       );

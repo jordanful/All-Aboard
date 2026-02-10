@@ -1,8 +1,28 @@
-import Geolocation from '../../src/api/geolocation';
+import Geolocation from './geolocation';
+import { STATIONS } from '../data/stations';
 
-const baseUrl = 'http://ctabustracker.com/bustime/api/v2';
+const baseUrl = 'https://ctabustracker.com/bustime/api/v2';
 const apiKey = 'PhX3QnZXw3LKKVU6jxc9CDpDC';
 const urlParams = '?key=' + apiKey + '&format=json';
+
+const trainBaseUrl = 'https://lapi.transitchicago.com/api/1.0';
+const trainApiKey = '71a3a034ae7949e3bb14eadb996a902a';
+
+function getJSON(url) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.onload = () => {
+      try {
+        resolve(JSON.parse(xhr.responseText));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    xhr.onerror = () => reject(new Error('Network request failed'));
+    xhr.send();
+  });
+}
 
 export default Api = {
   // Get list of stops, iterate through them, and return the nearest stop
@@ -13,10 +33,8 @@ export default Api = {
       let nearestStop = {};
       const userLat = location.latitude;
       const userLon = location.longitude;
-      console.log(direction.dir);
       const url = baseUrl + '/getstops' + urlParams + '&rt=' + route.rt + '&dir=' + direction.dir;
-      fetch(url)
-        .then((response) => response.json())
+      getJSON(url)
         .then((data) => {
           var data = data['bustime-response'];
           var numberOfStops = Object.keys(data.stops).length;
@@ -38,8 +56,7 @@ export default Api = {
   // Get the directions for a route, either North / South or East / West
   getDirections(route){
     var url = baseUrl + '/getdirections' + urlParams + "&rt=" + route.rt;
-    return fetch(url)
-      .then((response) => response.json())
+    return getJSON(url)
       .then((response) => response['bustime-response']['directions']);
   },
 
@@ -48,8 +65,7 @@ export default Api = {
   // Remember this also returns the destination of the vehicle (new in v2 I think)
   getPredictions(route, nearestStop){
     var url = baseUrl + '/getpredictions' + urlParams + '&rt=' + route.rt + '&stpid=' + nearestStop.stpid + '&top=3';
-    return fetch(url)
-      .then((response) => response.json())
+    return getJSON(url)
       .then((response) => response['bustime-response'])
       .catch((error) => {
         console.warn(error.msg);
@@ -59,8 +75,54 @@ export default Api = {
   // Get all the bus routes
   getAllRoutes() {
     var url = baseUrl + '/getroutes' + urlParams;
-    return fetch(url)
-      .then(function(response) { return response.json(); })
+    return getJSON(url);
+  },
+
+  // Find the nearest L station for a given train line
+  getNearestStation(lineCode, callback) {
+    Geolocation.geolocate(function(location) {
+      const userLat = location.latitude;
+      const userLon = location.longitude;
+      const lineStations = STATIONS.filter(s => s.lines.indexOf(lineCode) !== -1);
+      let shortestDistance = 0;
+      let nearestStation = lineStations[0];
+      for (let i = 0; i < lineStations.length; i++) {
+        let dist = Geolocation.getDistance(userLat, userLon, lineStations[i].lat, lineStations[i].lon, 'K');
+        if (dist < shortestDistance || shortestDistance === 0) {
+          shortestDistance = dist;
+          nearestStation = lineStations[i];
+        }
+      }
+      callback(nearestStation);
+    });
+  },
+
+  // Get train arrival predictions for a station
+  getTrainArrivals(mapid, rt, max) {
+    var url = trainBaseUrl + '/ttarrivals.aspx?key=' + trainApiKey
+      + '&mapid=' + mapid + '&rt=' + rt + '&max=' + (max || 8) + '&outputType=JSON';
+    return getJSON(url)
+      .then((response) => response['ctatt'])
+      .catch((error) => {
+        console.warn('Failed to load train arrivals:', error);
+        return { eta: [] };
+      });
+  },
+
+  // Get customer alerts for a route from the CTA Alerts API
+  getAlerts(routeId) {
+    var url = 'https://www.transitchicago.com/api/1.0/alerts.aspx?outputType=JSON&routeid=' + routeId;
+    return getJSON(url)
+      .then((response) => {
+        let alerts = response['CTAAlerts']['Alert'];
+        if (!alerts) return [];
+        // Normalize: API returns single object when 1 alert, array when multiple
+        return Array.isArray(alerts) ? alerts : [alerts];
+      })
+      .catch((error) => {
+        console.warn('Failed to load alerts:', error);
+        return [];
+      });
   }
 
 };

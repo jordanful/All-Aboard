@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   Text,
   TouchableOpacity,
@@ -8,34 +7,50 @@ import {
 } from 'react-native';
 import Styles from '../styles/styles.ios';
 import UserActions from '../actions/user.js';
+
 export default class RecentlyViewedRoutes extends Component {
-
-  static propTypes = {
-    routes: PropTypes.array.isRequired,
-  };
-
   static defaultProps = {
     routes: [],
   };
 
   render() {
     let { routes } = this.props;
+    if (!routes || routes.length === 0) return null;
+
     return (
-      <View style={Styles.recentlyViewedRoutes}>
-        <ScrollView horizontal={true} scrollsToTop={false} showsHorizontalScrollIndicator={false}>
-          { routes.map((route, i) =>
-            <TouchableOpacity
-              onPress={() => UserActions.handleRouteSelection(route)}
-              key={i}
-              style={Styles.recentlyViewedRoute}>
-              <Text allowFontScaling={false} style={Styles.recentlyViewedRouteNumber}>
-                {route.rt}
-              </Text>
-            </TouchableOpacity>
-            )}
+      <View style={Styles.recentlyViewedContainer}>
+        <Text allowFontScaling={false} style={Styles.recentlyViewedLabel}>
+          Recent
+        </Text>
+        <ScrollView
+          horizontal={true}
+          scrollsToTop={false}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={Styles.recentlyViewedScroll}
+        >
+          { routes.map((route, i) => {
+            let isTrain = route.type === 'train';
+            return (
+              <TouchableOpacity
+                onPress={() => UserActions.handleRouteSelection(route)}
+                key={i}
+                style={[
+                  Styles.recentlyViewedRoute,
+                  isTrain && { backgroundColor: route.color },
+                ]}
+                activeOpacity={0.7}
+              >
+                <Text allowFontScaling={false} style={[
+                  Styles.recentlyViewedRouteNumber,
+                  isTrain && { color: route.textColor },
+                ]}>
+                  {isTrain ? route.rt.charAt(0) : route.rt}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
       </View>
     );
   }
-
 }

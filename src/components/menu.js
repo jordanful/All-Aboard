@@ -1,32 +1,29 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
   AppState,
-  AsyncStorage,
-  ListView,
-  ScrollView,
+  FlatList,
   Text,
   TouchableHighlight,
   View,
 } from 'react-native';
-import RecentlyViewedRoutes from '../../src/components/recently-viewed-routes';
-import SearchInput from '../../src/components/search-input';
-import UserActions from '../../src/actions/user.js';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import RecentlyViewedRoutes from './recently-viewed-routes';
+import SearchInput from './search-input';
+import UserActions from '../actions/user';
+import Styles from '../styles/styles.ios';
+import Api from '../api/api';
+import { TRAIN_LINES } from '../data/stations';
 import _ from 'lodash';
 
 export default class Menu extends Component {
-
-  static propTypes = {
-    recentlyViewedRoutes: PropTypes.array,
-  };
-
   constructor(props) {
     super(props);
     this._onChange = this._onChange.bind(this);
     this._filterRoutes = this._filterRoutes.bind(this);
     this.getAllRoutes = this.getAllRoutes.bind(this);
     this.renderRoute = this.renderRoute.bind(this);
+    this.renderListHeader = this.renderListHeader.bind(this);
 
     this.state = {
       selectedRoute: null,
@@ -34,24 +31,25 @@ export default class Menu extends Component {
       userLocation: '',
       inputFocused: false,
       allRoutes: [],
-      routeDataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       filterText: '',
       isLoading: true,
     };
   }
 
   componentDidMount() {
-    this.getAllRoutes(),
-    AppState.addEventListener('change', this.handleAppStateChange);
+    this.getAllRoutes();
+    this._appStateSubscription = AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
+    if (this._appStateSubscription) {
+      this._appStateSubscription.remove();
+    }
   }
 
-  handleAppStateChange(state) {
-    if (!state === 'active') {
-      this.getAllRoutes()
+  handleAppStateChange = (state) => {
+    if (state === 'active') {
+      this.getAllRoutes();
     }
   }
 
@@ -61,36 +59,88 @@ export default class Menu extends Component {
       .then((routes) => this.setState({
         allRoutes: routes,
         isLoading: false,
-      }));
+      }))
+      .catch((error) => {
+        console.warn('Failed to load routes:', error);
+        this.setState({ isLoading: false });
+      });
+  }
+
+  renderListHeader() {
+    let { recentlyViewedRoutes } = this.props;
+    let hasRecents = recentlyViewedRoutes && recentlyViewedRoutes.length > 0;
+    return (
+      <View>
+        {hasRecents && (
+          <RecentlyViewedRoutes routes={recentlyViewedRoutes} />
+        )}
+      </View>
+    );
+  }
+
+  _buildListData() {
+    let { allRoutes, filterText } = this.state;
+    let isFiltering = filterText.length > 0;
+
+    // Filter train lines
+    let trainLines = isFiltering
+      ? TRAIN_LINES.filter(line => {
+          let ft = filterText.toLowerCase();
+          return line.rt.toLowerCase().indexOf(ft) > -1
+            || line.rtnm.toLowerCase().indexOf(ft) > -1;
+        })
+      : TRAIN_LINES;
+
+    // Filter bus routes
+    let busRoutes = isFiltering
+      ? this._filterRoutes(allRoutes, filterText)
+      : allRoutes;
+
+    // Combine with section headers
+    let data = [];
+    if (trainLines.length > 0) {
+      data.push({ _type: 'header', _key: 'h-trains', title: 'Train Lines' });
+      trainLines.forEach(line => data.push(line));
+    }
+    if (busRoutes.length > 0) {
+      data.push({ _type: 'header', _key: 'h-buses', title: 'Bus Routes' });
+      busRoutes.forEach(route => data.push(route));
+    }
+    return data;
   }
 
   render() {
-    let { recentlyViewedRoutes } = this.props;
-    let { allRoutes, filterText } = this.state;
-    let filteredRoutes = filterText.length > 0
-      ? this._filterRoutes(allRoutes, filterText)
-      : allRoutes;
     let isLoading = this.state.isLoading;
-    let listView;
-    if (isLoading) {
-      listView = <ActivityIndicator style={Styles.menuActivityIndicator} size="large" color="#73829D"/>
-    } else {
-      listView = <ListView
-                  enableEmptySections={true}
-                  dataSource={this.state.routeDataSource.cloneWithRows(filteredRoutes)}
-                  renderRow={this.renderRoute}
-                  />
-    }
+    let listData = this._buildListData();
+
     return (
       <View style={Styles.menuContainer}>
-        <SearchInput onChange={this._onChange} />
-        <ScrollView style={Styles.menuRoutes} >
-          <RecentlyViewedRoutes
-            style={Styles.recentlyViewedRoutesContainer}
-            routes={recentlyViewedRoutes}
-            />
-          {listView}
-        </ScrollView>
+        <View style={Styles.menuHeader}>
+          <SearchInput onChange={this._onChange} />
+        </View>
+        {isLoading ? (
+          <ActivityIndicator style={Styles.menuActivityIndicator} size="large" color="#5E73A0"/>
+        ) : (
+          <FlatList
+            data={listData}
+            renderItem={({ item }) => {
+              if (item._type === 'header') {
+                return (
+                  <Text allowFontScaling={false} style={Styles.routeListHeader}>
+                    {item.title}
+                  </Text>
+                );
+              }
+              return this.renderRoute(item);
+            }}
+            keyExtractor={(item) => item._key || (item.type === 'train' ? 'train-' + item.rt : item.rt)}
+            ListHeaderComponent={this.renderListHeader}
+            ItemSeparatorComponent={() => <View style={Styles.routeSeparator} />}
+            contentContainerStyle={{ paddingBottom: this.props.bottomInset || 34 }}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+          />
+        )}
       </View>
     );
   }
@@ -119,19 +169,28 @@ export default class Menu extends Component {
   }
 
   renderRoute(route) {
+    let isTrain = route.type === 'train';
+    let isActive = this.props.activeRoute && this.props.activeRoute.rt === route.rt
+      && this.props.activeRoute.type === route.type;
+    let badgeStyle = isTrain
+      ? [Styles.menuRouteNumberContainer, { backgroundColor: route.color }]
+      : Styles.menuRouteNumberContainer;
+    let badgeTextStyle = isTrain
+      ? [Styles.menuRouteNumber, { color: route.textColor }]
+      : Styles.menuRouteNumber;
+
     return (
       <TouchableHighlight
-        onPress={() => this.props.onSelect(route)
-                     && UserActions.viewRoute(route)}
-        underlayColor='#0D1F42'
+        onPress={() => this.props.onSelect(route)}
+        underlayColor='rgba(255,255,255,0.05)'
       >
-        <View style={Styles.row}>
-          <View style={Styles.menuRouteNumberContainer}>
-            <Text allowFontScaling={false} style={Styles.menuRouteNumber}>
-              {route.rt}
+        <View style={[Styles.row, isActive && { backgroundColor: 'rgba(255,255,255,0.06)' }]}>
+          <View style={badgeStyle}>
+            <Text allowFontScaling={false} style={badgeTextStyle}>
+              {isTrain ? route.rt.charAt(0) : route.rt}
             </Text>
           </View>
-          <Text allowFontScaling={false} style={Styles.menuRouteName}>
+          <Text allowFontScaling={false} style={Styles.menuRouteName} numberOfLines={1}>
             {route.rtnm}
           </Text>
         </View>

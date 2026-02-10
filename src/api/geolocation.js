@@ -1,3 +1,5 @@
+import RNGeolocation from '@react-native-community/geolocation';
+
 export default Geolocation = {
   geolocate(callback){
     var options = {
@@ -16,7 +18,7 @@ export default Geolocation = {
       return callback(err)
     }
 
-    navigator.geolocation.getCurrentPosition(success, error, options);
+    RNGeolocation.getCurrentPosition(success, error, options);
   },
 
   // Determines distance between two points (ie user and bus stop)

@@ -1,213 +1,396 @@
-import React, { StyleSheet } from 'react-native';
-import {ifIphoneX } from 'react-native-iphone-x-helper';
-const Dimensions = require('Dimensions');
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
+import { StyleSheet, Dimensions } from 'react-native';
 
-export default Styles = StyleSheet.create({
-safeArea: {
-  flex: 1,
-  backgroundColor: '#132C5B',
-},
-center: {
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: 8,
-},
- contentView: {
-   flex: 1,
-   justifyContent: 'center',
- },
- menuContainer: {
-   backgroundColor: '#132C5B',
-   flex: 1,
- },
- menuSearch: {
-   backgroundColor: '#FFFFFF',
-   height: 40,
-   padding: 11,
-   margin: 10,
-   ...ifIphoneX({
-     marginTop: 50
-   }, {
-     marginTop: 25
-   }),
-   marginBottom: 15,
-   width: deviceWidth * 0.74,
-   borderRadius: 22,
-   color: '#626262',
-   fontSize: 19,
-   fontWeight: '500',
-   fontFamily: 'System'
- },
- row: {
-   flexDirection: 'row',
-   flex: 1,
-   padding: 10
- },
- menuRouteNumberContainer: {
-   backgroundColor: '#FDC053',
-   width: 35,
-   height: 24,
-   borderRadius: 12,
-   justifyContent: 'center',
-   alignItems: 'center'
- },
- menuRouteNumber: {
-   color: '#3E2700',
-   fontWeight: '600',
-   alignSelf: 'center',
-   fontFamily: 'System'
- },
- menuRouteName: {
-   color: 'white',
-   fontSize: 19,
-   fontWeight: '500',
-   marginLeft: 10,
-   fontFamily: 'System'
- },
- menuActivityIndicator: {
-   marginTop: deviceHeight * 0.1,
-   marginLeft: deviceWidth * 0.33,
-   alignSelf: 'flex-start'
- },
- container: {
-   flex: 1,
-   backgroundColor: '#28519E'
- },
- contentViewHeader: {
-   backgroundColor: 'white',
-   borderTopLeftRadius: 8,
-   borderTopRightRadius: 8,
-   flexDirection: 'row',
-   justifyContent: 'space-between',
-   alignItems: 'flex-end',
-   paddingBottom: 15,
-   ...ifIphoneX({
-     height: 90,
-   }, {
-     height: 64
-   })
- },
- contentViewHeaderIcon: {
-   marginLeft: 18,
-   marginTop: 10,
- },
- contentViewHeaderDummyRightSpace: {
-   marginRight: 18,
-   marginTop: 10,
-   width: 25,
-   height: 19
- },
- contentViewActivityIndicator: {
-   alignSelf: 'center',
-   marginTop: 60,
- },
- contentViewHeaderRouteNumberAndNameContainer: {
-   alignItems: 'center',
-   flexDirection: 'row',
- },
- contentViewHeaderRouteNumberContainer: {
-   backgroundColor: '#FDC053',
-   width: 35,
-   height: 24,
-   borderRadius: 12,
-   alignItems: 'center',
-   justifyContent: 'center',
-   marginTop: 10
- },
- contentViewHeaderRouteNumber: {
-   color: '#664100',
-   fontWeight: '600',
-   alignSelf: 'center',
-   fontFamily: 'System'
- },
- contentViewHeaderRouteName: {
-   color: '#274A8D',
-   fontSize: 22,
-   marginLeft: 10,
-   marginTop: 10,
-   fontWeight: '500',
-   fontFamily: 'System'
- },
- minutes: {
-   fontSize: 130,
-   fontWeight: '500',
-   color: 'white',
-   marginTop: 30,
-   alignSelf: 'center',
-   fontFamily: 'System'
- },
- minutesLabel: {
-   fontSize: 24,
-   color: 'white',
-   alignSelf: 'center',
-   fontFamily: 'System'
- },
- nextPrediction: {
-   color: 'white',
-   marginTop: 40,
-   opacity: 0.8,
-   fontSize: 22,
-   fontWeight: '500',
-   alignSelf: 'center',
-   fontFamily: 'System'
- },
- stop: {
-   color: 'white',
-   marginTop: 45,
-   fontSize: 22,
-   alignSelf: 'center',
-   fontFamily: 'System'
- },
- destination: {
-   color: 'white',
-   opacity: 0.75,
-   fontSize: 19,
-   marginTop: 10,
-   alignSelf: 'center',
-   fontFamily: 'System'
- },
- directions: {
-   flexDirection: 'row',
-   marginTop: 20,
- },
- direction: {
-   flex: 0.5,
-   height: 44,
-   alignItems: 'center'
- },
- directionText: {
-   alignSelf: 'center',
-   fontSize: 30,
-   color: '#6884BA',
-   fontFamily: 'System'
- },
- directionTextActive: {
-   alignSelf: 'center',
-   fontSize: 30,
-   color: 'white',
-   fontFamily: 'System'
- },
-menuRoutes: {
-  flex: 1,
-},
- recentlyViewedRoutes: {
-   marginBottom: 13,
-   marginTop: 3,
-   paddingLeft: 10,
- },
- recentlyViewedRoute: {
-   width: 50,
-   height: 50,
-   borderRadius: 25,
-   marginRight: 10,
-   backgroundColor: '#FDC053',
-   justifyContent: 'center',
-   alignItems: 'center',
- },
- recentlyViewedRouteNumber: {
-   fontSize: 19,
-   fontWeight: '600',
- },
+const deviceWidth = Dimensions.get('window').width;
+
+// Color palette
+const colors = {
+  navyDeep: '#0B1A38',
+  navyMid: '#132C5B',
+  navyLight: '#1E3A6E',
+  blueMid: '#28519E',
+  blueLight: '#3D6AC4',
+  amber: '#F5B731',
+  amberLight: '#FDC053',
+  amberDark: '#3E2700',
+  white: '#FFFFFF',
+  whiteOff: '#F2F4F8',
+  textMuted: '#8A9BC2',
+  textSubtle: '#5E73A0',
+  separator: 'rgba(255,255,255,0.06)',
+};
+
+export default StyleSheet.create({
+  // ── Root ──
+  rootContainer: {
+    flex: 1,
+    backgroundColor: colors.navyDeep,
+  },
+
+  // ── Menu / Drawer ──
+  menuContainer: {
+    backgroundColor: colors.navyDeep,
+    flex: 1,
+  },
+  menuHeader: {
+    paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  menuSearch: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    height: 44,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    color: colors.white,
+    fontSize: 17,
+    fontWeight: '400',
+  },
+
+  // ── Recently Viewed ──
+  recentlyViewedContainer: {
+    paddingTop: 20,
+    paddingBottom: 8,
+  },
+  recentlyViewedLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.textMuted,
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+    marginBottom: 12,
+    paddingHorizontal: 20,
+  },
+  recentlyViewedScroll: {
+    paddingHorizontal: 20,
+  },
+  recentlyViewedRoute: {
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+    marginRight: 12,
+    backgroundColor: colors.amber,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  recentlyViewedRouteNumber: {
+    fontSize: 17,
+    fontWeight: '700',
+    color: colors.amberDark,
+  },
+
+  // ── Route List ──
+  routeSeparator: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: colors.separator,
+    marginLeft: 62,
+  },
+  routeListHeader: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.textMuted,
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+    paddingHorizontal: 20,
+    paddingTop: 24,
+    paddingBottom: 12,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    minHeight: 52,
+  },
+  menuRouteNumberContainer: {
+    backgroundColor: colors.amberLight,
+    minWidth: 34,
+    height: 26,
+    borderRadius: 13,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+  },
+  menuRouteNumber: {
+    color: colors.amberDark,
+    fontSize: 13,
+    fontWeight: '700',
+
+  },
+  menuRouteName: {
+    color: colors.white,
+    fontSize: 17,
+    fontWeight: '500',
+    marginLeft: 12,
+
+    flexShrink: 1,
+  },
+  menuActivityIndicator: {
+    marginTop: 60,
+    alignSelf: 'center',
+  },
+
+  // ── Content Safe Area ──
+  contentSafeTop: {
+    flex: 1,
+    backgroundColor: colors.white,
+  },
+
+  // ── Content View ──
+  contentView: {
+    flex: 1,
+    backgroundColor: colors.blueMid,
+  },
+  contentViewHeader: {
+    backgroundColor: colors.white,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 14,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'rgba(0,0,0,0.08)',
+  },
+  menuButton: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: -8,
+  },
+  menuButtonLine: {
+    width: 20,
+    height: 2,
+    backgroundColor: colors.navyMid,
+    borderRadius: 1,
+    marginVertical: 2.5,
+  },
+  contentViewHeaderRouteInfo: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 36,
+  },
+  contentViewHeaderRouteNumberContainer: {
+    backgroundColor: colors.amberLight,
+    minWidth: 34,
+    height: 26,
+    borderRadius: 13,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+    marginRight: 10,
+  },
+  contentViewHeaderRouteNumber: {
+    color: colors.amberDark,
+    fontSize: 13,
+    fontWeight: '700',
+
+  },
+  contentViewHeaderRouteName: {
+    color: colors.navyMid,
+    fontSize: 18,
+    fontWeight: '600',
+
+  },
+  contentViewHeaderPlaceholder: {
+    color: colors.textSubtle,
+    fontSize: 18,
+    fontWeight: '500',
+
+  },
+
+  // ── Scrollable Content ──
+  contentScrollView: {
+    flex: 1,
+    backgroundColor: colors.blueMid,
+  },
+
+  // ── Directions Tabs ──
+  directions: {
+    flexDirection: 'row',
+    marginTop: 16,
+    marginHorizontal: 16,
+    backgroundColor: 'rgba(0,0,0,0.15)',
+    borderRadius: 10,
+    padding: 3,
+  },
+  direction: {
+    flex: 1,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  directionActive: {
+    flex: 1,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+  },
+  directionText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: 'rgba(255,255,255,0.45)',
+
+  },
+  directionTextActive: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: colors.white,
+
+  },
+
+  // ── Alerts ──
+  alertsContainer: {
+    marginTop: 12,
+    marginHorizontal: 16,
+  },
+  alertBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(245,183,49,0.15)',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+  },
+  alertBannerMajor: {
+    backgroundColor: 'rgba(232,83,78,0.15)',
+  },
+  alertBannerLeft: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: colors.amber,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  alertBannerIcon: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: colors.amberDark,
+    marginTop: -1,
+  },
+  alertBannerText: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '600',
+    color: colors.amber,
+  },
+  alertBannerChevron: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.4)',
+    marginLeft: 8,
+  },
+  alertDetail: {
+    backgroundColor: 'rgba(0,0,0,0.15)',
+    borderRadius: 10,
+    padding: 14,
+    marginTop: 8,
+  },
+  alertDetailImpact: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: 'rgba(255,255,255,0.45)',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
+  alertDetailText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: 'rgba(255,255,255,0.8)',
+    lineHeight: 20,
+  },
+
+  // ── Prediction Display ──
+  predictionContainer: {
+    alignItems: 'center',
+    paddingTop: 40,
+    paddingBottom: 24,
+  },
+  minutes: {
+    fontSize: 120,
+    fontWeight: '200',
+    color: colors.white,
+    alignSelf: 'center',
+    lineHeight: 130,
+  },
+  minutesLabel: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: 'rgba(255,255,255,0.6)',
+    alignSelf: 'center',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    marginTop: -4,
+  },
+  stop: {
+    color: colors.white,
+    marginTop: 36,
+    fontSize: 18,
+    fontWeight: '600',
+    alignSelf: 'center',
+    textAlign: 'center',
+    paddingHorizontal: 24,
+  },
+  destination: {
+    color: 'rgba(255,255,255,0.65)',
+    fontSize: 16,
+    fontWeight: '400',
+    marginTop: 6,
+    alignSelf: 'center',
+  },
+  nextPredictionsContainer: {
+    marginTop: 36,
+    alignItems: 'center',
+  },
+  nextPrediction: {
+    color: 'rgba(255,255,255,0.85)',
+    fontSize: 20,
+    fontWeight: '500',
+    alignSelf: 'center',
+    marginTop: 8,
+  },
+  nextPredictionLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: 'rgba(255,255,255,0.45)',
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
+  errorText: {
+    color: 'rgba(255,255,255,0.7)',
+    fontSize: 16,
+    fontWeight: '500',
+    alignSelf: 'center',
+    marginTop: 40,
+    textAlign: 'center',
+    paddingHorizontal: 32,
+
+  },
+
+  // ── Empty State ──
+  emptyState: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 80,
+  },
+  emptyStateText: {
+    fontSize: 17,
+    color: 'rgba(255,255,255,0.35)',
+    fontWeight: '500',
+
+  },
+
+  // ── Loading ──
+  contentViewActivityIndicator: {
+    alignSelf: 'center',
+    marginTop: 60,
+  },
 });
